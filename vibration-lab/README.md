@@ -12,7 +12,7 @@ An interactive study lab for vibration analysis (ISO CAT III level). Simulate fa
 
 **Or use the iPhone install file, [VibrationAnalystLab.mobileconfig](VibrationAnalystLab.mobileconfig)**, which you can also send by WhatsApp, email or AirDrop:
 
-1. Open the file on the iPhone: tap the link in Safari and choose **Allow**, or open it from Mail, AirDrop or the Files app (from WhatsApp, save it to Files first).
+1. Open the file on the iPhone: AirDrop it, open it from Mail, or tap the link in Safari and allow the download. If Safari puts it in Downloads, open it from the **Files** app. From WhatsApp, save it to Files first.
 2. Open **Settings**, tap **Profile Downloaded** near the top, then **Install** and enter your passcode.
 3. The **Vibration Lab** icon is now on the Home Screen. It opens full screen like an app and keeps working offline after the first launch.
 

@@ -2047,7 +2047,7 @@ const APPX = (() => {
       const getRow = (href, dl, icon, title, sub) => h('a', { class: 'hm-row', href, download: dl }, h('span', { class: 'hm-ico sv-ic' }, ic(icon, 19)),
         h('span', { class: 'hm-txt' }, h('b', { text: title }), h('span', { text: sub })), ic('next', 18));
       const install = site && !installed ? card('Install the app',
-        getRow('VibrationAnalystLab.mobileconfig', false, 'phone', 'iPhone and iPad', 'Open this in Safari and tap Allow, then Settings → Profile Downloaded → Install. Or tap Share → Add to Home Screen.'),
+        getRow('VibrationAnalystLab.mobileconfig', false, 'phone', 'iPhone and iPad', 'Download the install file and open it, then Settings → Profile Downloaded → Install. Or in Safari: Share → Add to Home Screen.'),
         getRow('VibrationAnalystLab.apk', true, 'download', 'Android', 'Download the app (APK) and tap it to install.')) : null;
       host.append(
         card('Appearance', segRow('Theme', [['auto', 'Auto'], ['light', 'Light'], ['dark', 'Dark']], theme, v => { store.set('theme', v); applyTheme(v); }), textRow,
