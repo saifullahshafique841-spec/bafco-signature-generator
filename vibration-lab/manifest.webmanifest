@@ -33,6 +33,18 @@
   ],
   "shortcuts": [
     {
+      "name": "Search the lab",
+      "short_name": "Search",
+      "url": "./#search",
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
       "name": "Phase animations",
       "short_name": "Animations",
       "url": "./#anim",
@@ -57,21 +69,9 @@
       ]
     },
     {
-      "name": "Setup planner",
-      "short_name": "Planner",
-      "url": "./#plan",
-      "icons": [
-        {
-          "src": "icon-192.png",
-          "sizes": "192x192",
-          "type": "image/png"
-        }
-      ]
-    },
-    {
-      "name": "Diagnose challenge",
-      "short_name": "Challenge",
-      "url": "./#challenge",
+      "name": "Your progress",
+      "short_name": "Progress",
+      "url": "./#progress",
       "icons": [
         {
           "src": "icon-192.png",

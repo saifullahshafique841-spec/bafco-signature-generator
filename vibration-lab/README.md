@@ -16,11 +16,11 @@ An interactive study lab for vibration analysis (ISO CAT III level). Simulate fa
 
 Download **[VibrationAnalystLab.apk](VibrationAnalystLab.apk)** on your Android phone and tap it to install (allow installs from your browser if asked; Play Protect may warn because it is not from the Play Store: choose **Install anyway**). Or open the link in Chrome and choose **Install app** from the menu.
 
-Version 1.3 installs over the earlier app and keeps your settings.
+Version 2.0 installs over the earlier app and keeps your settings.
 
 ## On a phone
 
-The lab opens as an app: a Home screen with every section, a bottom bar (Home, Diagnose, Setup, Learn, Labs) with a switcher for the sections in each group, and the bars slide away while you read. The back button returns to Home. Choose a Light, Dark or Auto theme at the bottom of Home.
+The lab opens as an app: a Home screen with every section, a bottom bar (Home, Diagnose, Setup, Learn, Labs) with a switcher for the sections in each group, and the bars slide away while you read. The back button returns to Home. Choose a Light, Dark or Auto theme in Settings (the gear on Home).
 
 ## Reading each screen
 
@@ -29,6 +29,15 @@ Every section uses the same colour code:
 - **Settings** (yellow edge, sliders badge and an *Adjust* tag): the parameters you can change. Sliders have yellow knobs, dropdowns have an arrow, and the current value sits in a pill.
 - **Results** (screen badge): charts, readouts and tables that update as soon as you change a setting.
 - **Notes and checks** (book or question badge): key points, rule cards and quick questions.
+
+## New in 2.0
+
+- **Search** every section, chapter topic, animation, fault and term; a result opens the exact place (for example Ch 3 · Nyquist and aliasing).
+- **Your progress**: lessons done (Chapters 3–5 and the 12 animations), check questions right first time, challenge score and your day streak.
+- **Save and notes**: save any screen and write notes on it; find them under Saved.
+- **Save any animation** as a GIF, a video or a PNG picture: the GIF button on every phase animation, and the download button on every chart and moving picture.
+- **Settings**: theme, text size up to 200 % in the Android app, reduced motion, haptics, and a backup file to move your progress to another phone.
+- A three-screen welcome on first launch that suggests where to start for your goal.
 
 ## What's inside
 

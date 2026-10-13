@@ -847,6 +847,146 @@ input[type="checkbox"], input[type="radio"] { accent-color: var(--accent); }
   .tbl th { letter-spacing: 0; font-size: 11px; }
 }
 /* end of navigation v2 */
+/* ---------- 2.0: search, progress, saved and notes, settings, the welcome, dialogs, and saving animations ---------- */
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.dsearch { flex: 1 1 260px; max-width: 360px; display: flex; align-items: center; gap: 10px; min-height: 38px; padding: 0 10px 0 12px; border: 1px solid var(--line); border-radius: 999px;
+  background: var(--surface); color: var(--muted); font: inherit; font-size: 13.5px; cursor: pointer; text-align: left; }
+.dsearch span { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dsearch:hover { border-color: var(--axis); color: var(--ink-2); }
+kbd { font: 600 11px/1 var(--font-mono); padding: 3px 6px; border: 1px solid var(--axis); border-bottom-width: 2px; border-radius: 4px; color: var(--ink-2); background: var(--surface-2); }
+.gnav .gn-ico { padding: 0 10px; }
+.ab-acts { display: flex; gap: 2px; margin-right: -8px; }
+.ab-ico { display: grid; place-items: center; width: 44px; height: 44px; border: 0; border-radius: 50%; background: none; color: var(--ink); cursor: pointer; }
+.ab-ico:active { background: var(--surface-2); }
+.ab-ico[hidden] { display: none; }
+.sh-acts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.btn.sa { display: inline-flex; align-items: center; gap: 6px; min-height: 34px; padding: 5px 12px; font-size: 13px; }
+.btn.sa[aria-pressed="true"] { background: color-mix(in srgb, var(--accent) 22%, var(--surface)); border-color: var(--accent); color: var(--ink); }
+.btn.sa[aria-pressed="true"] .ico { color: color-mix(in srgb, var(--accent) 70%, var(--accent-ink)); }
+.btn.sa.has { border-color: var(--focus); }
+.view { max-width: 1100px; margin: 0 auto; padding-top: 8px; }
+.view[hidden] { display: none; }
+.vhead { padding: 14px 0 6px; }
+.vhead .intro { margin-top: 6px; }
+mark { background: color-mix(in srgb, var(--accent) 45%, transparent); color: inherit; border-radius: 2px; padding: 0 1px; }
+.sv-box { display: flex; align-items: center; gap: 10px; margin: 12px 0 4px; padding: 0 14px; min-height: 52px; border: 2px solid var(--axis); border-radius: 12px; background: var(--surface); color: var(--muted); }
+.sv-box:focus-within { border-color: var(--accent); }
+.sv-in { flex: 1; min-width: 0; border: 0 !important; background: none !important; padding: 10px 0 !important; min-height: 0 !important; font: 500 17px var(--font-body) !important; color: var(--ink) !important; outline: none; }
+.sv-chips { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 14px 0; color: var(--muted); font-size: 13px; }
+.sv-chips .chip { min-height: 32px; padding: 4px 12px; font-size: 13px; }
+.sv-count, .sv-more, .sv-none { color: var(--muted); font-size: 13px; margin: 10px 4px 0; }
+.sv-none { color: var(--ink-2); font-size: 14px; }
+.sv-ic { color: var(--ink-2); background: var(--surface-2); }
+.hm-txt small { display: block; color: var(--muted); font-size: 12.5px; line-height: 1.4; margin-top: 2px; }
+.sv-line { display: flex; align-items: stretch; }
+.sv-line + .sv-line { border-top: 1px solid var(--line); }
+.sv-line .hm-row { flex: 1; min-width: 0; border-top: 0 !important; }
+.sv-del { flex: none; width: 48px; border: 0; border-left: 1px solid var(--line); background: none; color: var(--muted); cursor: pointer; display: grid; place-items: center; }
+.sv-del:hover { color: var(--crit-ink); background: var(--surface-2); }
+.empty { color: var(--muted); font-size: 13.5px; margin: 4px 4px 0; padding: 14px; border: 1px dashed var(--axis); border-radius: 12px; }
+.pg-tiles { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; margin: 12px 0 4px; }
+.pg-tile { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; display: grid; gap: 4px; }
+.pg-tile b { font: 600 22px/1.1 var(--font-mono); font-variant-numeric: tabular-nums; }
+.pg-tile span { color: var(--ink-2); font-size: 12.5px; line-height: 1.3; }
+.pg-card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; margin-top: 12px; }
+.pg-top { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.pg-top b { font-weight: 600; }
+.pg-top .mono { color: var(--ink-2); font-size: 12.5px; }
+.pg-bar { height: 8px; border-radius: 999px; background: var(--surface-2); border: 1px solid var(--line); overflow: hidden; margin: 8px 0 10px; }
+.pg-bar i { display: block; height: 100%; background: var(--good); border-radius: 999px; }
+.pg-list { display: flex; flex-wrap: wrap; gap: 6px; }
+.pg-item { display: inline-flex; align-items: center; gap: 6px; min-height: 32px; padding: 3px 10px 3px 4px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--ink-2); font-size: 12.5px; cursor: pointer; }
+.pg-item i { display: inline-grid; place-items: center; min-width: 22px; height: 22px; border-radius: 50%; background: var(--surface-2); font: 600 11px var(--font-mono); font-style: normal; color: var(--ink-2); }
+.pg-item.seen { border-color: var(--axis); color: var(--ink); }
+.pg-item.done { border-color: color-mix(in srgb, var(--good) 60%, var(--line)); color: var(--ink); }
+.pg-item.done i { background: var(--good); color: #fff; }
+.pg-days { display: grid; grid-template-columns: repeat(14, minmax(0, 1fr)); gap: 4px; margin-top: 10px; }
+.pg-days i { height: 22px; border-radius: 4px; background: var(--surface-2); border: 1px solid var(--line); }
+.pg-days i.on { background: var(--good); border-color: var(--good); }
+.hm-prog { display: grid; gap: 6px; width: 100%; text-align: left; padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); color: var(--ink); cursor: pointer; font: inherit; }
+.hm-prog:hover { border-color: var(--axis); }
+.hp-row { display: grid; grid-template-columns: 92px minmax(0, 1fr) 46px; align-items: center; gap: 10px; font-size: 12.5px; color: var(--ink-2); }
+.hp-row .pg-bar { margin: 0; }
+.hp-row .mono { text-align: right; }
+.hm-study { margin-top: 10px; }
+.st-card { margin-top: 6px; }
+.st-list { padding: 4px 0; }
+.st-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; padding: 12px 14px; }
+.st-row + .st-row, .st-list > .hm-row + .st-row, .st-list > .st-row + .hm-row { border-top: 1px solid var(--line); }
+.st-row.st-col { flex-direction: column; align-items: stretch; }
+.st-row.st-col > span { display: flex; justify-content: space-between; font-weight: 500; }
+.st-row p { margin: 0; }
+.st-row output { font: 600 12.5px var(--font-mono); background: var(--surface-2); border: 1px solid var(--axis); border-radius: 999px; padding: 2px 8px; }
+.st-card > .btn.primary { margin: 10px 0 0; }
+.btn.danger { background: var(--crit); border-color: var(--crit); color: #fff; }
+.vdlg { border: 1px solid var(--line); border-radius: 16px; padding: 18px; background: var(--surface); color: var(--ink); width: min(560px, calc(100vw - 24px)); max-height: calc(100vh - 48px); box-shadow: 0 18px 60px rgba(0, 0, 0, .35); }
+.vdlg::backdrop { background: rgba(8, 12, 15, .55); }
+.vdlg h3 { font: 700 20px/1.2 var(--font-display); letter-spacing: .03em; text-transform: uppercase; margin: 0 0 8px; }
+.vdlg p { color: var(--ink-2); margin: 0 0 14px; }
+.nd-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
+.nd-head b { display: block; font-size: 16px; }
+.nd-head small { color: var(--muted); }
+.notedlg textarea { width: 100%; min-height: 180px; resize: vertical; padding: 10px 12px; border: 1px solid var(--axis); border-radius: 10px; background: var(--surface); color: var(--ink); font: 15px/1.5 var(--font-body); }
+.notedlg textarea:focus { outline: 2px solid var(--focus); outline-offset: 1px; }
+.nd-st { min-height: 1.4em; font-size: 12.5px; color: var(--good-ink) !important; margin: 6px 0 10px !important; }
+.nd-acts { display: flex; justify-content: flex-end; gap: 8px; flex-wrap: wrap; }
+.ms-x { flex: none; width: 36px; height: 36px; border: 0; border-radius: 50%; background: var(--surface-2); color: var(--ink-2); cursor: pointer; font-size: 15px; }
+.snack { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translate(-50%, 20px); opacity: 0; pointer-events: none; z-index: 70;
+  max-width: calc(100vw - 32px); padding: 10px 16px; border-radius: 10px; background: var(--ink); color: var(--surface); font-size: 14px; box-shadow: 0 6px 24px rgba(0, 0, 0, .3); transition: opacity .2s, transform .2s; }
+.snack.on { opacity: 1; transform: translate(-50%, 0); }
+.onb { position: fixed; inset: 0; z-index: 80; background: rgba(8, 12, 15, .6); display: grid; place-items: center; padding: max(12px, env(safe-area-inset-top, 0px)) 12px max(12px, env(safe-area-inset-bottom, 0px)); }
+body.onb-open { overflow: hidden; }
+.onb-card { width: min(560px, 100%); max-height: 100%; display: flex; flex-direction: column; background: var(--bg); border-radius: 18px; overflow: hidden; box-shadow: 0 24px 80px rgba(0, 0, 0, .45); }
+.onb-body { overflow: auto; padding: 16px; }
+.onb-body h2 { font: 700 24px/1.15 var(--font-display); letter-spacing: .02em; text-transform: uppercase; margin: 16px 0 10px; text-wrap: balance; }
+.onb-hero { margin: -4px -4px 0; }
+.onb-list { margin: 0; padding-left: 20px; display: grid; gap: 6px; color: var(--ink-2); }
+.onb-how { grid-template-columns: minmax(0, 1fr) !important; gap: 8px; }
+.onb-goals { display: grid; gap: 8px; margin-top: 12px; }
+.onb-goal { display: grid; gap: 2px; text-align: left; padding: 12px 14px; border: 2px solid var(--line); border-radius: 12px; background: var(--surface); color: var(--ink); cursor: pointer; font: inherit; }
+.onb-goal b { font-size: 15px; }
+.onb-goal span { color: var(--ink-2); font-size: 13px; }
+.onb-goal[aria-checked="true"] { border-color: var(--accent); background: var(--set-tint); }
+.onb-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 16px; border-top: 1px solid var(--line); background: var(--surface); }
+.onb-dots { display: flex; gap: 6px; }
+.onb-dots i { width: 8px; height: 8px; border-radius: 50%; background: var(--axis); }
+.onb-dots i.on { background: var(--ink); width: 22px; border-radius: 999px; }
+.onb-skip { border-color: transparent; background: none; box-shadow: none; }
+.msheet { position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 60; width: min(440px, calc(100vw - 24px)); padding: 14px 16px; border: 1px solid var(--line);
+  border-top: 4px solid var(--accent); border-radius: 14px; background: var(--surface); color: var(--ink); box-shadow: 0 14px 48px rgba(0, 0, 0, .3); display: grid; gap: 10px; }
+.ms-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.ms-head b { font: 600 15px/1.25 var(--font-body); }
+.ms-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; font-size: 13px; color: var(--ink-2); }
+.ms-acts { display: flex; flex-wrap: wrap; gap: 8px; }
+.ms-run { display: flex; align-items: center; gap: 10px; }
+.ms-run:empty, .ms-run:not(:has(> :not([hidden]))) { display: none; }
+.ms-bar { flex: 1; height: 8px; border-radius: 999px; background: var(--surface-2); border: 1px solid var(--line); overflow: hidden; }
+.ms-bar[hidden] { display: none; }
+.ms-bar i { display: block; height: 100%; width: 0; background: var(--accent); transition: width .2s; }
+.ms-status { margin: 0; font-size: 13px; color: var(--ink); min-height: 1.3em; }
+.ms-status:empty { display: none; }
+.ms-note { margin: 0; font-size: 12px; color: var(--muted); }
+.msheet.busy .ms-x { opacity: .4; pointer-events: none; }
+.mbtn { flex: none; display: inline-grid; place-items: center; width: 30px; height: 30px; margin-left: 6px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--ink-2); cursor: pointer; vertical-align: middle; }
+.mbtn:hover { border-color: var(--accent); color: var(--ink); background: var(--set-tint); }
+.chart .cap .mbtn { order: 3; }
+.panel > h2 .mbtn { margin-left: auto; }
+.btn.pagif { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; }
+@media (max-width: 1100px) { .pg-tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 860px) {
+  .pg-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pg-tile b { font-size: 19px; }
+  .msheet { left: 8px; right: 8px; width: auto; bottom: calc(72px + env(safe-area-inset-bottom, 0px)); }
+  .snack { bottom: calc(84px + env(safe-area-inset-bottom, 0px)); }
+  .vhead .sh-title { display: block; font-size: 24px; }
+  .view .vhead { padding-top: 10px; }
+  .vw-search .vhead { display: none; }
+  .hp-row { grid-template-columns: 78px minmax(0, 1fr) 42px; }
+  .onb-body h2 { font-size: 21px; }
+  .mbtn { width: 36px; height: 36px; }
+}
+@media (pointer: coarse) { .btn.sa { min-height: 40px; } .pg-item { min-height: 36px; } }
+/* end of 2.0 */
 </style>
 <style>
 @font-face{font-family:"IBM Plex Sans";font-style:normal;font-weight:400;font-display:swap;src:url(data:font/woff2;base64,d09GMgABAAAAAErUABEAAAAA2CAAAEpzAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGkYb82QchgwGYACEbAg+CYJzERAKgo4AgfB9C4QSAAE2AiQDiCAEIAWDOgeIGQyDMhtexiXsFmO3A6x7734dT47rbkeaEsSvmY2wkrYkVvb/ZyQdQ8bobQDqvVVGT5IFISKj2CPLEua6E0ptM23cxtlp965HGbDOivnxx2XidcffxZa1dWZOzJzpRMnTK+3wgsJN4/cc7V9ZlI3/A5nL7qGvTZhDNnBv68zpaeKBB0hMeWV0gy+eZfK2tSADKR3I9++Av0A2KIeiIyJBKHq8aBHYuIyRrJy8PMHvD74zc98XFlIkHBLzlrKRGcwbjQTo/jy/zT/3vUeGjfoIHRYSzjE/M3FhNFYjCxN1kezHIkJdl59V6yJTXbUctVlVm0PjDYGEiI6tjazLPf43QNtsG2AMa4EgCIIICi2phNQVfcBRKmlirFMX7dYu839ujatwFd/pd0gR3XbuI/gMooBjCTCg4P/7i53dBYtWMA2vYOJhoTSNn3eRajz+CQAI3vT++wB9enXW+/oKCCQUEkIIIUCEJDniDJtTbV8u7Qvlbi4jRWeXd5V9Kdpz1WVTXzJF5y26NVGWDvPWmXEGdoG8hLx4cSGkggsKOHBJqod70APR8M7DBN+xIhkIrgD+p9ba3dAkJDyRTULnm0wnJFJ3O3F7X9HpnFjmrnxLYVD559a3X1Z/dztQgQ7UwQTmgL4OPn9sBKAOOAv+hFljmZUYHurvfc9MsG6sYbDdFKuUgNdrodg+D0HIki+04yv4fL/p8tud6wnLw5mxXK8DkEiMSeyPxY/eqc3IdmGedRwoAi/I2lxUV2Udg/MrfxcBAwTPv3ud/XmXsMIKcxxf4V9dYDvZsVPm8mMZ24NCeITZx+NA1miMxBq8hofqxvMBvvEEFizFmyYJgjSwxTC1AGvSgjAMPuv3/zPVr7RvFRogxqoG4mAm+z39eY44xgURPsQ11kU+BF4/oFVdKJb0yTFQC2M8P2XsGKtiAfxko/mNl7TGmGgz40yms6EPMp9NEm6UbLgTZJtuEmV7pbNKpfXpAO2qP+bwKT3m6JOQWqPxStZYhkXDexFlHaHWPpC9+4RoL2oPffuEFF32kN1Fd+EH0YcffvphSBik+ZvY0jISoJCbKFSoxnFc4/LtnufO90Mrp730te2OI32HEIIxwnhGCKEJIYz7/NsimyK23YTxr8hZoSnWYNJ+EKbOvFwAdsiBAus6TN2A/nxnOd7cXcu/SUrOBoxyLKInslT6swVYD0AxEDgQHj1kqqkw06yFbNAKsWuDnHEB8slveHBEBRwC1sq3DHHKaQkZYLx5hLUSQm+3moeA8p6ShmpwRwCmA4aj7dZiqGsRym+ABf3uW63VEPZX7l+5CGh3AUbpP7T/ayxrm4GOAIIOVWUGlA5svTM60zIhbWlLY6IJxRtHoBijEUJFSUbCGR8TEdAdAr77qMMLj9xxzQVtjnnhgBchoNV2G323OgQ0abIoQ80xxzQT2HQb6YUGqNrZByUUOps8lkeViKTTGJem6HcRDwGpeEEio0QW7JoIRAnNaYulQBlBqElDJ9G7XtWXn053tH3lK+7StevuEgULIbhCrrf2kXy2axx2ZC64IK7+BpwYHmIAVkLoNY1MbDg+l2M3elxzzKWyGNSaaKymtTbq7NEqhF2oU3ppi/9j9TjAMWv6YacI0GAgJ1T/yffrv/1GlXojQ0Z9xvzcUX2zQ/JR7uRaLqQtx3IgrdmejVntzTdlUeZkWibElpGZknFpTTL1CWgVLXwXFyA19LQC+SKjYyrxmmMuopcuRqB8v4cgj1J8zbW0tbbmqhRg23s5f5MJYKpVMsUzD5Jia3IVyzDpVuiZY06qPpDfuMEjJDThxyFS8cKIjBIW4C8pzmNpcylN8nPy7Aw84AMeyC9mUhYe8EAexNm7znvPGYertHqruSgYI97OEjwQICbEfDnzd1csBAawHgcVjwidMxUONT1f08wRbJ7lQjVbK9IGe/S3TWm6tgICVm5wd5AfMGA5+NvVn3oMF7bkI8DKs5YuykaXkGT4P4D0cuqIe5AeRJt+ZS41Oftg/4kjXZfA2PZgony3aaHwayaRMWeK8bmdczbX94ZPZyrDkK0AGPUkW1TuboExXKXiRwT3aU3VpDBNCFTm1Ksr64UqQpwOcOnP3pCAo8WRtR5iSQpmiZ3pXUWPmRMY1BcpXiWOKiRhhUj8kgPPcaZtqOEJnWJEmkK8VFwJPTBjYrq8SQK+35aQC/zhnoMXICmI3+Wi1mCoYiGG4aJaeCUSSN7SoNB7WpF9ZJoiBOERKYBHQyXjcgGADwCmTeOFEGjNyKvQpAiJmFgAMgAAyAAeCezRs+ECQoHiImC6CADS/M0EcKQnDF9UFChVaAbzStUmxTQuMHNZiEnB0FELxAcVDJQBKrQ4MmtGDmC8mQG5I6D6UjA0Ei2xnrqaro5IE2DKcRgAmwVoIGLJcC9MAIHAOjyB0DGyCnRS4gjoAhDzgGb45CDJ74z1AQhgfSlW1VnDtHYGYqToqRVracXKVcjJxDNL1J7XGiMO9X8hD11lK6GJSIcCKIGMkDds7rILANBZiZSWHd+OB3hkW8xUHu6eXUr7yLXf/rVyx65njhcj/83qTwmxtBkAk7EhGW9uZ8IUc8azHhanpN1j9hoM1ixfGgBpD5d7mol8/M1zAI+9sq1gc42VAsUqtnqCvNIWstDKp7KW/+AmAnQiO7okaVHR9xZ5ngv7IDO/2hYpMb4rS8eSXYAk2qFkm6P2DwtBKbJuhmIL1ChSh0xuIOza6cn1/Hz5IY2eh0PNo8hzneTDO+ihk5KcecqPTpAa2/XE+f8ohh32+1z+N/79xdZjDR2CJzJkMjd2ML4Bh/rx7nQ6Kb1a9rMgawpofHAccoP+maGKrH8smx250UoHytQOYAZoN4oqOdt6m0L0ZIVArvwFmcn0jGGSF8hlQ9FiVJ6zSFk++iaqeCdjtfNf+28tsnyS7TN9/NkMvEYMTphp/JV9YNFIMtrUSRtgDeKQXiopGb/cqXKQHT++j2I1+wdyAjGiyxOfzayrGwePTy54kQJQ6I3AM9JhEnVH5NuRcMU+t88ZzMuC/BCtYTN55sq93UFIEdolw8foeEMeABBxE+92SJbSmkh1AXNZVMSnVrGX1R0R7z/nAfaOmXJSregmEw11zRajBPw5b7SVw130ImLFnJwpCEtJyJjMR6dZGylnERY30wY7C8mo2I2eOrBUWewA6ELe0Tsb06RDti9fQ44tv44oeR3yK5gnRZIEHNLLUp7CYUqM1yNDKlupxEezYGf0UWfYTfvXKTEy9JlSYfaOiCpUlHVkuBmLPCad7AIA/io4FH5tSIKt8w2K6+EuJRJ+m/lwAvM/56LO858PW1QjXDugCPa359Zp707QZsNvN0xzluB0MO29DRKrMBchiXhS8Dxgv6Nu7j9jBF7zQ03CeJjn9nlHH+ekJkzJQVYuf/zdYZ7nuaxKKoBCcVIB5vHFTwYyen5bNuL5zewJtpRdZjMCn8a8h9qIBwGMPX3BcxD+zJjZc2l6z+eBjvaPkOt9xt063FnOD1S2CpVSZmQc1kbskillR6MWaTj70S0C9iDFENGawefUjYZEHUatgv3z7yEtW9pbP6XkjQm5LUQPhr4+Lnj3ciTaAckwztqrWeyWjE+Fw7E6Od4FPZ+zieXbejbW1ydoB3I2MFF7f9mmyawVao7/YrGEAq0byt8gtzBeCIN9ycsMCPpTp94hWqFX4mn3ZruplhHJFUN42Dj2h5JrfRlo2nZuwROTz6aNZyO50RlxVEjRSCTTsJYmwtCwphzx/gcsoReGUwGn99NtzN9rSmkxyYSUEaaVB0XPsKN2R0mqtegs/LN7p3ANZuOyQpowJdSsrlBVLAVjuInHses6UW8Mo6g4W4JUJAwp+bxKM4o6yK75K59ms14jC3B58NBhOHsfmDtDQfm0Ez8AP9VATWX2kAJgJvw4gmfuUd5+QDmr+ebR0Ui1pjzvkQL8cQX22KKlOx/ILacMAB+NF+QG54eparjVUovIrP+9fpT0/3MJhMHHogKkuKE8eCy+gC1U4YpECupafF1dodiMsjlz6voWNDy1lr+PterroiNMbmpT6IELzIYjPNLHnJa2lkBHx5x5fXMWnGLBd5rAKSZMazwcJZ6UALACAIAVQFkX9vT8ePekRCOSqxIx04XYAPNQ7qiJTWZ4Y8YL6KT0NAQ1DItYxpKcXWZh3lrnzEL35X5rYPUVk8IAdTxFRfqggoEBYI3mR6bNaACmPDOw0hE4OdH32QBNGteMyBSTLqGQUOXYsjhEpkl8MSJwGwgVhg7HiAQmFgo2Jg4qLhoeOn4UCejSRDLECCcCZxIXMldZbhQeVD5NkS5gCJnKLBW2iKMup8HVlNfi6SqIFSR8U4qmBWaUzAn1lS2oeIpqDtxcmHmRZb5FcIsjzRLLUTWhaY5MLdZgWQu3/hmywWY8W2wlsGs3kS83nH1F7Jt08q0DyfGPjnD1s9MkfkF09pvzSH9dyzC1gwDyK3LRjF2jEYCCpIEQvt/3zPCszLa6a7O1jczatrmJwcc6Jyhkoqbm8wCfl4/njQwr4BtYZUtZ2SYmeltr9BY7+Q9tDIQVHqF8lElCyugxm5OniZko0fUWEoQeo2B1DBkK+HkNngC+nq0cS4g6Oo5/XDeaBh7Bwm4eNU1xv70q7eNcg6eWWfCtXTIYyM32bIxDG7E8Ci63l2GQk1wDAEb+bLgAAPircFK3aIxeqIuGcrprK67su7xzaiw7NnDk+iG0OB/D4F5nSqAkfhNWGR+X5hAbRxSWC0lcr0qdyD8sjsuivLkdxDvJOnOrZ2QLD/yAYCisu9Ew8gjEEWvxOyeDh3Ep9a8N+uQakuElpAK3a/h0lfawikZFjsHPYDkUptv0zLReOsi7/n3eGFSA+8Ja69mPQjIzqKXqZXBqZ9Drjts47AXun90nmDpeeF146aYLAo2y+e5byg3f6K8VLVnQ5DZ9fSQSaAB8FurmqwRn4amJUYmMR2aFpTJpxVv5K//Y2sPKRvqkdjYJo4zPGyNbldsEswlGeQw2ng9Jmxh1JxblRqPlfGXi7u8npT6ypgzqGh1QDryEyMdqZUwZhcv+TwaWmg2wO70NQcEhX+mxgG06AA99GUBOrlhVLA7L5XsqvXOnZnJ5G/lK/dqZFfy4AhDagBDrvv061QsDp1hDvxBG03Fy8Wzw9RWQmUFxEtaGYtmsCaO4KxLJWL+YeorkYSquQZfvT6/kB4fDZydw4LEw+7IytFM9Hs+W5oacbNHCMeU+zD/m7/3UJfUN7CQ+mJsAjOi/XXYJJXcSJAWVEKFiGA2Qp0ChImaD1Ki1TrtLLrviqmuuu+GmW26746577nvgoUcee+Jpc0Gw/kAHGEwGBkUBIQtQZbMZAJPNwcoBOADPJQDyAHxMD6SSlH+WFolKxJyyDD9JysMEECItw8tkKm14gsgqaAFSBSSMoAGTQR4XmJmhY1IwdLSFxAIVDGQAuQAj88h5KYCZgXxHoDR/hodRP3FXFTCPSBXRw5jFmsc5hXeaANIAcnmYCrgo5KyImJmnQZzUcFWLtA5PO9wlPVwmcoXMVd6u4bqO7QaJm9zdwnCbwB2+7hK6R+o+Lw9wPMTyiIfH3DxB9/Q9H9KEAAa594OZH2XOyzRm/M5/5CsyFmTMyphC+F/2fmSDhDghQCggjKAT/J90EP8M/wB/Gdbn8Sfwh/A78Euk5tez8I14L+6jjB9X9o/WlAa3mTD4e0wYPnoEhmNolut87KUu6fDWFmnp8HXnWU5lfUamPqpQQOJk46pvKMtdXUNXT2zajNlJ07igyG0PLx9Mmd3tf7PRUsusY3fQIYcdccxxJ5x0ymntzjjrnPOnKBX1LtcdhCPNs8mF5bCbIGeH5pgXJ9KbarHEQmZcC8XQRtJRogg1UHt3spliRGgrXjLLxNEFYElToAsJQCY3raAdq2YFJXET0sx2XYmbGh/KIzwpL7BPLZGIWXsDKtUs1zb8yobCza7wIXQ90S3d6Rzq2of3Tqw5oBpbSA3qaKKL3r1bFFtU9zXvALWmgZZp40VoK14y/cQkgIIzaoPuH6rWq8L5kmFg6BOGDRmxJ65FivqmBNQWN/xmVzgQPlenVlU9BiQ7cVPNSiwpRlG0d4rZld6+P/3tA7/m16f8K6512V6zhhqodW039FjbeqJ6Vi7m5VsOVs2V64tv6Pv0qmGqboK+VV1jalA3CE3TImMCYoeEHvp6cMBQjwzjD5yIpmRGWGBZlpwQ8LvlLkmFmBPxYM5PwGOUvX2R9W1s+8P/Pe3OK/dyD6TAusl4sgX5T5OMp1CsRLwyKr8lQ3nfyribHIyOWLBT+Q9b1JnQDAc0DQGEymD37E/2vvlQfSXf0TWp8b+CQ8zaKDpwSiPoeWwWmiLkD72TK69ejgG5yl/EvGfc9li6n12XxVUNkxdx938bVL6gRuqkQZqkTbqkh/pqRCmLke5+uWQyms5mcTIvFmZJV6d8Hzny3aeOqak1c9EsJRaVNsqPqKNRNLvvoDbWsSYguI+EpwCyLAab2SVpJvcTJQtLtbUNCSZo4rJ/JDK+u6jONFUOrlqSHtXrse1OLphaFDIAMVrxmQf2bBegGheSf00VFpqdUcM8WA1gTHDXuDOpAJLqiiJmJLVkepoBrVnvjJ4WEt2I2hFHK4AgRERi/YIMolcQgAAQELoDBZfj4YpS1ANqL1DArCEFf94pM2V0P5VkP5qFR3T8jjFUTFzC7xihYOAQfHzAgo6NT3xzWVUtzEvfjFuqa6pgxs3/D/jPACZ8M+4ZZCkB2zfjvsYqK4x8GSAwEPyZEvD/SouCip622DIwtdFgQjkhBAQdRkmAZbGmGPAhwRGBKIiK8S+ViQlswIVcchvuu+84fvqNiwosxqqQhAuHeEGEQIBVEMJ3P/3yG4bCmx54Wit3dnYSp5ziqU07LzgQQkh06TMR7lmvf8yBLBbegsH+EDJLB5iwRfYxwYlxf7VfMN/8hPnamvmc2/vFCtO1hKkwnKsuA3qm2Irdn59qIQzSWzSwEihfTDjKm1WgxQS54ymdQ9IrZJINVGpZXKSLx0iwohyx9IwrolB+Z5iIJmYdCugjzQbO1gT/P0auY0jPoOsoOAXDARs2cDtwEADOPCmR3CLBntvgbIdC4IGQaAN6FNAF2wfsDgMKDGBrOARsjWg2cIZIFHRgg2C9RcplMdJYDnQnvZd7qnd6byCcwBm4fItJd9KLlJG+pI4MI43kg/zsIZPO3mPunkKZk8MBsAFJLUyUPAON0hKNtF4C6Qv4wOn9RaQrKZmdluz94UHzC7AGzAdgrgaYA8H/h3aoygH89yP4751JCOCzGyecoyeM5Rcfvfsw6Shw5P8/9b8PCOAU4AbgLuBhE0BOAkCO+bjFyFHCA+e3c8iXYpjJBomRrEixoUZKFCuOWYIkNuOMV8ioRIVSww3QiUBBRUPHwFRmsHIjkgl5JpjkP1MMUemtanVy/KuvGm/UG+2KqzpcVOVvH11mleu5Z14osNM22+22wy57tDpgr332O6JeFNsddVLFsJwWeox0Xv+ndUG7dWaaZrrZZphljrkWmW+BhZZbYqll5mm2SosV1lhprNU222CjTbZYb6s2a33z1RffpUpjki5DJhcxikUK1Y9BpXgqCtNoxTFKkQmsn/rYGYCaOtQSwO4+7D7Dfg4cfLY9xgVX7IBmXGnn+E/GXQYDfv11QUIHbzJ2kHG74kOEHfxDB55BduPXFybUh+NA3hA7zFzBXGFtXMGEmK2Jxj48x2cfRmlaEZYw+4bNe+qweNlZfcYw7WeZpnBYI7o4rIEw4KESKJnZltvQxjby/0QXh7UXO2LFcdGQJ9S3AKD1GYEwjcVign3X0ZAKQHCGwxX2rpKs+eamKNWle2d3aqwDgODrBGOTM+zFFUQGm9W3oMujrWCHn06KCHZH7EkGmMhEgc2/fC472wXxgg2ihwlPII4cj6vcGCTGwXeFI9YYQUuCVqCXlo6JjzIdAiCrAejmIHsGW50BsP3nAON+0FvAybuCAVAY9JWOw3/xmwEbNZIwqnBIZ7AASbyPC+IABmLQdLCOXPzBkyojKFiUviFrgp2gwjl5ar5Q3oiHwo3ZcL5WEDlKKMDpKpqAr8cYTuHza7ATBFIBo9gIjC+F1GC4a0PhFDh63+DLULr0dVzWcTT5K+fvvKs9Vd6rc10+hKYgXMpW032OWtJa64XzVl+sLT3PfVkbnWqvL7LWT9urbW3nJ0OPo1ej96O/ztw3Ty9dfKQxQwjuW7pXNI2U45iYabXV7HgquYl1X9Zeynxy1peWhoHKZKnp8p4GPek9H3wn1+etEG0hu5d5/XjwVCWtvLl+U8eMPuQxWdtHpwfr7XA2dNV6lbRvvdvSa28IiWWhKH2klewMv0spwW4jj7URjv/vmHW6ptKgp3BAiNgxEtfNhd3wmSJGQKpAG6K8JzL6ZUlsFCUP1+LhYiQDEYQDIbFlzK+iUPXZbY4Yf+dFkaiNmdhO91WPUQfHwuq+RAwihisug1hblv9eAEvIiilGWSfcfSkElDyEuTi5TFSSH7w5OfGo1hoyFDKKkVNG6d0kpDmefFtqTkY4iZ3WMhkRBF0vnBsRacQz1affN7Z73KJ0pDJUHojO6FExDmPBWFzCKYnNmF3lYxByRobRmqyaAigSoRldl2TqDm7t9nl3RynDXw8WQROjFLISIVsCoox4lHX7rIUqSKhIkAbcIgtCTrP3ifduCdP+Dk2Qrf5BtwUoXI20uXMl0624K046StT1s/bEBehamhx1yFWBOpSQKOSodH2TZq66ABET9mDhxJvNQ4Vdrc+dOWL5WfQRyDaJEyZwRnVevhZGmWWgu5cBxbqbu329jZau4ZVWwrx3yZVZQS20FldSTXSJv5aJMaJUyeQMEJpsrExQs5s6fR1zwb6KLjwu4C159mljpk9NXkmEr7dLgMgvQzLp/u3+dMJ+0PrUY99k0eWpyoG1OLFgqUeXq2IkDS7EV4jH6ZaW6AmNI9JsCk20gmaR8ylPH/zvWXjfy2Fk1YBio6tTf42EMDz5Oe9JzoiPgD8jJ+wTZVDSlGoRQKbZDsz2SIyeLYrokFBcGzcJWiLbyO+qgtBIVnIowLG05UrUaeFlsPDlV5eItEgBQ7dBBhM4n2XAeJn/lCiBLamN+n2K2AclFYnmzk9qzcaJ5swqrt4z53kxL7tN1Ce2NTa0JI3khD+lqEKfGyRwNgvTUlOfQgHO8YGZlEtoRAWfnoolEBci4QuQeSryPs1z0j9StuZuRgVlm5g8a0DLpx/bdI8Tn3zogq5qrQW7JtnWTxzKyq42+9JSi41ZF3vcMFn5W0Zf0fCV+8J3f5APfY5+TdfmVlz548O1VXv4OzdAe1eVfc7zFnggoQ05I0k+wKUJbEB6NLXOMNg4v0UzpqEDl/TeFWJ5QjXMBkX45UmazDZik3uCZXjb9JNdLG8yaB0h/iz6jMkywZfEfpWbEMfE2twXtIouL/57r1OL1Uf1gx76bBX7JiA8NvV+sj6Ee4GQ/WC4ltp51y8eccp9dAmOcc1OMcoct86fZ3N03+qwJbIRUl1C89St89k7xKgLSHglGh+xrRykxYXLUSDN8BkOPqnhU6OGr56z3bbMn5VgurBpr5OxS4kuA8+lwrMSzwIVdT9BM2kuCmMjcsN2jNLWjOM0XQV2KFBtQVcaMigo0SSdomqZ9JirPhr3V6mf3h29b8l4KLfjJiWD3v0Rt+JRjCcw0WGXPgueODJmiIMuVteddIgF5p4J/4Wm6B4kHUBRJ4yOwjoNuiRTUJ4YCTdk2PqNpxuQpMITPq2WRI4dSZ6s736T2ECMdVH/xh/Fv/CnJNgK1YZTjt3C9uwJdp2Q1e+IDrhbatQTl6QtuxhNnXemXnVyxgvvbYM45W6y8fSYMvts02bB7ctbLHeg8fnS+867ytMR2WzJbcdtxbnUDVxZJukgHTWoGTJM+1Cy2YoqRyze6wijgQvRBcNuK84Dpvw4LJxZbh+p4lMevj1aoZ2R2HfVqcGnqP5ajEyr8XxKDsIGyWxyXTxhC33dmrZo6rDu7oTzwx94tlU98/mslGRSi6yjFz63j+GQtKStlFQQsuyPaTQNW7zLeT03FuMCWRE/CNxKa6w2ULcalV5uYlFihfHRBqoNiUucRZO2hBIsdSjEaTP1ZCPUBs9kgV1TTtSjwhw2g6ri5uCVX6RxpyLj1kcra61Zp+0apVeXKuq32pBABqJ3WcTWUoo3+uUNXKT1mw4RPacW9GxPMI2RZ9+L056aaa+Sfmhm6XrEpZ2hrhDt6enm/ZKXqDEEqrUAvYAjlreZqn0n7JovYf4iF9TPAR0RJLXeW1uPCZvdH71vAe5h9qdKIXFwKKjXuMIuIGRPqzOYfCqiDc2dL8AFNaNezI150nqjbyJVbLKbdj438gpvttkCPAexCH6smjc1brhoaG+d6WclI9pEKN645f00xYc7EjeXG4xkOeqjbeZqXVyTB+6+koEGy1XgK/AsPjrgh0/khmx1rPgf2mh/JqNTOeuWni/8z85MHDgcY76knLErOCLteI+qLzRTjbRn0VTc2gNsTceg3Qz7Cw3eb6dOsA9lQ+wMdQEoqacknWXfugYPBqVN9zCj9gth/77mN9WLzd2gq0hmeFWWId8rF96RqxrnoExh4sC/LyduqGBYhPkRGdOfSHcX+xMGQCiVrf2u3KskGVD44yJqA2SS3ehaocv3TtQjKpXZuWIZbNFiOlAr7cN6l/TtCvWAcoHNBrts+XisE3J1dteNH5DzKPJxQdkHlPRG6bsoB+X+ih2lDwS3A7FX57Czi9/7SywTCAfZytL81TiQETXTwgNtmdieC8+UU+xVL93HSlTs8vkmK0RlNxYtkIns5FHh9acbI2o7v/HQWY82imjGjWOrXYoKQ1VI1LnPrVbdRocrBELqq4UWJavnWf0gWN19qbriybaSYjmPmO+cHLeSg48qmvQXPOJShPDXOb6id4uYnZTA4/f9xZ08UrtVPlgiCK1iXjmNz4gYU38c2VGgKs469qT15hjDRY2K3aJV9SvjW+Xn2WbuV9qTjK2creZaO0/PqTIZeKpinp2jktSpPGkIf76a+Rwi7IoTOuK/asaDF/mUV+S1IGJPllodWb040ZONmmqT1Dl7kV08dw/L2mcuUNzp22Pl3RXrGCFFjF6CF0yHgeKqT2Q/K7EoTtkjQE1nsZbPjSYNHnwxFOJMR5UNSib81RzjxSrtgPqU15X7WyRV+Vsc9N/j5O8N/6rdD/nv+rz6eucfVj/Tet/sTO32fhaNtxDynRKVt9aHWNucE5vl6nSN5Gvzv9Y6DRRtqfMWa6HRaga9unKsvw38kkvips5hn6IKvNQhVkmdHBVY3FBTo2AQHhtpShTDY+hrWsCJgSHQiQG0vGqAdL0I0uQuHEtU+TkakFEJDAy8B1Q5681NZtab/6jLAlWU0hCABOAEP7x5adJk2eXDi2OtrO+myiGW4hXoZ2iXlpargYquk4DqPBonnbmFRCXG0UHMZI2e2cDA7xulwsOpNjPq1NzJFBaSWlpWiYg0y7pSRuQtViAVKs2kE0Gbd9KEKxiEtarUpmoXNL53PDT+Kjo+swqdY5s7M2XS86/WEl+XlVNS+NdlHlU5zSSGioTq/dmM80wnlGRdYJj5MRR834u6NvdSyNfY4+IBxAaWfKY78Zu0VKK3Way805i8T16s+FSVvaxvlkCw14jiKplMj/zfZyBH9Tm/CNQuD1IAyDVofXPUjupXTqU8VANFzWjTnDnU1rG5Y1up31+laQaKRx0YDsVUSpNGAWHl/6e9QAHsU/R1vCvYsyNx9eFzdeJYhsN1EW04xn+1rAfd5YCUfjyK4Rcns68y5H4pPOJtR43ZHSpuCVAJainHyQrhfvtUUy6RAbL95kDl0mkiExV+jg5iJWv0rAYDHkKhwDh6yKGvSYGAlpBDJo/ba/OebKaLaKl0cMOPKh4tLtg+ZcTQR6PFfVj8eDRGeA2uNpSgEhMi5USxH4hIXCVa/bq1olK+soLRVt6tOHtzcRn3IsEyutyACX53Z5q4Mhmfw2X9MdWfAyNae5PfN8B/lZvyQ1JqGTWOrJ0ITZyRgpLrffiJSeoQiUbwoKbplwPUJhSPJgbO4tDwkPok4Rpj3ZDzHA5g4FyqD1Qfj6j52PgBbP7A4K9OxcfqD+zLcA3wH8IdIwQ74D8S00hXceeHahddwy29Fj73V5oR7b6PW3e/aT3O/cXsJYyelmIe5OF2Xiejs6NkH4HmC7EsZbOKobk6/kI5BI8GH1PRxf9Lesi7TdlOmOr7qbU+XRJMJrzl/tETRmQwP978SCCgWn8zMcr1PutT1RvKUuUbqqfIDdlESalkouzGOi+xe8PZvr4Nl7tD09xMxFIB+o0mEcTKKwqoWjsaZtZZwgBi5jGtszFLfXrQlBLYAuWLgkEFg/AeNQ1+bRXAxepiVDFJUYyq4WLBZq490n/MFhg028w/B2xdkf49NsegxCbRBZhNuOuNRtTYJrbX8peEgrwlztpOiSU618cCAN70qMEstjPb6T7FRAUda3czZWXG0YSL5WCv7dsW16RR2oQO68cUCcVhb9t1UFKchCiPgf1gmiAshk1WqtCTDOTC9lE7ZqhUWpPlxI82w5hAsvPr6nszGdcw48VfFhyftKbVE+nHJvBsyjl2gmbKIckAFBPB4e2fMDCdcG96R793IuGorxcHJimJ/1/gokMEOsSOWt6SUIjX7agLLsDSGZvqeN3CkhxQkdkmspdUnJri8LXvQoiul7RE+gujjW2RiO6c0Zv8KTdlDVKFtEF2c80/+y38XWz4XEJuqS1b4AU+8Pd2n52U72/ftsMVOYW1W69vboo7oSSQv1se2yzYfwOG/2/z7zqS6J9u3PrSGJbp7S5YJzsH5K+KkRpDHjELfopR5O4J1S3fDXhEeoujqlpmlJnyVjUX1kVcUqbz9RDdB4+fgE34wFZg0x9P9zVamyMRa3NjH7bDQR2vtcbZEBRlV1sp4x07oH+/TNdOijkIBBdhciw4mAauHk2Hbe5q/AgjPuiOY24jDqfFudyB0+lIbZ1hCMtQfd00Z9P5shHny+KfJt8PNL1KGnGaFP/Q1/Tf2B8OxtNuXNod/3mfSy3zX8d69jzb244N7H2wgDh30pXjxyddmetHmIPwevQFPvkk+fZE+h7e1bvbErLdkmWe3I+/eGLxhLO2MOlB4NPnOaZGeY7GAJuYP0naWm3Fu/hOG00ud9P9xVYRrxCctzL30pHxQXwPDBnlmWpAVaWyiIMf3kZKTGP4QmfhKqaJXwqqiefx52wrVpWLWLbXgnSlCBzjWf77D7c/Dv7LtNnNNVk10LN5rZemL/fY2F/M/aYJavJ325MRxwgtP42XjcnOXPS1WmSnT2O45fIS7FGApRaax1Smfv/h9o3y95iI1Q6OBK12RJoMQtmU+dMSQqIqUKYDShpqXKJlyIRgoLdjRtBpwkTx90wrXFVGkZ0eZLgr5UzskZ+lQECHHc6CYQPPz3LnyZET+YvsDx7YCOM9AqIuzLjDsAoQp++jrKQR06GTo6nU5CiqM2LJrI+cPkTAsN4JM7SI1W3UkXSwWfUlEMxsUavyVbCZ9VP6eGy6RK1dMh/GUpb+qL86UrK/KhO/8pwoIJrH8BVuOkYDK8pnr2G/quS7JOyd35qLeJzXzy9lsZdc2Tx8x5HP8/3FywC4newYtnRd69+LApoqchiO53MesTBSDm9lNSK3ctf139fAfSPp+Wqb4d6hGV8FVlU3tKk2RyLqbU3j1urDUDe/ua5mfYtidB0PMFVIpEOxePVOMXvwNw9vVRXN+9sgW1z/IR4ApeXHiiWSGCY2i9s99vE8IzK10h8STwO1sGiq1z9ZDH/50zElSzyLO0aloitQBf01AB8gBEjsbAfeQR6p25ujH4D+gshLicyn1FzqU6a9i5UuncK8Ts3jSZIHLB8ikxSCsXnU61zsIQWhMBZ/HX80q76LmQ1/cbeM/qn72kHH1TV12abGM0re/U2mRuSj4ucekpUVfOKHfKAkbtnMiw8soReOPOZ27O5q+O5GpL0pKGVClSY6ocN5wIOrhw158n9VGsB02kpby3fARYUo/ckbTz+9RSMBOTLnXSNGj1eN0Lqlk0wR1LHJHBO3F41XBJQ3fUm7ObbY4TJFpJOLl5D+UVtbcIhcLsfinEWywKgMKGixaZMD3eIkWjepfvmiA4YYPmbgffiHGQvn7vKKeewfBR18F79D8CN7XgVGkf6WKJAtBVsUiOTv4lyZ1v7hl7W5wDcbUUcpn2k5Jc94+HnasuvDufBp2ikvq3Z4GhMJkhy+0i4PTNFNCXjHUDUzuZFTs5YvAhaRZm1KAklLCR43+js4zoMqhCQUBYpEb04+z636gMdtz/sEJcNOubTKqsgkrBWVpatTqeBIXxqQOwJkqLhGwZv8rr5nE3+b9BqXzZ8S6L6unPWbgAeWgHSYV0FHQF+CBwAWopU4XiPqFo+EZlaG6+XdPt8GDEIoiIwIajWJCgjmJjU6zQ0mmJ1Io42HAHJzyhVoDYc1uktulGSsPaqnC+8KTRoDEx30EIDKk9/xeDAjyLAJhSoE3cmriOiSuJJPNb10+YoWRiGjZcXyUu/dmF3xvJYxupgSyZBiIoGbPeRCKiSRpcZbM/cN1oo+F4UHV5MNQBfO0qUji+cN8zaeXm8vfrh33qyWSCk9m4Y/5BMrpwpVjkoELnbZS9871PO1SaA2wCb9cc6JCO8weaRUN6Ziz+/5vAN3g1ZP1O9nyeqviMiFBwU1goNCq2Hw686y+493cTi7Ht8vC/IMIpfofQideqbaYNNjrFk8o3byai7JvFxGWA9tgOAZ5nAfYYZnFmPTo172I+NVtkC3gnZ4vgilM6GUuS8AtZJaQLEdoiwXenvZwFfl/TD+2uXpk4mBHSrd9w1nMfOKr6RIHCdWdYr05a0E/fNbwK3njpco5eY84AVAJmwZiBIHHLozb8u9zCYYavoadlK75EC54lfvsI+PLRx7nP105NLF126DeXLZ+XzgFoEX/hbd/ycWupfV5WClYfgCCdufuHTfD9O6FtKdtKVdWCxst3zHSHrqvLEaeEEgV07D6pua/k+l/nC5/miE/8NR12MRmc+sgYzmAXqb5vLTP39wYqo2J756wsTEqnBOCmr5zG10/0yFrCNXObPYrs1ev+GzluNwtdzLX8KXezQ9HmLXhvTJkxvSXaEpKBM2loNBo9GdiBCdwy2EOMEyPMcZj7jNYTBk5P+U3mAn93obe+gOfi6FWgvBe8eY+WKG87CfoXI2a0nfbUFEapMNtnJHGXe/Bd1lj60Shl8SOuyRXI/Xjm81Gg/87ZBxhzcXRkOuiid6mHrGW+OxEJJVlY8XgcLfBxe2ZF8Qd2BcayzLO3+s/CBY8PsFo1E+W77v2vsBo3zomV3X4+vps/TF+yzL+s3RVzWEo5pIv3lZJMQs9beAhUevPpcQiLyo2Iv7Dhj+lfK/rJSeW20aG+rQqs7WGjX6Fd76QwM/uLS72WDhmQtHvCXNYA78HEMWuOq9sL0THdcsVae1sjd9/1TVa2HhETO5JkP65s+RheWVLo7aTFfPb/qfY/Od9eZGc+k9gacoGTQa8T2lnLH0BJNU8unMQt7gK6EVzwrHrCnI27jpTI4pnt26dvI/C7ptewec6u+1TlGMNtEMsVK7iD62TIlxNJaSaHW1gkG498pKk/y7yiNA678u9Vdg5V8mAW72V+Q8TNdxweT0IWbkZDM913HEj0fxkmGOLZGWF1VyzD4Z1Kms1s2Hiu7qHTfM2ERqrUpmnV/hO6m3P0w+bIQyPf45zejfK/348+K4NnzSu8kahfaI0PfC/Fy3Kbk3hnyIkGgwmqTjbZoTmukZWEwPyj1lGjOj/u7GG1IGi2wzuhqN9xo32mN+v84v+DJmcEoEFYz01i++ABKJMjBm8wwnoGYHDBsdaD56FYMwgqLY3+5mKuQos73Yr9BLDECZgLsw9Ia1wGDpvZ+wTuXsXWLPo4+bHgUa05/YgoMWm+XnoO1Yzvi+0NVw2jtLEbzkDGCCz9WyFzE9q+vMYYXy2m6LoW6jmyc/3q0PlxuXZ55PEJshhdbfZYnrOQv8KpE6ipWuOgrE3ALToOikxiERhdpB1rL7h7NQBh2ZJHarbsISg+BA6Gnq2WNN3UhJTfFbRyhH3irW+ktm06QquOnM9pe8iPRj625GG9vr6zUrerP3c6ktTtb4cWzgEaoHtWA15WEVQG1E/1qC7gzoflhiPYPLwLbPuWy2g8m6epbs/oo2mYBXaarkCayfeosKkXXmZIRDiqbmiCEpM6mQguqFrQN5tAxqHpPNmu7zuLM+YNSYdFKhwrg7bnvs62VxHWR8EZ9Bn/7a3qxbsmqkUlT29u84iVZR6dCY1W/yPn59Nps7np6hdorky54hyBXF/l/9f1VJqxCtGr/w2pJY6dIzI7vwr2tKFaBOVWUDAeVA0Y3P69hcH5PA9HGpHx9T5T7+LHHWbLE6LBVFYK94DcYNz97TKb19kiu36JRVDmCIvZBNIKzf69Y6ZEPNdkA1rUCxVqe/ZIasOnHZowr82zamwCI3GLCkgGl7G191uUycVYLvgopsBfiwInCc20nLoXVyzZom6yUVReAK8RqskBd1zqgw65eyAyaz1bFqUmvJUGyemgmXCYINobaI2prCfOq4eyvMc+vYjq+xBBnGEcFSj70sqqljQdBKkEzlHMcYaFx98Y1t/f1HHehhEuLfAd8R4swef+DHJ08kD24m7MiUBqrnjzkjc0ft/Dbz5TP21WZn7b5OASjaJylqK4lIaqV+a/cQkUQyRI0dRUqV/V8eYFpKrYz8O27N1SkX4ar5wwIDZc/3RUj/fg8lWGEC7VtqIfVbmreTeIXeoq2FRHbNNI1iYjOucNTIwq20OF9JvBgpUz9Zji4wOi7LRxerOx33/dvJHXIp3NAx943qlml1R6nLSETSMqrxGYnEdAZ2FGS9hSut9gQhs2Q2hEHWklOaEWi0bllD1q1KCkCp2OKcMyvZl4dibatyfimpM0k5pJnUb+0ewmuR/SzAbCrxzHr7DFSSh/Z0nT13T8DvTEWc5TFB5Ko5fkvd1Xy0m4ncfrTGYSLBOggxMHwYbOPBJGIZEAvsKw7YT1yyAawS1zEBZO1SV8wsHTnRlAyanEu2A5A6kOoMaQNp2jFZE1kDWS6TbbKvoSvBYtNQa8g1qSHuV+p4Hea6S7/Vnfodr6EHHd/qLv2WTrP4mVU6ppdJ70p/azvrws3Jby2ihu9Ed+m3upPXuAUdP+gu/ZZOPIOOV3mLd6/DOQgKdIcBhXX4kzn4/wHyQwdBEBTodgHpMcKxPAgKdLtAPZDaoRDU6wgNgh7rDtLAn6ij1+ETBD3WDUCvUUc3iJdvgwFLpj1xr1xoDDzIF3vVxuKD8cDr/6F9Y9/aDtNZ7vxYd3xvANsCsOmVl40b/nPcYCNvAKeGgOJSJ37qLY1Mk4vlp5mj+NyUR0nqZ/plMNus+cB8ztx2kc9p2xQTKKTkcV4JseT9L6YyyHXtp8/ItFumNplnPwaL7v554HJQ9/D9R6xuCcbXjCEz7rJ5TyrwAy5z3AfZrbRuvgdZn3CApyLTdr7MY6WIhXlWkR907JaU03kasxnWMO5y0EXB1HvCEDe6gN41zhEfrppH/EwtIkjuaL8CvarEEq9zY2XHAHIJoKQ8kzCQK1g4zQfeNhYJm587JeZxvK5qrFF/y9ZJxBIfdvNkp98SB8wzXnYJ9GXf4A7t3TndoxXuF59U1tT+8LxLa3K/edmv67Xe+GBre40s6t3NolLEg8tNNARjvgFnXr8B8ckAaE/3b6AWFDQF0FtEX7kqdXpiuNZedKrjMlVIiK6gCWjAB4kYS9xaiU6Jq7sUkeCP60q/zQhHIQvImJwhFoNkhjo+TXIxKin/cqD+W+BWOceeSpzWGpqoW5mALsAXvMu5okI1DomskWl+kouU8Kk6S2WdRDybuCeAktACIPSdNVcw0Mi5IctT9VtExN4o3IadIIKMqzlDbOHBmVVUZ+Zo1cumlvnUjFX91ohmWnlinMcib9MTJ2he0a6ZlWjxs7Gpqw7JQR0tgXuxMEtMb1vutxMwEPc7owMY63klrRtufpja0Pvy3eeaila2Pn6Rcex743uE2DOglb/SRxfR6PH9qIcekfmCek5OtRmL7VMfS7SitJ8xt6dwvkRivC9d97Ir8d0Gf4i0PFWWqygfVj9ZaHySn+LrTs/JxlZG8V1nSoSEBevxj8SzOQ/WSBOmx8T+zVmZXtnRGa1c+Np+UIi8ke+KEMxrqeLIQbWwAAF+rwo0IjIGZyl2s5AC/NFUliICwarZmAmM3pYmlFAXvoNxk/SNOOSinB/NidLsBf38KJ9Hu+Vt87Wtto5At0PcAgN1DpscEkssg525rWJikzjeXFVaKUMpuzXHZbkgNEG0cmrOvQlhnbU0zxXerJCEplNWqV3qsxxrbSVrtfq9TfG5en7hCWDpyMZJ2fhF3cEnzd248YWT2YzJh0NlEFOko8mraUhaHd2AQQtRQwq0mEjbqABurK0cYbo0Z7JuZQZ1QqQJownuGJww2RWwmWs52tzcll2UB8sP0fQ2ggs+1nBALk3kL5m0zDYtHIQN8QZdYbuWK0KdoNgPkFLQeEMDf9xYmk/g2nhFoQ/qTkADZhTD3DULYGxm/peCdHifQk6kqTYK14khkggQlAqIV2GcC1qfcuL9qMD0IJLE8ClmkmSsIR+LlRWA58/dV8tNfoONhmVEtliB6JfdlZb2w+1VbILOrllLACBAOxbltx7JayYzMpBnk6b0F5NfoPZNv3w4OyZ7JszCmBAcUEuyVuYC7ap8xb0MYj1PvZQjW1ibTqnhKcDUdO8hbMs+WweLxJZ9+AEIqM8cGwFqUSii4XGWyISAHE7iCNncFy/jSWRxbP0v1rQMr9qDqsmMVdRcCl/bi5Q4izMLKrMNCNlBCi+rdM/CruwHDiwVX4BErvRUq9rz4kK2hhbtsOgEEdUiEvoXJnNMxj05IZEKo5VLWFhdFSI7RultWVHus1XlVoNHieLOBU9js9iiaMXvdJaCIaF6lXAndzTZTwPBEwSHRvAGHAmhFliwpueXMCX5ZJ1Rgdwm7SVrHjsCQ2uAr1vlaffQO4dF1TAQzotaOTnruBBk24gXy3pyNsZdiy3t4qooy1XFjNSHcxKiITE1oTemza0/YNTYUZRakA4TCq+s2UiaJKaQWkGE3iCYZG/WNu9mGp55WCYd3G4nTq0cF7blBe7FAtVBcZfD7iBxbKR4sWznDOew3zzKxYhgMCnO9ubuJ+IBdfLabDQ4HNrITVQtzJeo69TUlAI1FgS9rA8IkjWbwEbgC50iCiywp/4WIEsOlDw7GTBuIc+IZ5kXsvX1NuqJuOj4xZU5vAIHqlobhClWdEqBgwvkghHizBA3kQFSHIEmVQLOw01QHMNgIQwDyVSMvK7cPDgyq4/YyTxiILH8UbgEAMILD2Hn3w53ypLB6zSuSIiNCmbA/bQiesUitB47es8xGbKtgHCG3y9e0hBrhd2uCr4wxSTNLFn2xablia3YckCqBHl2T8gDFff2+wUH9D+YA/Sp+n7ir64Yubfj3p77h3qsmOCVEWDkaEj+0kifoo9+OWClNAH6p7eR4taLRW8V1XOCLqf4Hj9HLJplwbdmvczhDAw4sFRfO9PUEvs6e1nb3gdDmUyyT2eEtz0PFkK9yX+xoxksNeblF7dwZpw23UorTrYgcRJpXaNeTM8GCzVKMo9PWPo7wKcCwCPJYxsQUcaNFAa4J9s4apireXFmAgSww3LP4fZ4L80ZdrKIGlEJRN2Ir7DFFltEiBA1I0TDSarcyyxRfFEd0cDjKkCHqq7QETBSWWc720tDj/MiosXxY4qdQDE1ilwX4rfuJZfj69Y70dRudK64ElfDyiKSuOAA4Jh95l0/ecmxNqtPDwZIgzkn3erq5lf04WjCGVYOQ27TszLYjyfaQ4rcdgdo+q2YqofdePsJatuLZ2D1IV/wq4YGFCg0Cnp3EkQmb1VVS4aL5TdtXD5u7Xo2uyMwXbhchBpqwxkOMKYDh7RzVu3Kv/i1jsahJna751JlWiSfAFjcL853EICe3cD3Wpa+LCAm90GS8+FyMEd2qFPcS4mlLv0r2SsGYELkB8Z7GXHulptVBBh4oU0+LqgvVcZ3UkaQOouMv/RFlodWbxbPWy6LU3G/AN7C/TJgAcggtMKhVPHv8dXhfiExN2b0WinkiqmDEMy5fOxWHuP9QsLNS4u+0WPWSdERPDmWx+TZd+XIFfxKCVsOGfMbyCV3DMayDE1iaZFUg4Ox+8ufgiA3pgj+oHji3l5RYMJMH7TRsNEzY0HCRp4179+EvY9XiPsDcTAWyL7gmoNM5lhgyFWAO0CIU4+CHy4arnH8Po6rjOMwPscxXiy7jv4WtLj+EdsYjrbS5cj2DI1q0CVLeYSOSLhgZnYPsaw6a5icyQOEDur5jqTpjauu4Ua8rWJ8velZbmNTknp2HImKtqn10xtlkvvYT5PYCfyWUnJPd4l5IE+OPHYxSJUfX0/+lZZLrlTkVS8AzjgbwbPJOPLJyxkujRpaTxaVVDxVDLSqI6iIVtTSs2JQfJbbl1ckAsn6TYkHknLc4x8nvLtQL/Qdnf14ZVQ/79AJ++q87AHl3W9N0m5RmYLimW67/gz12tnzKOLLhy1VahvOacYtmEMSAdKgVw6YrLjczJ69/zKQRVq/N9Pu4728T58b6F84h16moL8gV14QQRZODxni/9k0S4HBC1B0lKlTWwFl6lWdB1DwJ5t4Y43OKJIz0oeCdCsT1YdAgpdR5K8UlGQliuEZmnc4wFhMJrM5RGYlggTfmYg/OUCeF+aV3ypWTAGGfASgBolHZUl5g8c8aSkyEIafYDWvRF645GsQt93wrI9r9kJrpCldv+alPjSsK6ywc0VygoAE3BaRvCOhlrEDTHG8058XmghvUqTTOzJtldmjyIq1LRRGWxWH9ES2TraiWyBbY/BDQxiUQScUAHPeWd5dbhyPQHE5IdNxuraJoYJRTZPcC5DIwJKCWBHnSV0LoNotKo1T/MMHbzrqnNOBwcnDqeqJy9IWZZPP50fGQmUMt26q0TIRaIRsBg0BBeftxfctgPeq3WJrnT/cAM3hK/3mBGAcvnEbnkD2PXK6Ytj2Y6htKQnLqlmzMsGAChPRMohmhs9TK6tgbLg+7PIeMhQujUUyDRN2B6FyH8OdUVFW9Q92w1lTv2NmAKyAQk4fHscNGyMzXCGw4O67taJaOptVoQDkjjM7ByMyTAZRKGhxQ+S3I1N1gbeWmPXUUZiqQSzkkyk5qxx56qq6phERq+OmWA0gpejikZxRss9WyM6Mc4dkhJoxyw/s8QV7A3eoaezKkIIIFDEGuIZ1bOIBXmIbu9jHIY5wjNdbau4yIpsLc/4OomwAtgAPAUYA7IwMAFRACZAAhoDrAD4zDgAAAACACOy4AWYu5DsTwv8pqEuKBENcxwa28BAj7GAPBxiPGuV42wrQOJLALWk+lSDUJ/X/gDgKXaCIMcC1aJ3QvlK0SfcAeBlt05sa5aJ3Cfs4xBGO8XoikEvqyLfLqoJh4r1+XXAyHZia6YGnktzQpNgfzxslAlnkcIZI4E3MSzGBfBvDrCEQiIVfUFrvapBrZqaS75aC6lvD35c2Q5F6k4gi+gewC1QeImPz86yi3X8ZE/y3bevsWiTFm+4brvje+12cuieamCbTX258E+MlztdVApfcmiOc0216KkoqEyojjgcKwOG7iVdzu7mppkR2gBP/VfWujmpxSsHKKX0wJ8FH2+KHn/SdRUttKeKuc0cbbXvAuIszYiWdOdLGTXFMBKlDmhT/WLYga+e9YpjbHIogCb6f0V3ml8LKbx3wdr5S1oAaUUX6UdVZFBCfrd3IbJduuF5CagqJd3WD062ZzIN4mjeLU8cNcatoBlfgOrjaxUHjWrert53qfJtj8Xrk+gU5fn+Z3ryTiifGqq9bc/a7mtyHNa+8uVYPUi8jdHNn931CLZ2ccx4TCKZWKy69F/HcPf81pyg0L9jgj9fPIca4SGGfCzQHGeoDDk9yOHmqWMaSWZIDtLTFGdAxcKWgfC0/WxrAXoVasXqYyoubhUps7GbL4Yo3saqzqt52qgFOPptlpkG5O0MKt/Gbkgc54oPfEP/Jb6zaeBeSeQjV8bAmtFffPQRqR7iVBRmDbB0i2ItlCNVdXGGyaepJ4sz4Il4252YWBw2CauyhJGcLFiswTcu95hrcAZgaVl0J23w2paY6p7W2kpV4sAEAMn7652HiSwq5hSaoeAKySRoTgBro+CvEjC9ZCgVkk1QuNIkkBouUHWO37VXR186kSQDTZm6vZQFIuI045xqRgCUA4kL7GclZyvgYF/rpUQnSSNF049WeXuaSTrerVwVoLRwrhxFHhoLRle2sYbSTTxqeazZNp9k0G9nIEgQ9yTdjGwWmXud03To0/OLNLFTBkzn8Br0xRg3Qmo3xJ1BEYDPS5MMZZJDxJEg8wJSTcUsUSFz/ZLgC367NX7tZbSh+2ClJnuR4ZODoYC+Q4Qngx1jF/OeSvsgFKfcShGX0UIvrKiR1xd7DNWU5NiaWjYW0ShgojO4f7Ar2zgdjHuwMHEYIy/gTbUn3jvmeOhBGRb2MB9CIGkg9mtaRJYKxniheGZqOhJSUgEbg8P2TZiOLs/wOh+7KkW46bB9Pw0Rj6H4YWBtoABUWplVE4tRdygWMR/BBVsnzT52aelULgObhDbQDIMpcEfOQOyPRjmLvfjo3d1CqTN+3gnvLyt7iMWib1ThtfJMjKjdpIqueTiOV50TIaw88LtiwdCaSq0hiK/8r3G6Sq5GwbDV4QGnAC4pAmp1twa5inzrZamtHtGS0r/PJp/V1Pjm1vs6nrNbX+WTWpKB3GHua/v8g+/hkJ32dT0atXxTjshHv1GGUACNjyhTpYLL7piEcN7Tt/15dcP7Fu36HeRCVSR8g8zjEq9WGkK/cfTJc9XU+5bS8IBG2OX52eP7ji2VeusTP8/uFluEkrmM2R3LrrLhX8p/oOt4GHpPlAEvB2Z0KtDDgl2EKsupxFT2eoJsHPbl3YQBobqFb4Mt8Eh+GA6zXL7I6AGsI2FT2IuNsav89g4hBGQ1o0iZpkbzyYkK7BvvCQ9gmBWVDCHqB9OA78/++HCP86bvWVCrG70BgFuyzdA/cbx8p7n4tDmElESpvDxjdBuJfBG5i63D9APf+hMd/F2XH2Fc6xHSE6RjTayVuRqQwBUwx04CJTfnFzoStgDBCVG8ANcPftlAyVZcUCYa4jo0Jnw61qb2PL+Ihx1Ojnhl/0JuNhaRAMrgqZcyO5l5TaY7kFmNGI7W0fQHmqe1qeNHp7HyK/RzKwgAIbCEgsTgcBTQFAEjDXc5tg5jh+DpsopPDTI4leXiIDIfVcM/V5ea+KGe9WAbrxWomBshGrDjjcxPYxdUG1lO1DGeg2e5B51a+nGyKExyO8YoptltzOMmtgCyyqNPLDWnWT9msSCHlcTDvbq+9iJguzZ36G4K731OEhXfx4Yv3VPA/AwiAevLpKPxG/vCX6vgC4O/3bQQALO2Pvjg2rd9Z9PZSBKyBAQQs6f4OsGLHwkAGuBXS+TWzGt1CAnzb/2W7bYE1MuUPwXZMW58oV3qWX0BFWK/P5KeEE1F5YErByki1W2Wk7oUpzZnU5Nd/SZEinncrJd8SDoDd8otTPhHkEmnHc+l0Be0U1mYFhRkSfSGOjv8SWceQbpKOpJX81h5CfYv07ZItHMN2N0D+NeTctbKbIB6jiGvm2lScGimazUDQIRb+8EWijbFN2Hx6Xv91D0RlrVhzQh0Ug/27tGde4Rc/2MWn7HB1D5tqfAx6P6tR9ZsG5i7hnakwOQ1IqVMkIUWgSEMiKfWXeskn97kkWbqum0+fChJDsjgnhozDeInS3FmvtZpFRdOou1SbhK4SMugQmnuUnYPMTMrMEJhron2kzyrdPUbR9kOGFn0OxnAwf17k8iGBVGSVBPtv0khYDIJbJ6zpDM0U0gKy9spTG0FZGcWZXlRAwT5bfhKlnpn3Eb1v4ziExyAV8vZYddbGU0ukHc8QBBHk7WMqQk/lSgJIUznMEFAizBn0FGJ73NYZ6coX4rfrkymzBMaCTC4Z4LojTj5Feq0yybwzPOoh8XG5YgxEjmR+aX2uI6SzL262f9GCJjiwH1Nhj36uRLjOdTBz0Ih6XMMsbMb5ZuUor8rl+Yzc3BDzD9MBBGQ1ZKApRYEA1oLCjomAgNUq4NDCAHCVn/M1xN2jNQzXlTWc3pI1gr/aNQpnuWtUvkI013fAHRqGpFaY4CvrlbEaFOsGVir1utL+7mpYWQRL1leCAaIlSlHJbLh0JarVC5LGzKJRpRJWmcysqXVN6UaSjoo2nSPLjiz3I9nV/VXm6YKb9Jfm3dS1MWrUGnGoxnIKNEnvq6ahR6YhB22Vf60KKUqlSqQz7TCsA4NZD+10OYl+YRiAuQKDzjOU1QASDHBGsfrqp78B4oKDeAkSJUmW8lQ3ezaTTFmy5ciVJ18BBR++elDy4y9AoCAqwdQ0z4fz/3JvYf5i0IeImBNnLly5cedBgkGOHwJ22iWawCaeeLwwUbT63257nHDSIYdtsNEqhJVkWNjCRSpUTCjCgVCArsgrE0wy1RTTLNfkn1ARDTioopTgemeu9+xI3qSOm2i1g/4NHf5Ds8ARgwxRabBqVVrUeKOWVb06NzUYapjGZMNwI4wy2kgrjLHDZF3GshlvnA77tDut1BZltpqlPCPhNbO2J97xXlTxlBS05ddotm2263TNdQPd8NbCsOCDjz6FjTiIi3iIT0BIRMyJMxeu3Ljz6LMvvkbCs9vumGG6GLfcjxfvHoQkJSOn4MNXD0p+/AUIFEQlmJqGlk46VwhTxw1Sq/HTLOKSyga1dpl6Weuu1bI6qhUJ2u90ilpDqrXqAzQklTQEJzeESaaYyzQzzdxuwJAJRkwyxVymmTG4o8a0ahuTv2gMMR11EJPMMGTQzFcaehpT5u9xV15S1thgXlJ/pcX2Zq5U9U+CFMyGVGW5+WMi8i4chJkOt1ALo+V9S6T4b7bNLYuMF7XgphJ781xbK2xVsLpGRiFE28HZ5nPZJLUdtH0H4cBC+nHhE/raQ0lloRBxAKns44lVraPEsGriG1JqKtK9BrEPSQdQqifZPyZMoqHoj8sEUx/jo+siVMCYSBS8K6ZIYjCdxxVT5bPTWnXR6LSEcrJeMV0c3X3kkgm6KRdOclILKWRabIz4IHzqYlEqydGkvUI2q9qiT6bIiTnid6VWfEdAQMs34LEmltgnEglZY2qZCKYljk8dE2ksRqaG5qMoqQaah5AiYGoMzQ==) format("woff2")}
@@ -1296,6 +1436,675 @@ function chartBox(host, title, sub, o) {
   const lg = h('div', { class: 'legend', hidden: true }); box.append(cap, lg); host.append(box); const p = new Plot(box, o); p.capSub = cap.lastChild; p.legendEl = lg; return p;
 }
 
+/* ===== Save any animation as a GIF (own encoder: median-cut palette, LZW, changed-rectangle frames), as a video where the
+   browser can record one, or as a PNG picture. Works offline; nothing is uploaded. ===== */
+
+/* ---------- handing a file to the viewer: the Android app's "Save to" dialog, claude.ai's download prompt, or a browser download ---------- */
+function blobToBase64(blob) {
+  return new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(String(r.result).split(',')[1] || ''); r.onerror = () => rej(r.error); r.readAsDataURL(blob); });
+}
+async function saveFile(name, data, mime) {
+  const blob = data instanceof Blob ? data : new Blob([data], { type: mime || 'application/octet-stream' });
+  const A = window.AndroidApp;
+  if (A && A.saveFile) {                                         // Android app: the system "Save to" dialog (Downloads, Drive, ...)
+    const b64 = await blobToBase64(blob);
+    return new Promise(res => { window.__savedCb = ok => { window.__savedCb = null; res(ok ? 'saved' : 'cancelled'); }; A.saveFile(name, mime || blob.type || 'application/octet-stream', b64); });
+  }
+  try {                                                          // inside claude.ai: its download prompt
+    if (window.claude && typeof window.claude.use === 'function') {
+      const dl = await window.claude.use('downloads');
+      if (dl) { try { await dl.save({ filename: name, data: blob }); return 'saved'; } catch (e) { return e && e.code === 'declined' ? 'cancelled' : 'failed'; } }
+    }
+  } catch (e) { /* not served here: fall through to a plain download */ }
+  const url = URL.createObjectURL(blob), a = document.createElement('a');
+  a.href = url; a.download = name; a.rel = 'noopener'; document.body.append(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 60000);
+  return 'saved';
+}
+const fileSlug = s => String(s || 'animation').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60) || 'animation';
+const fmtBytes = n => n >= 1048576 ? (n / 1048576).toFixed(1) + ' MB' : Math.max(1, Math.round(n / 1024)) + ' KB';
+
+/* ---------- GIF encoder ---------- */
+class GifOut {
+  constructor(n) { this.a = new Uint8Array(n || 1 << 20); this.n = 0; }
+  grow(k) { if (this.n + k <= this.a.length) return; const b = new Uint8Array(Math.max(this.a.length * 2, this.n + k + 1024)); b.set(this.a.subarray(0, this.n)); this.a = b; }
+  byte(v) { if (this.n >= this.a.length) this.grow(1); this.a[this.n++] = v; }
+  u16(v) { this.byte(v & 255); this.byte((v >> 8) & 255); }
+  str(s) { for (let i = 0; i < s.length; i++) this.byte(s.charCodeAt(i)); }
+  blob() { return new Blob([this.a.subarray(0, this.n)], { type: 'image/gif' }); }
+}
+const GIF_TRANSP = 255;                                          // palette slot kept for "unchanged since the last frame"
+let gifTable = null;
+/* LZW image data, sub-blocked (the encoder timing follows the GIF89a spec as implemented by omggif) */
+function gifLzw(out, idx, len, minSize) {
+  if (!gifTable) gifTable = new Int16Array(1 << 20);
+  const table = gifTable; table.fill(-1);
+  out.byte(minSize);
+  let sub = out.n; out.byte(0);
+  const put = b => { out.byte(b); if (out.n - sub - 1 === 255) { out.a[sub] = 255; sub = out.n; out.byte(0); } };
+  const clear = 1 << minSize, eoi = clear + 1;
+  let next = eoi + 1, size = minSize + 1, cur = 0, shift = 0;
+  const emit = code => { cur |= code << shift; shift += size; while (shift >= 8) { put(cur & 255); cur >>= 8; shift -= 8; } };
+  emit(clear);
+  let ib = idx[0];
+  for (let i = 1; i < len; i++) {
+    const k = idx[i], key = (ib << 8) | k, c = table[key];
+    if (c >= 0) { ib = c; continue; }
+    emit(ib);
+    if (next === 4096) { emit(clear); next = eoi + 1; size = minSize + 1; table.fill(-1); }
+    else { if (next >= (1 << size)) size++; table[key] = next++; }
+    ib = k;
+  }
+  emit(ib); emit(eoi);
+  if (shift > 0) put(cur & 255);
+  const n = out.n - sub - 1;
+  if (n > 0) { out.a[sub] = n; out.byte(0); } else out.a[sub] = 0;
+}
+/* palette: median cut over a 15-bit colour histogram, at most 255 colours (slot 255 is transparency) */
+function gifPalette(hist, max) {
+  const cols = [];
+  for (let c = 0; c < 32768; c++) if (hist[c]) cols.push(c);
+  const ch = (c, k) => k === 0 ? (c >> 10) & 31 : k === 1 ? (c >> 5) & 31 : c & 31;
+  const stat = list => {
+    let mn = [31, 31, 31], mx = [0, 0, 0], n = 0;
+    for (const c of list) { n += hist[c]; for (let k = 0; k < 3; k++) { const v = ch(c, k); if (v < mn[k]) mn[k] = v; if (v > mx[k]) mx[k] = v; } }
+    const r = [mx[0] - mn[0], mx[1] - mn[1], mx[2] - mn[2]], k = r[1] >= r[0] && r[1] >= r[2] ? 1 : r[0] >= r[2] ? 0 : 2;
+    return { list, n, k, r: r[k] };
+  };
+  const boxes = [stat(cols)];
+  while (boxes.length < max) {
+    let bi = -1, best = 0;
+    boxes.forEach((b, i) => { if (b.list.length > 1 && b.r > 0) { const s = b.r * Math.sqrt(b.n); if (s > best) { best = s; bi = i; } } });
+    if (bi < 0) break;
+    const b = boxes[bi], k = b.k; b.list.sort((x, y) => ch(x, k) - ch(y, k));
+    let acc = 0, cut = 1; const half = b.n / 2;
+    for (let i = 0; i < b.list.length - 1; i++) { acc += hist[b.list[i]]; if (acc >= half) { cut = i + 1; break; } cut = i + 1; }
+    boxes.splice(bi, 1, stat(b.list.slice(0, cut)), stat(b.list.slice(cut)));
+  }
+  const pal = boxes.map(b => { let r = 0, g = 0, bl = 0, n = 0; for (const c of b.list) { const w = hist[c]; r += ch(c, 0) * w; g += ch(c, 1) * w; bl += ch(c, 2) * w; n += w; } return [r / n * 255 / 31, g / n * 255 / 31, bl / n * 255 / 31].map(Math.round); });
+  const lut = new Uint8Array(32768);                              // nearest palette entry for every colour that occurs
+  for (const c of cols) {
+    const r = ch(c, 0) * 255 / 31, g = ch(c, 1) * 255 / 31, b = ch(c, 2) * 255 / 31; let bi = 0, bd = 1e12;
+    for (let i = 0; i < pal.length; i++) { const p = pal[i], dr = p[0] - r, dg = p[1] - g, db = p[2] - b, d = 2 * dr * dr + 4 * dg * dg + 3 * db * db; if (d < bd) { bd = d; bi = i; } }
+    lut[c] = bi;
+  }
+  return { pal, lut };
+}
+/* frames: [{ px: Uint16Array of 15-bit colours, cs: delay in 1/100 s }] → GIF blob. Later frames carry only the changed rectangle. */
+async function gifEncode(frames, W, H, hist, onProg) {
+  const { pal, lut } = gifPalette(hist, 255), out = new GifOut(W * H * 2 + 4096);
+  out.str('GIF89a'); out.u16(W); out.u16(H); out.byte(0xF7); out.byte(0); out.byte(0);
+  for (let i = 0; i < 256; i++) { const p = pal[i] || [0, 0, 0]; out.byte(p[0]); out.byte(p[1]); out.byte(p[2]); }
+  out.byte(0x21); out.byte(0xFF); out.byte(11); out.str('NETSCAPE2.0'); out.byte(3); out.byte(1); out.u16(0); out.byte(0);   // loop forever
+  let prev = null; const idx = new Uint8Array(W * H), sub = new Uint8Array(W * H);
+  for (let f = 0; f < frames.length; f++) {
+    const fr = frames[f], px = fr.px;
+    for (let i = 0; i < px.length; i++) idx[i] = lut[px[i]];
+    let x0 = 0, y0 = 0, x1 = W - 1, y1 = H - 1, transp = false;
+    if (prev) {
+      x0 = W; y0 = H; x1 = -1; y1 = -1;
+      for (let y = 0, i = 0; y < H; y++) for (let x = 0; x < W; x++, i++) if (idx[i] !== prev[i]) { if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; }
+      if (x1 < 0) { x0 = 0; y0 = 0; x1 = 0; y1 = 0; }             // nothing changed: a 1-pixel frame keeps the timing
+      transp = true;
+    }
+    const w = x1 - x0 + 1, hh = y1 - y0 + 1;
+    let n = 0;
+    for (let y = y0; y <= y1; y++) for (let x = x0, i = y * W + x0; x <= x1; x++, i++) sub[n++] = transp && prev[i] === idx[i] ? GIF_TRANSP : idx[i];
+    out.byte(0x21); out.byte(0xF9); out.byte(4); out.byte((1 << 2) | (transp ? 1 : 0)); out.u16(Math.max(2, fr.cs)); out.byte(GIF_TRANSP); out.byte(0);
+    out.byte(0x2C); out.u16(x0); out.u16(y0); out.u16(w); out.u16(hh); out.byte(0);
+    gifLzw(out, sub, n, 8);
+    if (!prev) prev = new Uint8Array(W * H);
+    prev.set(idx); frames[f] = null;                              // free the raw frame as soon as it is written
+    if (onProg && (f % 4 === 3 || f === frames.length - 1)) { onProg((f + 1) / frames.length); await new Promise(r => setTimeout(r, 0)); }
+  }
+  out.byte(0x3B);
+  return out.blob();
+}
+
+/* ---------- drawing a source into a frame: a canvas directly, an SVG through a styled copy ---------- */
+const SVG_PROPS = ['fill', 'fill-opacity', 'stroke', 'stroke-width', 'stroke-opacity', 'stroke-dasharray', 'stroke-linecap', 'stroke-linejoin', 'opacity', 'display', 'visibility',
+  'font-family', 'font-size', 'font-weight', 'text-anchor', 'dominant-baseline', 'letter-spacing'];
+function svgImage(svg, W, H) {
+  const clone = svg.cloneNode(true), src = [svg, ...svg.querySelectorAll('*')], dst = [clone, ...clone.querySelectorAll('*')];
+  for (let i = 0; i < src.length; i++) {
+    const cs = getComputedStyle(src[i]); let st = '';
+    for (const p of SVG_PROPS) { const v = cs.getPropertyValue(p); if (v) st += p + ':' + v + ';'; }
+    dst[i].setAttribute('style', st);
+  }
+  clone.setAttribute('width', W); clone.setAttribute('height', H); clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+  const url = URL.createObjectURL(new Blob([new XMLSerializer().serializeToString(clone)], { type: 'image/svg+xml' }));
+  return new Promise((res, rej) => { const im = new Image(); im.onload = () => { URL.revokeObjectURL(url); res(im); }; im.onerror = e => { URL.revokeObjectURL(url); rej(e); }; im.src = url; });
+}
+function bgBehind(el) {                                           // the colour the viewer sees behind a transparent canvas
+  for (let e = el; e && e.nodeType === 1; e = e.parentElement) { const c = getComputedStyle(e).backgroundColor; if (c && c !== 'transparent' && !/rgba\([^)]*,\s*0\)$/.test(c)) return c; }
+  return cssv('--surface');
+}
+function srcSize(src) {
+  if (src.tagName === 'CANVAS') return [src.width, src.height];
+  const vb = src.viewBox && src.viewBox.baseVal; if (vb && vb.width) return [vb.width, vb.height];
+  const r = src.getBoundingClientRect(); return [r.width, r.height];
+}
+async function drawSource(src, ctx, W, H, bg) {
+  ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
+  if (src.tagName === 'CANVAS') ctx.drawImage(src, 0, 0, W, H); else ctx.drawImage(await svgImage(src, W, H), 0, 0, W, H);
+}
+
+/* ---------- recording ---------- */
+/* o: { seconds, width, fps, onTick(sec), stop() → bool }. Resolves { frames, W, H, hist } */
+async function captureFrames(src, o) {
+  const [sw, sh] = srcSize(src), W = Math.max(80, Math.round(Math.min(o.width, sw))), H = Math.max(40, Math.round(W * sh / sw));
+  const off = document.createElement('canvas'); off.width = W; off.height = H;
+  const ctx = off.getContext('2d', { willReadFrequently: true }), bg = bgBehind(src.parentElement || src);
+  const budget = 64 * 1048576, maxFrames = Math.max(12, Math.floor(budget / (W * H * 2)));     // keep the raw frames under about 64 MB
+  const fps = Math.min(o.fps || 12, Math.max(4, maxFrames / o.seconds)), step = 1000 / fps;
+  const frames = [], hist = new Uint32Array(32768), t0 = performance.now(); let last = -1e9;
+  while (true) {
+    const now = await new Promise(r => requestAnimationFrame(r)), el = now - t0;
+    if (el >= o.seconds * 1000 || (o.stop && o.stop()) || frames.length >= maxFrames) break;
+    if (now - last < step - 4) continue;
+    last = now;
+    await drawSource(src, ctx, W, H, bg);
+    const d = ctx.getImageData(0, 0, W, H).data, px = new Uint16Array(W * H);
+    for (let i = 0, j = 0; i < px.length; i++, j += 4) { const c = ((d[j] >> 3) << 10) | ((d[j + 1] >> 3) << 5) | (d[j + 2] >> 3); px[i] = c; hist[c]++; }
+    frames.push({ px, t: now });
+    if (o.onTick) o.onTick(el / 1000);
+  }
+  for (let i = 0; i < frames.length; i++) frames[i].cs = Math.round(((i + 1 < frames.length ? frames[i + 1].t : frames[i].t + step) - frames[i].t) / 10);
+  return { frames, W, H, hist };
+}
+async function recordGif(src, o) {
+  const cap = await captureFrames(src, o);
+  if (!cap.frames.length) throw new Error('No frames were recorded. Keep the animation on screen while it records.');
+  return gifEncode(cap.frames, cap.W, cap.H, cap.hist, o.onEncode);
+}
+const VIDEO_TYPE = (() => {
+  try { if (!window.MediaRecorder || !HTMLCanvasElement.prototype.captureStream) return null; } catch (e) { return null; }
+  for (const t of ['video/mp4;codecs=avc1.42E01E', 'video/mp4', 'video/webm;codecs=vp9', 'video/webm;codecs=vp8', 'video/webm']) { try { if (MediaRecorder.isTypeSupported(t)) return t; } catch (e) { /* next */ } }
+  return null;
+})();
+function recordVideo(canvas, o) {
+  return new Promise((res, rej) => {
+    let rec; const chunks = [], t0 = performance.now();
+    try { rec = new MediaRecorder(canvas.captureStream(30), { mimeType: VIDEO_TYPE, videoBitsPerSecond: 5000000 }); } catch (e) { rej(e); return; }
+    rec.ondataavailable = e => { if (e.data && e.data.size) chunks.push(e.data); };
+    rec.onstop = () => res(new Blob(chunks, { type: VIDEO_TYPE.split(';')[0] }));
+    rec.onerror = e => rej(e.error || e);
+    rec.start(250);
+    const tick = () => { const el = (performance.now() - t0) / 1000; if (o.onTick) o.onTick(el); if (el >= o.seconds || (o.stop && o.stop())) { try { rec.stop(); } catch (e) { rej(e); } } else requestAnimationFrame(tick); };
+    requestAnimationFrame(tick);
+  });
+}
+async function snapshotPng(src) {
+  if (src.tagName === 'CANVAS') {
+    const [w, hh] = srcSize(src), c = document.createElement('canvas'); c.width = w; c.height = hh;
+    const x = c.getContext('2d'); await drawSource(src, x, w, hh, bgBehind(src.parentElement || src));
+    return new Promise(r => c.toBlob(r, 'image/png'));
+  }
+  const [w, hh] = srcSize(src), k = Math.max(1, Math.min(3, 1200 / w)), c = document.createElement('canvas'); c.width = Math.round(w * k); c.height = Math.round(hh * k);
+  await drawSource(src, c.getContext('2d'), c.width, c.height, bgBehind(src.parentElement || src));
+  return new Promise(r => c.toBlob(r, 'image/png'));
+}
+
+/* ---------- the "Save" sheet: GIF, video or picture of one animation or chart ---------- */
+const MEDIA = { busy: false };
+function mediaSheet(o) {                                          // o: { title, source() → element, name() → string, step: { label, seconds() } | null, onStart, onEnd }
+  if (MEDIA.busy) return;
+  const old = document.querySelector('.msheet'); if (old) old.remove();
+  const isCanvas = () => { const s = o.source(); return s && s.tagName === 'CANVAS'; };
+  const lens = [...(o.step ? [['step', o.step.label]] : []), ['3', '3 s'], ['6', '6 s'], ['10', '10 s']];
+  let len = store.get('media.len', o.step ? 'step' : '6'); if (!lens.some(l => l[0] === len)) len = lens[0][0];
+  let size = store.get('media.size', '480');
+  const status = h('p', { class: 'ms-status', role: 'status', 'aria-live': 'polite' });
+  const bar = h('div', { class: 'ms-bar', hidden: true }, h('i'));
+  let stopNow = false;
+  const stopBtn = h('button', { type: 'button', class: 'btn', hidden: true, text: 'Stop now', onclick: () => { stopNow = true; } });
+  const close = () => { if (MEDIA.busy) return; sheet.remove(); document.removeEventListener('keydown', esc); };
+  const esc = e => { if (e.key === 'Escape') close(); };
+  const seconds = () => len === 'step' && o.step ? Math.min(20, Math.max(2, o.step.seconds())) : +len;
+  const setBar = f => { bar.hidden = false; bar.firstChild.style.width = Math.round(f * 100) + '%'; };
+  const run = async kind => {
+    if (MEDIA.busy) return; const src = o.source(); if (!src) return;
+    MEDIA.busy = true; stopNow = false; sheet.classList.add('busy'); for (const b of acts.querySelectorAll('button')) b.disabled = true; stopBtn.hidden = kind === 'png'; stopBtn.disabled = false;
+    const secs = seconds(), base = fileSlug(o.name ? o.name() : o.title);
+    try {
+      if (o.onStart && kind !== 'png') o.onStart(len);
+      let blob, ext;
+      if (kind === 'png') { status.textContent = 'Making the picture…'; blob = await snapshotPng(src); ext = 'png'; }
+      else if (kind === 'video') {
+        blob = await recordVideo(src, { seconds: secs, stop: () => stopNow, onTick: s => { status.textContent = `Recording ${s.toFixed(1)} of ${secs} s…`; setBar(s / secs); } });
+        ext = /mp4/.test(VIDEO_TYPE) ? 'mp4' : 'webm';
+      } else {
+        blob = await recordGif(src, { seconds: secs, width: +size, fps: 12, stop: () => stopNow,
+          onTick: s => { status.textContent = `Recording ${s.toFixed(1)} of ${secs} s…`; setBar(s / secs); },
+          onEncode: f => { stopBtn.hidden = true; status.textContent = `Making the GIF… ${Math.round(f * 100)} %`; setBar(f); } });
+        ext = 'gif';
+      }
+      if (o.onEnd) o.onEnd();
+      stopBtn.hidden = true;
+      const name = `${base}.${ext}`;
+      status.textContent = `Saving ${name} (${fmtBytes(blob.size)})…`;
+      const r = await saveFile(name, blob, blob.type);
+      status.textContent = r === 'saved' ? `Saved ${name} · ${fmtBytes(blob.size)}` : r === 'cancelled' ? 'Not saved: the save was cancelled.' : 'Could not save the file here.';
+      haptic(r === 'saved' ? 'ok' : 'no');
+    } catch (e) {
+      if (o.onEnd) o.onEnd();
+      status.textContent = 'Could not record: ' + ((e && e.message) || 'unknown error') + '.';
+    } finally {
+      MEDIA.busy = false; sheet.classList.remove('busy'); stopBtn.hidden = true; bar.hidden = true;
+      for (const b of acts.querySelectorAll('button')) b.disabled = false; syncVideo();
+    }
+  };
+  const segOf = (opts, val, on, label) => { const s = h('div', { class: 'seg', role: 'group', 'aria-label': label });
+    for (const [v, t] of opts) s.append(h('button', { type: 'button', 'aria-pressed': String(v === val), text: t, onclick: e => { for (const b of s.children) b.setAttribute('aria-pressed', String(b === e.currentTarget)); on(v); } }));
+    return s; };
+  const vidBtn = h('button', { type: 'button', class: 'btn', onclick: () => run('video') }, 'Video');
+  const syncVideo = () => { vidBtn.hidden = !VIDEO_TYPE || !isCanvas(); };
+  const acts = h('div', { class: 'ms-acts' },
+    h('button', { type: 'button', class: 'btn primary', onclick: () => run('gif') }, 'Save GIF'), vidBtn,
+    h('button', { type: 'button', class: 'btn', onclick: () => run('png') }, 'Picture (PNG)'));
+  syncVideo();
+  const sheet = h('div', { class: 'msheet', role: 'dialog', 'aria-modal': 'false', 'aria-label': 'Save ' + o.title },
+    h('div', { class: 'ms-head' }, h('b', { text: 'Save “' + o.title + '”' }), h('button', { type: 'button', class: 'ms-x', 'aria-label': 'Close', text: '✕', onclick: close })),
+    h('div', { class: 'ms-row' }, h('span', { text: 'Length' }), segOf(lens, len, v => { len = v; store.set('media.len', v); }, 'Length')),
+    h('div', { class: 'ms-row' }, h('span', { text: 'GIF size' }), segOf([['360', 'Small'], ['480', 'Medium'], ['640', 'Large']], size, v => { size = v; store.set('media.size', v); }, 'GIF size')),
+    acts, h('div', { class: 'ms-run' }, bar, stopBtn), status,
+    h('p', { class: 'ms-note', text: 'Keep this animation on screen while it records. The file is made on this device; nothing is uploaded.' }));
+  document.addEventListener('keydown', esc);
+  document.body.append(sheet);
+  try { sheet.querySelector('.btn.primary').focus({ preventScroll: true }); } catch (e) { /* ignore */ }
+  return sheet;
+}
+
+/* small save buttons on every chart and moving picture (the phase-animation stage has its own) */
+function mediaBtn(title, source) {
+  return h('button', { type: 'button', class: 'mbtn', title: 'Save as GIF, video or picture', 'aria-label': 'Save ' + title + ' as GIF, video or picture',
+    onclick: e => { e.stopPropagation(); mediaSheet({ title, source }); } }, mediaIcon());
+}
+function mediaIcon() {
+  const s = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  for (const [a, v] of Object.entries({ viewBox: '0 0 24 24', width: 16, height: 16, 'aria-hidden': 'true', fill: 'none', stroke: 'currentColor', 'stroke-width': '2', 'stroke-linecap': 'round', 'stroke-linejoin': 'round' })) s.setAttribute(a, v);
+  s.innerHTML = '<path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/>'; return s;
+}
+function attachMediaButtons(root) {
+  for (const cv of root.querySelectorAll('canvas')) {
+    if (cv.dataset.mb || cv.closest('.pastage') || cv.clientWidth < 140 || cv.clientHeight < 60) continue;
+    const chart = cv.closest('.chart'), panel = cv.closest('.panel'); if (!panel) continue;
+    const cap = chart && chart.querySelector(':scope > .cap'), head = cap || panel.querySelector(':scope > h2, :scope > .rechead > h2, :scope > summary > h2') || (panel.querySelector('.chart > .cap'));
+    if (!head) continue;
+    const titleEl = head.tagName === 'H2' ? head : head.querySelector('b'), title = (titleEl ? titleEl.textContent : 'chart').trim();
+    cv.dataset.mb = '1';
+    if (head.querySelector(':scope > .mbtn')) continue;
+    head.append(mediaBtn(title, () => cv));
+  }
+  for (const [sel, head, title] of [['#fb-fan', '.fb-card-fan .fb-card-head', 'Fan balancing'], ['#fb-sig', '.fb-card-signal .fb-card-head', 'Fan balancing signal']]) {
+    const svg = root.querySelector(sel), hd = root.querySelector(head);
+    if (svg && hd && !hd.querySelector('.mbtn')) hd.append(mediaBtn(title, () => svg));
+  }
+}
+function haptic(kind) {
+  try { if ((store.get('prefs', {}) || {}).haptics === false) return; if (window.AndroidApp && window.AndroidApp.haptic) { window.AndroidApp.haptic(kind); return; }
+    if (navigator.vibrate && matchMedia('(pointer: coarse)').matches) navigator.vibrate(kind === 'no' ? [14, 50, 14] : kind === 'ok' ? 18 : 8); } catch (e) { /* no haptics here */ }
+}
+
+/* ===== Vibration Analyst Lab 2.0: progress, bookmarks and notes, search, settings and the first-run welcome.
+   Everything is kept on this device (no account, no network, no analytics). ===== */
+const APP_VERSION = '2.0';
+const APPX = (() => {
+  const day = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+  const canStore = (() => { try { localStorage.setItem('val.__t', '1'); localStorage.removeItem('val.__t'); return true; } catch (e) { return false; } })();
+  let api = null;                                                   // from boot(): go, openKey, lab(id), groupName(id), current()
+  const ic = (k, s) => appIcon(k, s);
+  const prefs = () => store.get('prefs', {}) || {};
+  const setPref = (k, v) => { const p = prefs(); p[k] = v; store.set('prefs', p); };
+
+  /* ---------- progress ---------- */
+  const P0 = () => ({ v: 1, seen: {}, done: {}, ans: {}, days: [] });
+  let prog = Object.assign(P0(), store.get('prog', null) || {});
+  const saveProg = () => store.set('prog', prog);
+  const touch = () => { const t = day(new Date()); if (prog.days[prog.days.length - 1] !== t) { prog.days.push(t); if (prog.days.length > 400) prog.days.splice(0, prog.days.length - 400); } };
+  const visit = key => { touch(); if (!prog.seen[key]) prog.seen[key] = Date.now(); saveProg(); };
+  const done = key => { touch(); if (!prog.done[key]) { prog.done[key] = Date.now(); saveProg(); } };
+  const answer = (key, ok) => { touch(); const a = prog.ans[key]; if (a) a[1]++; else prog.ans[key] = [ok ? 1 : 0, 1]; saveProg(); haptic(ok ? 'ok' : 'no'); };
+  const challenge = ok => { touch(); saveProg(); haptic(ok ? 'ok' : 'no'); };
+  const streak = () => { const s = new Set(prog.days), d = new Date(); let n = 0; if (!s.has(day(d))) d.setDate(d.getDate() - 1); while (s.has(day(d))) { n++; d.setDate(d.getDate() - 1); } return n; };
+  const CHAPTERS = () => [['ch3', CH3, 'Ch 3 · Signal processing'], ['ch4', CH4, 'Ch 4 · Time waveform'], ['ch5', CH5, 'Ch 5 · Phase']];
+  const stats = () => {
+    const ch = CHAPTERS().map(([k, secs, name]) => { const dn = new Set(store.get(k + '.done', []) || []);
+      return { k, name, secs, total: secs.length, done: secs.filter(s => dn.has(s.id)).length, isDone: id => dn.has(id), isSeen: id => !!prog.seen[k + '/' + id] }; });
+    const an = { k: 'anim', name: 'Phase animations', secs: PA_SCENES, total: PA_SCENES.length, done: PA_SCENES.filter(s => prog.done['anim/' + s.id]).length,
+      isDone: id => !!prog.done['anim/' + id], isSeen: id => !!prog.seen['anim/' + id] };
+    const answers = Object.values(prog.ans), first = answers.reduce((a, x) => a + x[0], 0);
+    const lessons = ch.reduce((a, c) => a + c.done, 0) + an.done, lessonsTotal = ch.reduce((a, c) => a + c.total, 0) + an.total;
+    return { ch, an, answered: answers.length, first, sc: store.get('score', { right: 0, total: 0, streak: 0 }) || { right: 0, total: 0 },
+      tabs: TABS.filter(t => prog.seen[t[0]]).length, lessons, lessonsTotal, streak: streak() };
+  };
+
+  /* ---------- bookmarks and notes ---------- */
+  let bms = store.get('bm', []) || [], notes = store.get('notes', {}) || {};
+  const isSaved = key => bms.some(b => b.key === key);
+  const toggleSave = c => { const i = bms.findIndex(b => b.key === c.key); if (i >= 0) bms.splice(i, 1); else bms.unshift({ key: c.key, title: c.title, sub: c.sub, ts: Date.now() }); store.set('bm', bms); haptic('tick'); return i < 0; };
+  const noteOf = key => notes[key] || null;
+  const setNote = (c, text) => { if (text.trim()) notes[c.key] = { text, title: c.title, sub: c.sub, ts: Date.now() }; else delete notes[c.key]; store.set('notes', notes); };
+
+  /* what the open screen shows right now (a chapter section, an animation, a fault, or the section itself) */
+  const ctxOf = id => {
+    const t = TABS.find(x => x[0] === id); if (!t) return null;
+    const lab = api.lab(id);
+    if (lab instanceof ChapterLab && lab.cur) { const i = lab.secs.findIndex(s => s.id === lab.cur), S = lab.secs[i]; if (S) return { key: id + '/' + S.id, title: `${i + 1}. ${S.title}`, sub: t[1] }; }
+    if (id === 'anim' && lab && lab.S) return { key: 'anim/' + lab.S.id, title: `${lab.si + 1}. ${lab.S.title}`, sub: 'Phase animations' };
+    if (id === 'fault' && lab && lab.P && FAULT[lab.P.fid]) return { key: 'fault/' + lab.P.fid, title: FAULT[lab.P.fid].name, sub: 'Fault simulator' };
+    return { key: id, title: t[1], sub: api.groupName(id) };
+  };
+  const acts = {};
+  const syncActs = id => {
+    const a = acts[id]; if (!a) return; const c = ctxOf(id); if (!c) return; const on = isSaved(c.key), n = noteOf(c.key);
+    a.save.setAttribute('aria-pressed', String(on)); a.save.replaceChildren(ic(on ? 'staron' : 'star', 17), h('span', { text: on ? 'Saved' : 'Save' }));
+    a.save.title = (on ? 'Remove from Saved: ' : 'Save for later: ') + c.title;
+    a.note.replaceChildren(ic('note', 17), h('span', { text: n ? 'Note' : 'Add note' })); a.note.classList.toggle('has', !!n); a.note.title = (n ? 'Edit your note on ' : 'Write a note on ') + c.title;
+  };
+  const syncAll = () => { for (const id of Object.keys(acts)) syncActs(id); };
+  const sectionActions = id => {
+    const save = h('button', { type: 'button', class: 'btn sa', 'aria-pressed': 'false', onclick: () => { const c = ctxOf(id); const on = toggleSave(c); syncActs(id); snack(on ? `Saved “${c.title}”` : 'Removed from Saved'); } });
+    const note = h('button', { type: 'button', class: 'btn sa', onclick: () => noteEditor(ctxOf(id)) });
+    acts[id] = { save, note }; syncActs(id);
+    return h('div', { class: 'sh-acts' }, save, note);
+  };
+
+  /* ---------- small dialogs: snackbar, confirm, note editor ---------- */
+  let snackT = 0;
+  const snack = text => {
+    let s = document.querySelector('.snack'); if (!s) { s = h('div', { class: 'snack', role: 'status', 'aria-live': 'polite' }); document.body.append(s); }
+    s.textContent = text; s.classList.add('on'); clearTimeout(snackT); snackT = setTimeout(() => s.classList.remove('on'), 2400);
+  };
+  const dialog = (cls, label, kids) => {
+    const d = h('dialog', { class: 'vdlg ' + cls, 'aria-label': label }, ...kids);
+    document.body.append(d);
+    if (typeof d.showModal === 'function') d.showModal(); else d.setAttribute('open', '');
+    d.addEventListener('close', () => setTimeout(() => d.remove(), 0));
+    return d;
+  };
+  const askConfirm = (title, text, ok = 'OK', danger = false) => new Promise(res => {
+    let v = false;
+    const d = dialog('cfdlg', title, [h('h3', { text: title }), h('p', { text }), h('div', { class: 'nd-acts' },
+      h('button', { type: 'button', class: 'btn', text: 'Cancel', onclick: () => d.close() }),
+      h('button', { type: 'button', class: 'btn primary' + (danger ? ' danger' : ''), text: ok, onclick: () => { v = true; d.close(); } }))]);
+    d.addEventListener('close', () => res(v));
+  });
+  const noteEditor = c => {
+    if (!c) return;
+    const ta = h('textarea', { rows: 9, 'aria-label': 'Your note', placeholder: 'Write what you want to remember about this screen: a reading, a rule, a question for later…' });
+    ta.value = (noteOf(c.key) || {}).text || '';
+    const st = h('p', { class: 'nd-st', role: 'status', text: ta.value ? 'Saved on this device' : '' }); let tmr = 0;
+    const saveNow = () => { setNote(c, ta.value); st.textContent = ta.value.trim() ? 'Saved on this device' : ''; syncAll(); };
+    ta.addEventListener('input', () => { clearTimeout(tmr); st.textContent = 'Saving…'; tmr = setTimeout(saveNow, 400); });
+    const d = dialog('notedlg', 'Note on ' + c.title, [
+      h('div', { class: 'nd-head' }, h('div', {}, h('b', { text: c.title }), h('small', { text: c.sub })), h('button', { type: 'button', class: 'ms-x', 'aria-label': 'Close', text: '✕', onclick: () => d.close() })),
+      ta, st, h('div', { class: 'nd-acts' },
+        h('button', { type: 'button', class: 'btn', text: 'Delete note', onclick: () => { ta.value = ''; saveNow(); d.close(); } }),
+        h('button', { type: 'button', class: 'btn primary', text: 'Done', onclick: () => d.close() }))]);
+    d.addEventListener('close', () => { clearTimeout(tmr); saveNow(); });
+    setTimeout(() => { try { ta.focus(); } catch (e) { /* ignore */ } }, 50);
+  };
+
+  /* ---------- search ---------- */
+  const norm = s => String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/×/g, 'x').replace(/[^a-z0-9.%+/ ]+/g, ' ').replace(/\s+/g, ' ').trim();
+  const KEYWORDS = {
+    fault: 'unbalance misalignment looseness bent shaft cocked bearing rub resonance oil whirl soft foot rotor bars vane pass cavitation turbulence spectrum waveform phase orbit severity iso 10816 rule card peak list 1x 2x 2xlf',
+    challenge: 'quiz test yourself route hidden fault score streak', plan: 'fmax fmin lines resolution averages overlap window hanning demodulation envelope route setup adash dds belt sheave bearing frequencies copy',
+    map: 'fmax lines lor record length resolution sample rate overlap averages window concept map before after', bearing: 'bpfo bpfi bsf ftf envelope demodulation stage defect race ball cage ge gE',
+    gear: 'gmf gear mesh sidebands hunting tooth backlash eccentric cracked tooth wear', balance: 'trial weight 30/30 vector diagram iso 1940 g2.5 g6.3 trim split weights heavy spot',
+    fanbal: 'fan balancing laser tacho accelerometer ar wr against with rotation heavy high light spot trial correction split adash', resonance: 'natural frequency bode damping bump test critical speed detune amplification q factor',
+    anim: 'phase animation strobe tach reference lag lead sensor', ch3: 'signal processing', ch4: 'time waveform twf', ch5: 'phase' };
+  const TYPES = [['Sections', 'home'], ['Faults', 'diag'], ['Chapter topics', 'learn'], ['Animations', 'play'], ['Glossary', 'note']];
+  let IDX = null;
+  const buildIndex = () => {
+    const E = [], add = (type, key, title, sub, body, kw) => E.push({ type, key, title, sub, body: body || '', t: norm(title), k: norm(kw || ''), b: norm(body || '') });
+    for (const [id, name, intro] of TABS) add('Sections', id, name, api.groupName(id), intro, (KEYWORDS[id] || '') + ' ' + (BLURB[id] || ''));
+    for (const [k, secs, label] of CHAPTERS()) secs.forEach((s, i) => add('Chapter topics', k + '/' + s.id, s.title, `${label} · section ${i + 1} · pages ${s.pages}`,
+      [s.intro, ...(s.points || []).map(p => p[0]), ...(s.tryit || [])].join(' '), s.short));
+    PA_SCENES.forEach((s, i) => add('Animations', 'anim/' + s.id, s.title, `Phase animations · ${i + 1} of ${PA_SCENES.length}`, [s.intro, s.key].filter(Boolean).join(' '), s.short));
+    for (const f of FAULTS) add('Faults', 'fault/' + f.id, f.name, f.group, [f.key, f.rule && f.rule.spectrum, f.rule && f.rule.phase, f.rule && f.rule.twf].filter(Boolean).join(' '), f.id);
+    const seen = new Set();
+    PA_SCENES.forEach(s => (s.terms || []).forEach(([term, def]) => { const n = norm(term); if (seen.has(n)) return; seen.add(n); add('Glossary', 'anim/' + s.id, term, def, '', term); }));
+    IDX = E;
+  };
+  const search = q => {
+    if (!IDX) buildIndex();
+    const toks = norm(q).split(' ').filter(Boolean); if (!toks.length) return { toks, res: [] };
+    const res = [];
+    for (const e of IDX) {
+      let sc = 0, ok = true;
+      for (const t of toks) {
+        let s = e.t.startsWith(t) ? 12 : e.t.includes(' ' + t) ? 9 : e.t.includes(t) ? 6 : 0;
+        s = Math.max(s, (' ' + e.k + ' ').includes(' ' + t + ' ') ? 10 : e.k.includes(t) ? 5 : 0);
+        if (!s && e.b.includes(t)) s = 2;
+        if (!s) { ok = false; break; } sc += s;
+      }
+      if (ok) res.push([sc + (e.type === 'Sections' ? 2 : 0), e]);
+    }
+    return { toks, res: res.sort((a, b) => b[0] - a[0]).map(r => r[1]) };
+  };
+  const mark = (text, toks) => {
+    const f = document.createDocumentFragment(); text = String(text || '');
+    const ts = toks.filter(t => t.length > 1).map(t => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')); if (!ts.length) { f.append(text); return f; }
+    const re = new RegExp(ts.join('|'), 'ig'); let last = 0, m;
+    while ((m = re.exec(text))) { if (m.index > last) f.append(text.slice(last, m.index)); f.append(h('mark', { text: m[0] })); last = m.index + m[0].length; if (!m[0].length) re.lastIndex++; }
+    if (last < text.length) f.append(text.slice(last)); return f;
+  };
+  const snippet = (body, toks) => {
+    const lb = body.toLowerCase(); let at = -1;
+    for (const t of toks) { const i = lb.indexOf(t); if (i >= 0 && (at < 0 || i < at)) at = i; }
+    if (at < 0) return '';
+    const s = Math.max(0, at - 50); return (s > 0 ? '…' : '') + body.slice(s, s + 150).trim() + (s + 150 < body.length ? '…' : '');
+  };
+
+  /* ---------- views (opened like sections; the back button returns Home) ---------- */
+  const views = {};
+  const head = (title, sub) => h('header', { class: 'vhead' }, h('h2', { class: 'sh-title', text: title }), sub ? h('p', { class: 'intro', text: sub }) : null);
+  views.search = {
+    title: 'Search',
+    build(host) {
+      const inp = this.inp = h('input', { type: 'search', class: 'sv-in', placeholder: 'Search sections, chapter topics, animations, faults…', 'aria-label': 'Search the lab', autocomplete: 'off', enterkeyhint: 'search', spellcheck: 'false' });
+      const out = h('div', { class: 'sv-out' }); let tm = 0;
+      const chips = h('div', { class: 'sv-chips' }, h('span', { text: 'Try' }), ...['BPFO', 'aliasing', 'Hanning', 'phase lag', 'resonance', '2xLF', 'cavitation', 'trial weight', 'envelope', 'strobe']
+        .map(w => h('button', { type: 'button', class: 'chip', text: w, onclick: () => { inp.value = w; render(); inp.focus(); } })));
+      const render = () => {
+        const q = inp.value, { toks, res } = search(q); out.replaceChildren();
+        if (!toks.length) { out.append(chips); return; }
+        if (!res.length) { out.append(h('p', { class: 'sv-none', text: `No matches for “${q.trim()}”. Try a shorter word or another spelling.` }), chips); return; }
+        out.append(h('p', { class: 'sv-count', text: `${res.length} result${res.length === 1 ? '' : 's'}` }));
+        for (const [type, icon] of TYPES) {
+          const rs = res.filter(r => r.type === type); if (!rs.length) continue;
+          const list = h('div', { class: 'hm-list' });
+          for (const r of rs.slice(0, 12)) {
+            const sn = r.type !== 'Sections' && r.type !== 'Glossary' ? snippet(r.body, toks) : '';
+            list.append(h('button', { type: 'button', class: 'hm-row sv-row', onclick: () => api.openKey(r.key) },
+              h('span', { class: 'hm-ico sv-ic' }, ic(icon, 19)),
+              h('span', { class: 'hm-txt' }, h('b', {}, mark(r.title, toks)), h('span', { text: r.sub }), sn ? h('small', {}, mark(sn, toks)) : null), ic('next', 18)));
+          }
+          out.append(h('h3', { class: 'hm-h', text: `${type} · ${rs.length}` }), list);
+          if (rs.length > 12) out.append(h('p', { class: 'sv-more', text: `${rs.length - 12} more: add a word to narrow the search.` }));
+        }
+      };
+      inp.addEventListener('input', () => { clearTimeout(tm); tm = setTimeout(render, 90); });
+      inp.addEventListener('keydown', e => { if (e.key === 'Enter') { const r = out.querySelector('.sv-row'); if (r) r.click(); } });
+      host.append(head('Search', 'Every section, chapter topic, animation, fault and term in the lab. Results open the exact place.'), h('label', { class: 'sv-box' }, ic('search', 20), inp), out);
+      render();
+    },
+    refresh(arg) { if (typeof arg === 'string') { this.inp.value = arg; this.inp.dispatchEvent(new Event('input')); } setTimeout(() => { try { this.inp.focus({ preventScroll: true }); } catch (e) { /* ignore */ } }, 80); }
+  };
+  const bar = (n, total) => h('div', { class: 'pg-bar', role: 'progressbar', 'aria-valuemin': '0', 'aria-valuemax': String(total), 'aria-valuenow': String(n) }, h('i', { style: `width:${total ? Math.round(n / total * 100) : 0}%` }));
+  const tile = (v, l) => h('div', { class: 'pg-tile' }, h('b', { text: v }), h('span', { text: l }));
+  views.progress = {
+    title: 'Your progress',
+    build(host) { this.host = host; },
+    refresh() {
+      const S = stats(), host = this.host; host.replaceChildren(head('Your progress', 'Kept on this device. A lesson counts as done when you answer all its check questions correctly; an animation when you reach its last step.'));
+      const pct = S.answered ? Math.round(S.first / S.answered * 100) + ' %' : '–';
+      host.append(h('div', { class: 'pg-tiles' }, tile(`${S.lessons} / ${S.lessonsTotal}`, 'lessons done'), tile(pct, `right first time (${S.answered} answered)`),
+        tile(`${S.sc.right} / ${S.sc.total}`, 'challenge cases right'), tile(String(S.streak), S.streak === 1 ? 'day in a row' : 'days in a row'), tile(`${S.tabs} / ${TABS.length}`, 'sections opened')));
+      for (const c of [...S.ch, S.an]) {
+        const list = h('div', { class: 'pg-list' });
+        c.secs.forEach((s, i) => { const dn = c.isDone(s.id), sn = c.isSeen(s.id);
+          list.append(h('button', { type: 'button', class: 'pg-item' + (dn ? ' done' : sn ? ' seen' : ''), title: dn ? 'Done' : sn ? 'Opened' : 'Not started', onclick: () => api.openKey(c.k + '/' + s.id) },
+            h('i', { 'aria-hidden': 'true', text: dn ? '✓' : String(i + 1) }), h('span', { text: s.short || s.title }), h('span', { class: 'vh', text: dn ? ' (done)' : sn ? ' (opened)' : ' (not started)' }))); });
+        host.append(h('div', { class: 'pg-card' }, h('div', { class: 'pg-top' }, h('b', { text: c.name }), h('span', { class: 'mono', text: `${c.done} / ${c.total}` })), bar(c.done, c.total), list));
+      }
+      const last14 = [], set = new Set(prog.days); for (let i = 13; i >= 0; i--) { const d = new Date(); d.setDate(d.getDate() - i); last14.push([day(d), set.has(day(d))]); }
+      host.append(h('div', { class: 'pg-card' }, h('div', { class: 'pg-top' }, h('b', { text: 'Last 14 days' }), h('span', { class: 'mono', text: `${last14.filter(x => x[1]).length} active` })),
+        h('div', { class: 'pg-days' }, ...last14.map(([d, on]) => h('i', { class: on ? 'on' : '', title: d + (on ? ' · active' : '') })))));
+    }
+  };
+  views.saved = {
+    title: 'Saved',
+    build(host) { this.host = host; },
+    refresh() {
+      const host = this.host; host.replaceChildren(head('Saved', 'Screens you saved and the notes you wrote, newest first. Use Save and Add note at the top of any section.'));
+      const bl = h('div', { class: 'hm-list' });
+      for (const b of bms) bl.append(h('div', { class: 'sv-line' }, h('button', { type: 'button', class: 'hm-row', onclick: () => api.openKey(b.key) }, h('span', { class: 'hm-ico sv-ic' }, ic('staron', 19)),
+        h('span', { class: 'hm-txt' }, h('b', { text: b.title }), h('span', { text: `${b.sub} · saved ${new Date(b.ts).toLocaleDateString()}` })), ic('next', 18)),
+        h('button', { type: 'button', class: 'sv-del', 'aria-label': 'Remove ' + b.title, title: 'Remove', onclick: () => { toggleSave(b); this.refresh(); syncAll(); } }, ic('x', 16))));
+      host.append(h('h3', { class: 'hm-h', text: `Bookmarks · ${bms.length}` }), bms.length ? bl : h('p', { class: 'empty', text: 'Nothing saved yet. Tap Save on any screen to keep it here.' }));
+      const ns = Object.entries(notes).sort((a, b) => b[1].ts - a[1].ts), nl = h('div', { class: 'hm-list' });
+      for (const [key, n] of ns) nl.append(h('button', { type: 'button', class: 'hm-row', onclick: () => { api.openKey(key); setTimeout(() => noteEditor({ key, title: n.title, sub: n.sub }), 250); } },
+        h('span', { class: 'hm-ico sv-ic' }, ic('note', 19)), h('span', { class: 'hm-txt' }, h('b', { text: n.title }), h('span', { text: `${n.sub} · ${new Date(n.ts).toLocaleDateString()}` }),
+          h('small', { text: n.text.length > 160 ? n.text.slice(0, 160) + '…' : n.text })), ic('next', 18)));
+      host.append(h('h3', { class: 'hm-h', text: `Notes · ${ns.length}` }), ns.length ? nl : h('p', { class: 'empty', text: 'No notes yet. Tap Add note on any screen to write one.' }));
+    }
+  };
+  const segRow = (label, opts, val, on, aria) => {
+    const s = h('div', { class: 'seg', role: 'group', 'aria-label': aria || label });
+    for (const [v, t] of opts) s.append(h('button', { type: 'button', 'aria-pressed': String(v === val), text: t, onclick: e => { for (const b of s.children) b.setAttribute('aria-pressed', String(b === e.currentTarget)); on(v); } }));
+    return h('div', { class: 'st-row' }, h('span', { text: label }), s);
+  };
+  const KEYS = ['prog', 'bm', 'notes', 'score', 'ch3.done', 'ch4.done', 'ch5.done', 'ch3.sec', 'ch4.sec', 'ch5.sec', 'pa.scene', 'tab', 'theme', 'prefs', 'media.len', 'media.size'];
+  const exportData = async () => {
+    const data = {}; for (const k of KEYS) { const v = store.get(k, undefined); if (v !== undefined) data[k] = v; }
+    const json = JSON.stringify({ app: 'vibration-analyst-lab', format: 1, version: APP_VERSION, exported: new Date().toISOString(), data }, null, 1);
+    const r = await saveFile(`vibration-lab-backup-${day(new Date())}.json`, json, 'application/json');
+    snack(r === 'saved' ? 'Backup saved' : r === 'cancelled' ? 'Backup not saved' : 'Could not save the backup here');
+  };
+  const importData = async file => {
+    let j; try { j = JSON.parse(await file.text()); } catch (e) { snack('That file is not a lab backup.'); return; }
+    if (!j || j.app !== 'vibration-analyst-lab' || !j.data || typeof j.data !== 'object') { snack('That file is not a lab backup.'); return; }
+    if (!await askConfirm('Restore this backup?', `It replaces your progress, saved screens, notes and settings with the ones from ${j.exported ? new Date(j.exported).toLocaleString() : 'the file'}.`, 'Restore')) return;
+    for (const k of KEYS) if (k in j.data) store.set(k, j.data[k]);
+    location.reload();
+  };
+  views.settings = {
+    title: 'Settings',
+    build(host) { this.host = host; },
+    refresh() {
+      const host = this.host, P = prefs(), A = window.AndroidApp; host.replaceChildren(head('Settings', 'Everything here stays on this device.'));
+      const card = (title, ...kids) => h('div', { class: 'st-card' }, h('h3', { class: 'hm-h', text: title }), h('div', { class: 'hm-list st-list' }, ...kids));
+      const theme = store.get('theme', 'auto');
+      const tz = P.textZoom || 0, sys = A && A.systemTextZoom ? A.systemTextZoom() : 100;
+      let textRow;
+      if (A && A.setTextZoom) {
+        const out = h('output', { text: (tz || sys) + ' %' }), rng = h('input', { type: 'range', min: 85, max: 200, step: 5, value: tz || sys, 'aria-label': 'Text size' });
+        const follow = h('input', { type: 'checkbox', checked: !tz });
+        rng.addEventListener('input', () => { out.textContent = rng.value + ' %'; follow.checked = false; setPref('textZoom', +rng.value); A.setTextZoom(+rng.value); });
+        follow.addEventListener('change', () => { if (follow.checked) { setPref('textZoom', 0); A.setTextZoom(-1); rng.value = sys; out.textContent = sys + ' %'; } else { setPref('textZoom', +rng.value); A.setTextZoom(+rng.value); } });
+        textRow = h('div', { class: 'st-row st-col' }, h('span', {}, 'Text size ', out), rng, h('label', { class: 'check' }, follow, 'Follow the phone’s font size'), h('p', { class: 'note', text: 'Sample: 1X 5.35 mm/s at 1780 RPM. Larger text reflows the panels; chart labels keep their size.' }));
+      } else textRow = h('div', { class: 'st-row st-col' }, h('span', { text: 'Text size' }), h('p', { class: 'note', text: 'Use your browser’s zoom (Ctrl and + on a computer, pinch on a phone). In the Android app this setting follows the phone and goes up to 200 %.' }));
+      const file = h('input', { type: 'file', accept: '.json,application/json', hidden: true, onchange: () => { if (file.files[0]) importData(file.files[0]); file.value = ''; } });
+      host.append(
+        card('Appearance', segRow('Theme', [['auto', 'Auto'], ['light', 'Light'], ['dark', 'Dark']], theme, v => { store.set('theme', v); applyTheme(v); }), textRow,
+          segRow('Motion', [['system', 'Follow device'], ['reduce', 'Reduce'], ['full', 'Full']], P.motion || 'system', v => { setPref('motion', v); snack('Motion changes apply after a restart'); restart.hidden = false; }),
+          (A && A.haptic) || navigator.vibrate ? segRow('Haptics', [['on', 'On'], ['off', 'Off']], P.haptics === false ? 'off' : 'on', v => { setPref('haptics', v === 'on'); if (v === 'on') haptic('tick'); }) : null),
+        card('Your data',
+          h('div', { class: 'st-row st-col' }, h('p', { class: 'note', text: 'Your progress, saved screens, notes and settings are kept only on this device. Make a backup file to move them to another phone or browser.' }),
+            h('div', { class: 'btns' }, h('button', { type: 'button', class: 'btn', text: 'Back up to a file', onclick: exportData }), h('button', { type: 'button', class: 'btn', text: 'Restore from a file', onclick: () => file.click() }), file)),
+          h('div', { class: 'st-row st-col' }, h('div', { class: 'btns' },
+            h('button', { type: 'button', class: 'btn', text: 'Reset progress', onclick: async () => { if (await askConfirm('Reset your progress?', 'Lesson ticks, check-question history, challenge score and activity days go back to zero. Saved screens and notes stay.', 'Reset', true)) { prog = P0(); saveProg(); for (const k of ['ch3.done', 'ch4.done', 'ch5.done']) store.set(k, []); store.set('score', { right: 0, total: 0, streak: 0 }); location.reload(); } } }),
+            h('button', { type: 'button', class: 'btn', text: 'Erase everything', onclick: async () => { if (await askConfirm('Erase everything?', 'Progress, saved screens, notes and settings are all removed from this device. This cannot be undone unless you have a backup file.', 'Erase', true)) { try { for (const k of Object.keys(localStorage)) if (k.startsWith('val.')) localStorage.removeItem(k); } catch (e) { /* ignore */ } location.reload(); } } })))),
+        card('Help', h('button', { type: 'button', class: 'hm-row', onclick: () => welcome(true) }, h('span', { class: 'hm-ico sv-ic' }, ic('play', 19)), h('span', { class: 'hm-txt' }, h('b', { text: 'Show the welcome screens again' }), h('span', { text: 'The three-screen introduction and your goal' })), ic('next', 18))),
+        card('About', h('div', { class: 'st-row st-col' }, h('p', {}, h('b', { text: `Vibration Analyst Lab ${APP_VERSION}` }), ' · CAT III study simulator, built by a practising condition-monitoring engineer.'),
+          h('p', { class: 'note', text: 'Works offline. No account, no tracking, no analytics: nothing you do here leaves this device unless you save or share a file yourself.' }),
+          h('p', { class: 'note', text: 'References are page codes only (C = CAT III manual page, iV = iVibe page, MCS = coupling sheets, VA4/DDS = Adash manuals). Signals are idealised teaching models: real machines add noise, speed changes and several faults at once.' }))));
+      const restart = h('button', { type: 'button', class: 'btn primary', hidden: true, text: 'Restart now', onclick: () => location.reload() });
+      host.querySelector('.st-card').append(restart);
+    }
+  };
+
+  /* ---------- Home: suggestions, progress and saved ---------- */
+  const GOALS = [['cat3', 'Preparing for CAT III', 'Work through Chapters 3–5 and test yourself'], ['tech', 'Field technician', 'Set up the analyser and recognise faults on the route'],
+    ['eng', 'Reliability engineer', 'Diagnose faults, balance rotors and check resonance'], ['teach', 'Instructor', 'Animations and simulators to explain each idea in class']];
+  const nextIn = c => c.secs.find(s => !c.isDone(s.id));
+  const suggestions = () => {
+    const g = prefs().goal; if (!g) return [];
+    const S = stats(), [c3, c4, c5] = S.ch, out = [];
+    const lesson = c => { const s = nextIn(c); return s ? [c.k + '/' + s.id, `${c.name.split(' · ')[0]} · ${s.title}`, 'Next lesson'] : null; };
+    const anim = () => { const s = S.an.secs.find(x => !S.an.isDone(x.id)); return s ? ['anim/' + s.id, s.title, 'Next animation'] : null; };
+    if (g === 'cat3') out.push(lesson(c3) || lesson(c4) || lesson(c5), anim(), ['challenge', 'Diagnose challenge', 'Test yourself']);
+    if (g === 'tech') out.push(['plan', 'Setup planner', 'Plan the settings for your next route'], ['fault', 'Fault simulator', 'See each fault on spectrum, waveform and phase'], lesson(c4));
+    if (g === 'eng') out.push(['challenge', 'Diagnose challenge', `Score ${S.sc.right} / ${S.sc.total}`], ['fanbal', 'Fan balancing', 'Field balancing, run by run'], ['resonance', 'Resonance lab', 'Bode plot and bump test']);
+    if (g === 'teach') out.push(anim(), ['map', 'Settings map', 'Show how one setting changes everything else'], ['fault', 'Fault simulator', 'Live spectra for any fault']);
+    return out.filter(Boolean).slice(0, 3);
+  };
+  const homeCards = () => {
+    const box = h('div', { class: 'hm-x' });
+    const refresh = () => {
+      box.replaceChildren();
+      const sg = suggestions();
+      if (sg.length) box.append(h('h2', { class: 'hm-h', text: 'Suggested for you' }), h('div', { class: 'hm-list' }, ...sg.map(([key, title, sub]) => h('button', { type: 'button', class: 'hm-row', onclick: () => api.openKey(key) },
+        h('span', { class: 'hm-ico sv-ic' }, ic('play', 19)), h('span', { class: 'hm-txt' }, h('b', { text: title }), h('span', { text: sub })), ic('next', 18)))));
+      const S = stats();
+      const pc = h('button', { type: 'button', class: 'hm-prog', onclick: () => api.go('progress') },
+        h('div', { class: 'pg-top' }, h('b', { text: 'Your progress' }), h('span', { class: 'mono', text: `${S.lessons} / ${S.lessonsTotal} lessons · ${S.streak} day streak` })),
+        ...[...S.ch, S.an].map(c => h('div', { class: 'hp-row' }, h('span', { text: c.name.split(' · ')[0] === 'Phase animations' ? 'Animations' : c.name.split(' · ')[0] }), bar(c.done, c.total), h('span', { class: 'mono', text: `${c.done}/${c.total}` }))));
+      const nn = Object.keys(notes).length;
+      box.append(h('h2', { class: 'hm-h', text: 'Your study' }), pc, h('div', { class: 'hm-list hm-study' },
+        h('button', { type: 'button', class: 'hm-row', onclick: () => api.go('saved') }, h('span', { class: 'hm-ico sv-ic' }, ic('staron', 19)),
+          h('span', { class: 'hm-txt' }, h('b', { text: 'Saved and notes' }), h('span', { text: `${bms.length} saved · ${nn} note${nn === 1 ? '' : 's'}` })), ic('next', 18)),
+        h('button', { type: 'button', class: 'hm-row', onclick: () => api.go('search') }, h('span', { class: 'hm-ico sv-ic' }, ic('search', 19)),
+          h('span', { class: 'hm-txt' }, h('b', { text: 'Search the lab' }), h('span', { text: 'Sections, chapter topics, animations, faults and terms' })), ic('next', 18)),
+        h('button', { type: 'button', class: 'hm-row', onclick: () => api.go('settings') }, h('span', { class: 'hm-ico sv-ic' }, ic('gear', 19)),
+          h('span', { class: 'hm-txt' }, h('b', { text: 'Settings' }), h('span', { text: 'Theme, text size, motion, backup and reset' })), ic('next', 18))));
+    };
+    refresh();
+    return { el: box, refresh };
+  };
+
+  /* ---------- the first-run welcome: three screens ---------- */
+  const welcome = force => {
+    if (!force && (!canStore || prefs().onboarded)) return;
+    if (document.querySelector('.onb')) return;
+    let k = 0, goal = prefs().goal || null;
+    const art = h('div', { class: 'hm-art' }); art.innerHTML = heroArt();
+    const pages = [
+      () => [h('div', { class: 'hm-hero onb-hero' }, h('div', { class: 'hm-t', text: 'Vibration Analyst Lab' }), h('div', { class: 'hm-s', text: 'CAT III study simulator' }), art, h('div', { class: 'hm-band' })),
+        h('h2', { text: 'Learn vibration analysis by changing things and watching what happens' }),
+        h('ul', { class: 'onb-list' }, h('li', { text: 'Diagnose: a fault simulator and a hidden-fault challenge' }), h('li', { text: 'Setup: plan Fmax, lines and demodulation for a machine' }),
+          h('li', { text: 'Learn: Chapters 3–5 section by section and 12 phase animations' }), h('li', { text: 'Labs: bearings, gears, balancing, fan balancing and resonance' })),
+        h('p', { class: 'note', text: 'Everything works offline and stays on this device.' })],
+      () => [h('h2', { text: 'Every screen works the same way' }), h('div', { class: 'hm-how onb-how' },
+        h('div', { class: 'hm-how-i k-set' }, h('i'), h('div', {}, h('b', { text: 'Settings' }), h('span', { text: 'Yellow edge and an Adjust tag. Change these: sliders, dropdowns and switches.' }))),
+        h('div', { class: 'hm-how-i k-res' }, h('i'), h('div', {}, h('b', { text: 'Results' }), h('span', { text: 'Charts, readouts and tables. They update the moment you change a setting.' }))),
+        h('div', { class: 'hm-how-i k-note' }, h('i'), h('div', {}, h('b', { text: 'Notes and checks' }), h('span', { text: 'Key points, rule cards and quick questions to test yourself.' })))),
+        h('p', { class: 'note', text: 'Save any screen, add a note, search the whole lab, and save any animation as a GIF.' })],
+      () => [h('h2', { text: 'What brings you here?' }), h('p', { class: 'note', text: 'Home will suggest where to start. You can change this in Settings.' }),
+        h('div', { class: 'onb-goals', role: 'radiogroup', 'aria-label': 'Your goal' }, ...GOALS.map(([v, t, s]) => h('button', { type: 'button', role: 'radio', class: 'onb-goal', 'aria-checked': String(goal === v),
+          onclick: e => { goal = v; for (const b of e.currentTarget.parentElement.children) b.setAttribute('aria-checked', String(b === e.currentTarget)); } }, h('b', { text: t }), h('span', { text: s }))))]
+    ];
+    const body = h('div', { class: 'onb-body' }), dots = h('div', { class: 'onb-dots', 'aria-hidden': 'true' });
+    const nextB = h('button', { type: 'button', class: 'btn primary' }), skipB = h('button', { type: 'button', class: 'btn onb-skip', text: 'Skip' });
+    const finish = () => { setPref('onboarded', true); if (goal) setPref('goal', goal); ov.remove(); document.body.classList.remove('onb-open'); if (api.refresh) api.refresh(); };
+    const render = () => { body.replaceChildren(...pages[k]()); dots.replaceChildren(...pages.map((_, i) => h('i', { class: i === k ? 'on' : '' }))); nextB.textContent = k < pages.length - 1 ? 'Next' : 'Start'; body.scrollTop = 0; };
+    nextB.onclick = () => { if (k < pages.length - 1) { k++; render(); } else finish(); };
+    skipB.onclick = finish;
+    const ov = h('div', { class: 'onb', role: 'dialog', 'aria-modal': 'true', 'aria-label': 'Welcome to Vibration Analyst Lab' }, h('div', { class: 'onb-card' }, body, h('div', { class: 'onb-foot' }, skipB, dots, nextB)));
+    document.body.append(ov); document.body.classList.add('onb-open'); render();
+    try { nextB.focus({ preventScroll: true }); } catch (e) { /* ignore */ }
+  };
+
+  return {
+    init(a) { api = a; },
+    visit, done, answer, challenge, stats, views, ctxOf, sectionActions, syncActs, syncAll, homeCards, welcome, snack, search, KEYS,
+    ctx() { try { const c = api && api.current(); if (c && acts[c]) syncActs(c); } catch (e) { /* not ready yet */ } }
+  };
+})();
+
 /* ===== Machine train and fault library =====
    Rule IDs, texts and refs follow the vibration-analyst-mode skill: C:ch-pg = CAT III printed page, iV:p = iVibe page,
    MCS:p = coupling-misalignment sheets, FAN/LI1/GBX = source cases. Amplitudes are velocity mm/s RMS unless stated. */
@@ -1608,7 +2417,7 @@ const FMAX_OPTS = [200, 500, 1000, 2000, 5000], LINE_OPTS = [400, 800, 1600, 320
 const HOME = { A1: [3, 'H'], A2: [3, 'H'], A3: [3, 'H'], A4: [4, 'A'], A7: [3, 'H'], B2: [3, 'A'], B3: [3, 'H'], B5: [3, 'A'], B6: [3, 'A'], C1: [3, 'H'], C2: [3, 'H'], C3: [4, 'V'], C7: [3, 'H'], D: [3, 'H'],
   F2: [2, 'H'], G1: [2, 'H'], G2: [2, 'H'], G3: [2, 'H'], H1: [3, 'H'], H2: [3, 'H'], H3: [3, 'H'], H4: [3, 'H'] };
 const DIR_NAME = { H: 'horizontal', V: 'vertical', A: 'axial' };
-const REDUCED = (() => { try { return matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { return false; } })();
+const REDUCED = (() => { const m = (store.get('prefs', {}) || {}).motion; if (m === 'reduce') return true; if (m === 'full') return false; try { return matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { return false; } })();   // Settings → Motion can override the device
 
 class FaultSim {
   constructor(root, mode) {
@@ -1713,7 +2522,7 @@ class FaultSim {
     else if (hm) { this.setPoint(hm[0]); this.setDir(hm[1]); }
     this.moved = P.pt + P.dir !== before ? `Sensor moved to ${PTS[P.pt - 1].s} ${DIR_NAME[P.dir]}, where this shows best.` : '';
     const el = $('#' + this.id('fault')); if (el && el.value !== fid) el.value = fid;
-    this.syncFaultCtl(); this.update();
+    this.syncFaultCtl(); this.update(); APPX.ctx();
   }
   setPoint(pt) { this.P.pt = pt; for (const b of this.ptSeg.children) b.setAttribute('aria-pressed', b.dataset.v == pt ? 'true' : 'false'); }
   userMoved() { if (this.moved && this.lookEl) { this.moved = ''; this.lookEl.textContent = 'Look for: ' + FAULT[this.P.fid].key; } }
@@ -1959,7 +2768,7 @@ class FaultSim {
   }
   answer(id) {
     const cs = this.case; if (cs.answered) return; cs.answered = true; cs.pick = id; const ok = id === cs.fid;
-    this.score.total++; if (ok) { this.score.right++; this.score.streak++; } else this.score.streak = 0; store.set('score', this.score);
+    this.score.total++; if (ok) { this.score.right++; this.score.streak++; } else this.score.streak = 0; store.set('score', this.score); APPX.challenge(ok);
     this.renderCase(); this.renderRule();
   }
 }
@@ -2372,6 +3181,7 @@ class ChapterLab {
   show(id, first) {
     if (this.api) this.api.dispose();
     const CH3 = this.secs, i = CH3.findIndex(s => s.id === id), S = CH3[i]; this.cur = id; store.set(this.cfg.store + '.sec', id); this.sel.value = id; this.renderNav();
+    APPX.visit(this.cfg.store + '/' + id); APPX.ctx();
     const left = h('div', { class: 'col' }), right = h('div', { class: 'col' });
     const head = h('div', { class: 'c3head' }, h('div', {}, h('div', { class: 'eyebrow', text: `Section ${i + 1} of ${CH3.length} · CAT III pages ${S.pages}` }), h('h2', { text: S.title })), h('p', { class: 'intro', text: S.intro }));
     this.page.replaceChildren(head, h('div', { class: 'lab' }, left, right));
@@ -2393,7 +3203,7 @@ class ChapterLab {
       const fb = h('p', { class: 'note', style: 'margin:6px 0 12px' }), box = h('div', { class: 'choices' });
       const order = q.o.map((_, i) => i).sort(() => Math.random() - 0.5);   // options in a fresh order each visit
       order.forEach(oi => box.append(h('button', { type: 'button', text: q.o[oi], 'data-i': oi, onclick: e => {
-        const right = oi === q.a; for (const b of box.children) b.classList.remove('right', 'wrong');
+        const right = oi === q.a; for (const b of box.children) b.classList.remove('right', 'wrong'); APPX.answer(this.cfg.store + '/' + S.id + '/' + qi, right);
         e.currentTarget.classList.add(right ? 'right' : 'wrong'); if (right) e.currentTarget.classList.add('right');
         fb.replaceChildren(h('span', { class: right ? 'ok' : 'bad', text: right ? 'Right. ' : 'Not quite. ' }), q.why);
         if (right) { got.add(qi); if (got.size === S.quiz.length && !this.done.has(S.id)) { this.done.add(S.id); store.set(this.cfg.store + '.done', [...this.done]); this.renderNav(); } }
@@ -9229,6 +10039,10 @@ class PhaseAnim {
     this.prog.addEventListener('click', e => { const b = this.prog.getBoundingClientRect(), n = this.S.steps.length; this.explore = false; this.goStep(Math.floor(clamp((e.clientX - b.left) / b.width, 0, 0.999) * n)); });
     const trans = h('div', { class: 'patrans' }, this.bPrev, this.bPlay, this.bNext, this.bAgain, this.prog);
     seg(trans, 'pa-rate', [[0.5, 'Slow'], [1, 'Normal'], [1.5, 'Fast']], 1, v => { this.rate = +v; });
+    trans.append(h('button', { type: 'button', class: 'btn pagif', title: 'Save this animation as a GIF, a video or a picture', 'aria-label': 'Save this animation as a GIF, video or picture',
+      onclick: () => mediaSheet({ title: this.S.title, name: () => `phase-animation-${this.si + 1}-${this.S.short || this.S.title}`, source: () => this.cv,
+        step: { label: 'This step', seconds: () => { const s = this.S.steps[this.k]; return (s && s.dur && !s.quiz && !s.goal ? s.dur : 8) / (this.rate || 1); } },
+        onStart: len => { if (len === 'step') { this.explore = false; this.goStep(this.k); } if (!this.play) this.toggle(); } }) }, mediaIcon(), h('span', { text: 'GIF' })));
     trans.lastChild.setAttribute('aria-label', 'Playback speed');
     this.cap = h('div', { class: 'pacap', 'aria-live': 'polite' });
     right.append(this.stage, trans, this.cap);
@@ -9247,12 +10061,12 @@ class PhaseAnim {
     try { new IntersectionObserver(es => { this.onScreen = es[es.length - 1].isIntersecting; }).observe(this.stage); } catch (e) { /* older browsers: always draw */ }
   }
   load(si) {
-    this.si = si; store.set('pa.scene', si); const S = this.S = PA_SCENES[si];
+    this.si = si; store.set('pa.scene', si); const S = this.S = PA_SCENES[si]; APPX.visit('anim/' + S.id);
     this.P = { rps: 0.5, ...S.init }; this.T = { ...this.P }; this.t = 0; this.tPrev = 0; this.ang = (S.ang0 || 0) * DEG; this.angPrev = this.ang;
     this.w = TAU * (S.rpsOf ? S.rpsOf(this.P) : this.P.rps); this.sweeps = {}; this.mem = {}; this.explore = false; this.ended = false; this.k = 0; this.st = 0;
     if (S.setup) S.setup(this);
     this.snap0 = null; this.hl = {}; this.toast.hidden = true; this.outRows = null; this.lastEff = null;
-    this.sel.value = si; this.renderHead(); this.renderNav(); this.renderSteps(); this.renderControls(); this.renderPager(); this.resize(true); this.goStep(0, true);
+    this.sel.value = si; this.renderHead(); this.renderNav(); this.renderSteps(); this.renderControls(); this.renderPager(); this.resize(true); this.goStep(0, true); APPX.ctx();
   }
   sweep(key, o) { return this.sweeps[key] || (this.sweeps[key] = new PaSweep(o)); }
   /* something on the stage the viewer can drag: o { id, x, y, r, drag(x, y), hold (freeze the shaft while held) } */
@@ -9270,6 +10084,7 @@ class PhaseAnim {
   goStep(k, snap) {
     const S = this.S; k = clamp(k, 0, S.steps.length - 1); this.k = k; this.st = 0; this.ended = false; this.met = false; this.answered = null;
     const st = S.steps[k], hard = snap || st.snap || st.quiz;
+    if (k === S.steps.length - 1 && !st.quiz && !st.goal && !snap) APPX.done('anim/' + S.id);   // reached the last step of the story
     const T = this.stateAt(k); if (!S.free || snap) for (const p in T) { this.T[p] = T[p]; if (hard) this.P[p] = T[p]; }
     if (st.clear) for (const s of Object.values(this.sweeps)) s.clear(this.t); else if (hard && !snap) for (const s of Object.values(this.sweeps)) s.reset();
     if (S.onStep) S.onStep(this, k);
@@ -9309,7 +10124,7 @@ class PhaseAnim {
   tick(dt, rdt) {
     const S = this.S; this.tPrev = this.t; this.angPrev = this.ang; this.Pp = { ...this.P };
     const g = S.steps[this.k];
-    if (g.goal && !this.met && g.goal(this.T, this)) { this.met = true; this.metT = performance.now(); this.renderCaption(); this.syncSteps(); }
+    if (g.goal && !this.met && g.goal(this.T, this)) { this.met = true; this.metT = performance.now(); this.renderCaption(); this.syncSteps(); if (this.k === S.steps.length - 1) APPX.done('anim/' + S.id); }
     if (this.met && g.goal && performance.now() - this.metT > 2600 && this.k < S.steps.length - 1 && !this.drag) { this.goStep(this.k + 1); }
     if (dt > 0 && !this.explore && !g.goal && !g.quiz) {
       this.st += dt; const s = S.steps[this.k];
@@ -9377,7 +10192,8 @@ class PhaseAnim {
         const Q = s.quiz, row = h('div', { class: 'paquiz', role: 'group', 'aria-label': 'Your answer' });
         for (const [v, label] of Q.opts) {
           const b = h('button', { type: 'button', class: 'btn' + (this.answered !== null ? (String(v) === String(Q.ans) ? ' right' : String(v) === String(this.answered) ? ' wrong' : '') : ''), text: label, disabled: this.answered !== null ? true : null,
-            onclick: () => { this.answered = v; if (Q.reveal) for (const p in Q.reveal) this.T[p] = Q.reveal[p]; this.st = 0; this.renderCaption(); this.syncSteps(); this.dirty = true; } });
+            onclick: () => { this.answered = v; APPX.answer('anim/' + S.id + '/' + this.k, String(v) === String(Q.ans)); if (this.k === n - 1) APPX.done('anim/' + S.id);
+              if (Q.reveal) for (const p in Q.reveal) this.T[p] = Q.reveal[p]; this.st = 0; this.renderCaption(); this.syncSteps(); this.dirty = true; } });
           row.append(b);
         }
         kids.push(row);
@@ -11390,7 +12206,13 @@ const ICONS = {
   labs: '<path d="M9 3.5h6M10 3.5v6l-5.2 9.1A1.6 1.6 0 0 0 6.2 21h11.6a1.6 1.6 0 0 0 1.4-2.4L14 9.5v-6M7.3 15h9.4"/>',
   back: '<path d="M15 5l-7 7 7 7"/>',
   next: '<path d="M9.5 5.5 16 12l-6.5 6.5"/>',
-  play: '<path d="M8 5.5v13l10-6.5z" fill="currentColor"/>' };
+  play: '<path d="M8 5.5v13l10-6.5z" fill="currentColor"/>',
+  search: '<circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/>',
+  gear: '<circle cx="12" cy="12" r="3.2"/><path d="M12 2.8v2.6M12 18.6v2.6M2.8 12h2.6M18.6 12h2.6M5.5 5.5l1.8 1.8M16.7 16.7l1.8 1.8M5.5 18.5l1.8-1.8M16.7 7.3l1.8-1.8"/>',
+  star: '<path d="M12 3.6l2.6 5.3 5.8.8-4.2 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z"/>',
+  staron: '<path d="M12 3.6l2.6 5.3 5.8.8-4.2 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z" fill="currentColor"/>',
+  note: '<path d="M4.5 19.5h4l10.8-10.8a2 2 0 0 0 0-2.8l-1.2-1.2a2 2 0 0 0-2.8 0L4.5 15.5zM13.8 6.2l4 4"/>',
+  x: '<path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/>' };
 const THEMES = [['auto', 'Auto'], ['light', 'Light'], ['dark', 'Dark']];
 const PHONE = (() => { try { return matchMedia('(max-width: 860px)'); } catch (e) { return { matches: false, addEventListener() { /* none */ } }; } })();
 const TOPWIN = (() => { try { return window.top === window.self; } catch (e) { return false; } })();   // inside a frame (the claude.ai preview) history is left alone
@@ -11434,15 +12256,19 @@ function boot() {
     gBtns[k] = h('button', { type: 'button', 'data-g': k, onclick: () => navTap(k) }, appIcon(k, 18), h('span', { text: label }));
     gnav.append(gBtns[k]);
   }
+  gnav.append(h('button', { type: 'button', class: 'gn-ico', 'aria-label': 'Settings', title: 'Settings', onclick: () => go('settings') }, appIcon('gear', 18)));
   const plate = h('header', { class: 'plate' }, h('div', { class: 'brand', title: 'Home', onclick: () => go('home') }, h('span', { class: 'stripe' }),
-    h('div', {}, h('h1', { text: 'Vibration Analyst Lab' }), h('div', { class: 'sub', text: 'CAT III study simulator · ISO 10816-3 · 60 Hz default' }))), gnav);
+    h('div', {}, h('h1', { text: 'Vibration Analyst Lab' }), h('div', { class: 'sub', text: 'CAT III study simulator · ISO 10816-3 · 60 Hz default' }))),
+    h('button', { type: 'button', class: 'dsearch', onclick: () => go('search') }, appIcon('search', 18), h('span', { text: 'Search sections, topics, faults…' }), h('kbd', { text: '/' })), gnav);
   const tabsLbl = h('span', { class: 'tabs-grp', 'aria-hidden': 'true' }); tabs.append(tabsLbl);
   // phone app bars: back to Home, the screen title, the switcher for the group's sections; the tab bar sits at the bottom
-  const title = h('div', { class: 'ab-title', role: 'heading', 'aria-level': '1' });
+  const title = h('div', { class: 'ab-title', role: 'heading', 'aria-level': '1' }); let abSearch, abGear;
   const sub = h('nav', { class: 'subtabs', 'aria-label': 'Sections' });
   const apphead = h('div', { class: 'apphead' }, h('div', { class: 'appbar' },
     h('button', { type: 'button', class: 'ab-back', 'aria-label': 'Back to Home', onclick: () => go('home') }, appIcon('back')),
-    h('span', { class: 'ab-mark', 'aria-hidden': 'true' }, h('span', { class: 'stripe' })), title), sub);
+    h('span', { class: 'ab-mark', 'aria-hidden': 'true' }, h('span', { class: 'stripe' })), title,
+    h('div', { class: 'ab-acts' }, abSearch = h('button', { type: 'button', class: 'ab-ico', 'aria-label': 'Search', title: 'Search', onclick: () => go('search') }, appIcon('search')),
+      abGear = h('button', { type: 'button', class: 'ab-ico', 'aria-label': 'Settings', title: 'Settings', onclick: () => go('settings') }, appIcon('gear')))), sub);
   const navBtns = {}, botnav = h('nav', { class: 'botnav', 'aria-label': 'Main' });
   for (const [k, label] of [['home', 'Home'], ...NAV_GROUPS.map(g => [g[0], g[1]])]) {
     navBtns[k] = h('button', { type: 'button', 'data-g': k, onclick: () => navTap(k) }, h('span', { class: 'bn-ind' }, appIcon(k)), h('span', { class: 'lbl', text: label }));
@@ -11450,15 +12276,18 @@ function boot() {
   }
   app.append(h('div', { class: 'dhead' }, plate, tabs), apphead);
   const main = h('main'); app.append(main);
-  const valid = id => id === 'home' || TABS.some(t => t[0] === id);
+  const isView = id => id === 'home' || !!APPX.views[id];
+  const valid = id => isView(id) || TABS.some(t => t[0] === id);
+  const labs = {}, vEls = {};
   const groupOf = id => NAV_GROUPS.find(g => g[2].includes(id)) || null;
   const pos = {};
-  let cur = null, home = null, cont = null;
+  let cur = null, home = null, cont = null, homeX = null;
   const buildHome = () => {
     cont = h('button', { type: 'button', class: 'hm-cont', onclick: () => go(store.get('tab', 'fault')) });
     const art = h('div', { class: 'hm-art' }); art.innerHTML = heroArt();
+    homeX = APPX.homeCards();
     home = h('section', { id: 'tab-home', class: 'home', 'aria-label': 'Home' },
-      h('div', { class: 'hm-hero' }, h('div', { class: 'hm-t', text: 'Vibration Analyst Lab' }), h('div', { class: 'hm-s', text: 'CAT III study simulator · ISO 10816-3 · 60 Hz default' }), art, h('div', { class: 'hm-band' })), cont);
+      h('div', { class: 'hm-hero' }, h('div', { class: 'hm-t', text: 'Vibration Analyst Lab' }), h('div', { class: 'hm-s', text: 'CAT III study simulator · ISO 10816-3 · 60 Hz default' }), art, h('div', { class: 'hm-band' })), cont, homeX.el);
     const how = (cls, name, text) => h('div', { class: 'hm-how-i ' + cls }, h('i'), h('div', {}, h('b', { text: name }), h('span', { text })));
     home.append(h('h2', { class: 'hm-h', text: 'How each screen works' }), h('div', { class: 'hm-how' },
       how('k-set', 'Settings', 'Yellow edge and an Adjust tag. Change these: sliders, dropdowns and switches.'),
@@ -11467,15 +12296,11 @@ function boot() {
     const groups = h('div', { class: 'hm-groups' });
     for (const [g, gname, ids] of NAV_GROUPS) groups.append(h('div', { class: 'hm-grp' }, h('h2', { class: 'hm-h', text: gname }), h('div', { class: 'hm-list' }, ids.map(id => h('button', { type: 'button', class: 'hm-row', 'data-go': id, onclick: () => go(id) },
       h('span', { class: 'hm-ico g-' + g }, appIcon(g, 21)), h('span', { class: 'hm-txt' }, h('b', { text: TABS.find(t => t[0] === id)[1] }), h('span', { text: BLURB[id] })), appIcon('next', 18))))));
-    home.append(groups);
-    const now = store.get('theme', 'auto'), seg = h('div', { class: 'seg', role: 'group', 'aria-label': 'Theme' });
-    for (const [v, lab] of THEMES) seg.append(h('button', { type: 'button', 'data-v': v, 'aria-pressed': String(v === now), text: lab,
-      onclick: () => { store.set('theme', v); applyTheme(v); for (const b of seg.children) b.setAttribute('aria-pressed', String(b.dataset.v === v)); } }));
-    home.append(h('h2', { class: 'hm-h', text: 'Appearance' }), h('div', { class: 'hm-list hm-set' }, h('span', { text: 'Theme' }), seg),
-      h('h2', { class: 'hm-h', text: 'About' }), h('p', { class: 'hm-about', text: 'Rules and page references match the analysis skill (C = CAT III page, iV = iVibe page, MCS = coupling sheets).' }));
-    main.prepend(home);
+    home.append(groups, h('p', { class: 'hm-about', text: `Version ${APP_VERSION} · works offline · rules and page references match the analysis skill (C = CAT III page, iV = iVibe page, MCS = coupling sheets).` }));
+    main.prepend(home); vEls.home = home;
   };
   const refreshHome = () => {
+    if (homeX) homeX.refresh();
     const t = TABS.find(x => x[0] === store.get('tab', null));
     cont.hidden = !t; if (!t) return;
     cont.textContent = '';
@@ -11483,8 +12308,8 @@ function boot() {
   };
   const shell = id => {
     const grp = id === 'home' ? null : groupOf(id), g = grp ? grp[0] : 'home';
-    title.textContent = id === 'home' ? 'Vibration Lab' : TABS.find(x => x[0] === id)[1];
-    apphead.classList.toggle('home', id === 'home');
+    title.textContent = id === 'home' ? 'Vibration Lab' : APPX.views[id] ? APPX.views[id].title : TABS.find(x => x[0] === id)[1];
+    apphead.classList.toggle('home', id === 'home'); abSearch.hidden = id === 'search'; abGear.hidden = id !== 'home';
     for (const set of [navBtns, gBtns]) for (const [k, b] of Object.entries(set)) { b.classList.toggle('on', k === g); if (k === g) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current'); }
     tabs.hidden = !grp; tabsLbl.textContent = grp ? grp[1] : '';
     for (const b of tabs.querySelectorAll('button')) b.hidden = !grp || !grp[2].includes(b.dataset.t);
@@ -11492,12 +12317,16 @@ function boot() {
     if (grp) for (const k of grp[2]) { const b = h('button', { type: 'button', text: SHORT[k], onclick: () => go(k) }); if (k === id) b.setAttribute('aria-current', 'page'); sub.append(b); }
     const on = sub.querySelector('[aria-current]'); if (on && sub.scrollWidth > sub.clientWidth) sub.scrollLeft = Math.max(0, on.offsetLeft - (sub.clientWidth - on.offsetWidth) / 2);
   };
-  const show = id => {
+  const show = (id, arg) => {
     cur = id;
     for (const [k] of TABS) { const sel = k === id; tabs.querySelector(`[data-t="${k}"]`).setAttribute('aria-selected', sel ? 'true' : 'false'); if (panes[k]) panes[k].hidden = !sel; }
+    for (const [k, el] of Object.entries(vEls)) el.hidden = k !== id;
     if (id === 'home') { if (!home) buildHome(); refreshHome(); home.hidden = false; }
-    else {
-      if (home) home.hidden = true;
+    else if (isView(id)) {
+      const V = APPX.views[id];
+      if (!vEls[id]) { vEls[id] = h('section', { id: 'tab-' + id, class: 'view vw-' + id, 'aria-label': V.title }); main.prepend(vEls[id]); V.build(vEls[id]); }
+      vEls[id].hidden = false; V.refresh(arg);
+    } else {
       if (!panes[id]) {
         const t = TABS.find(x => x[0] === id), intro = h('p', { class: 'intro pintro', text: t[2] });
         const more = h('button', { type: 'button', class: 'pmore', 'aria-expanded': 'false', text: 'More' });
@@ -11507,9 +12336,11 @@ function boot() {
           h('span', { class: 'k-set' }, h('i'), h('span', {}, 'Settings', h('small', { text: ': change these' }))), h('span', { class: 'k-res' }, h('i'), h('span', {}, 'Results', h('small', { text: ': update as you change' }))),
           h('span', { class: 'k-note' }, h('i'), h('span', {}, 'Notes', h('small', { text: ' and checks' }))));
         const head = h('header', { class: 'sechead' }, h('div', { class: 'sh-main' },
-          h('div', { class: 'sh-eyebrow', text: `${grp[1]} · ${grp[2].indexOf(id) + 1} of ${grp[2].length}` }), h('h2', { class: 'sh-title', text: t[1] }), intro, more), key);
-        const pane = h('section', { role: 'tabpanel', id: 'tab-' + id, 'aria-label': t[1] }, head); main.append(pane); panes[id] = pane; t[3](pane);
+          h('div', { class: 'sh-eyebrow', text: `${grp[1]} · ${grp[2].indexOf(id) + 1} of ${grp[2].length}` }), h('h2', { class: 'sh-title', text: t[1] }), intro, more, APPX.sectionActions(id)), key);
+        const pane = h('section', { role: 'tabpanel', id: 'tab-' + id, 'aria-label': t[1] }, head); main.append(pane); panes[id] = pane; labs[id] = t[3](pane);
+        APPX.syncActs(id);
       }
+      APPX.visit(id); requestAnimationFrame(() => attachMediaButtons(panes[id]));
       store.set('tab', id); store.set('grp.' + groupOf(id)[0], id);
     }
     app.classList.toggle('at-home', id === 'home');
@@ -11522,20 +12353,20 @@ function boot() {
   let navHidden = false, lastY = window.scrollY;
   const setNavHidden = v => { if (v === navHidden) return; navHidden = v; document.body.classList.toggle('navhide', v); };
   const toTop = () => { try { window.scrollTo({ top: 0, behavior: REDUCED ? 'auto' : 'smooth' }); } catch (e) { window.scrollTo(0, 0); } };
-  const open = id => {                                                  // show a screen; history is the caller's business
+  const open = (id, arg) => {                                           // show a screen; history is the caller's business
     if (cur) pos[cur] = window.scrollY;
-    show(id); setNavHidden(false);
+    show(id, arg); setNavHidden(false);
     if (PHONE.matches) {
       window.scrollTo(0, pos[id] || 0);
-      const el = id === 'home' ? home : panes[id];
+      const el = isView(id) ? vEls[id] : panes[id];
       if (el && !REDUCED) { el.classList.remove('enter'); void el.offsetWidth; el.classList.add('enter'); }
     }
     lastY = window.scrollY;
   };
-  const go = id => {
+  const go = (id, arg) => {
     if (!valid(id)) return;
-    if (id === cur) { if (PHONE.matches) toTop(); return; }
-    const from = cur; open(id);
+    if (id === cur) { if (isView(id) && id !== 'home') APPX.views[id].refresh(arg); else if (PHONE.matches) toTop(); return; }
+    const from = cur; open(id, arg);
     if (!useHist()) return;
     try {
       const st = history.state || {};
@@ -11545,12 +12376,29 @@ function boot() {
     } catch (e) { /* no history here */ }
   };
   const navTap = k => {
+    haptic('tick');
     if (k === 'home') return go('home');
     const grp = NAV_GROUPS.find(g => g[0] === k);
     if (grp[2].includes(cur)) return toTop();                          // the open tab again: back to its top
     const last = store.get('grp.' + k, grp[2][0]);
     go(grp[2].includes(last) ? last : grp[2][0]);
   };
+  const openKey = key => {
+    const [tab, subId] = String(key).split('/');
+    if (!valid(tab)) return;
+    go(tab);
+    if (subId) {
+      const lab = labs[tab];
+      try {
+        if (lab instanceof ChapterLab) { if (lab.secs.some(s => s.id === subId) && lab.cur !== subId) lab.show(subId); }
+        else if (tab === 'anim' && lab && lab.load) { const i = PA_SCENES.findIndex(s => s.id === subId); if (i >= 0 && lab.si !== i) lab.load(i); }
+        else if (tab === 'fault' && lab && lab.pickFault && FAULT[subId]) lab.pickFault(subId);
+      } catch (e) { /* a place that no longer exists: the section still opens */ }
+      APPX.ctx();
+    }
+    window.scrollTo(0, 0);
+  };
+  APPX.init({ go, openKey, current: () => cur, lab: id => labs[id], groupName: id => (groupOf(id) || [0, ''])[1], refresh: () => { if (cur === 'home') refreshHome(); } });
   window.addEventListener('popstate', e => {
     const st = e.state, hs = (location.hash || '').slice(1);
     const v = st && st.app ? st.v : valid(hs) ? hs : PHONE.matches ? 'home' : null;
@@ -11567,12 +12415,18 @@ function boot() {
   app.append(h('footer', {}, h('p', { text: 'Signals here are idealised teaching models built from the same rule base as the analysis skill; real machines add noise, variable speed and several faults at once. ISO 10816-3 zone limits are from the user\'s chart (velocity mm/s RMS). Page references: CAT III manual printed pages (C:chapter-page), iVibe reference pages (iV), MCS coupling-misalignment sheets (MCS), the Adash VA4 Pro manual (VA4) and the Adash DDS manual for its field names, and the kiln fan, outer-race bearing, gearbox and LinkedIn case studies (FAN, ORB, GBX, LI1).' })));
   document.body.append(botnav);
   // where to start: a reload keeps its screen, a link with #tab opens that tab (over Home on a phone), otherwise Home (Continue picks up the last section)
-  const st0 = (() => { try { return history.state; } catch (e) { return null; } })(), hs = (location.hash || '').slice(1);
+  const st0 = (() => { try { return history.state; } catch (e) { return null; } })(), [hs, hsub] = (location.hash || '').slice(1).split('/');
   let start = st0 && st0.app && valid(st0.v) ? st0.v : valid(hs) ? hs : 'home';
   if (!valid(start)) start = 'fault';
   if (useHist() && !(st0 && st0.app)) try { history.replaceState({ app: 1, v: 'home' }, '', base); if (start !== 'home') history.pushState({ app: 1, v: start }, '', '#' + start); } catch (e) { /* no history here */ }
   open(start);
+  if (hsub && start === hs) openKey(hs + '/' + hsub);
   applyTheme(store.get('theme', 'auto'));
+  try { const tz = (store.get('prefs', {}) || {}).textZoom; if (window.AndroidApp && window.AndroidApp.setTextZoom) window.AndroidApp.setTextZoom(tz || -1); } catch (e) { /* older app */ }
+  let mbWait = false;
+  new MutationObserver(() => { if (mbWait) return; mbWait = true; setTimeout(() => { mbWait = false; const p = panes[cur]; if (p) attachMediaButtons(p); }, 700); }).observe(main, { childList: true, subtree: true });
+  document.addEventListener('keydown', e => { if (e.key === '/' && !/^(INPUT|TEXTAREA|SELECT)$/.test((e.target && e.target.tagName) || '') && !e.ctrlKey && !e.metaKey) { e.preventDefault(); go('search'); } });
+  setTimeout(() => APPX.welcome(), 350);
   try { PHONE.addEventListener('change', () => { syncBars(); if (!PHONE.matches) setNavHidden(false); }); } catch (e) { /* older browsers */ }
   try { matchMedia('(prefers-color-scheme: dark)').addEventListener('change', syncBars); } catch (e) { /* older browsers */ }
 }
