@@ -6,11 +6,19 @@ An interactive study lab for vibration analysis (ISO CAT III level). Simulate fa
 
 <img src="qr.png" alt="QR code that opens the lab" width="180">
 
-## Put it on your iPhone
+## Put it on your iPhone or iPad
 
-1. Open the link above in **Safari**.
-2. Tap **Share**, then **Add to Home Screen**.
-3. Open it from the Home Screen: it runs full screen like an app and keeps working offline.
+**Quickest:** open the link above in **Safari**, tap **Share**, then **Add to Home Screen**.
+
+**Or use the iPhone install file, [VibrationAnalystLab.mobileconfig](VibrationAnalystLab.mobileconfig)**, which you can also send by WhatsApp, email or AirDrop:
+
+1. Open the file on the iPhone: tap the link in Safari and choose **Allow**, or open it from Mail, AirDrop or the Files app (from WhatsApp, save it to Files first).
+2. Open **Settings**, tap **Profile Downloaded** near the top, then **Install** and enter your passcode.
+3. The **Vibration Lab** icon is now on the Home Screen. It opens full screen like an app and keeps working offline after the first launch.
+
+The iPhone shows the file as "Not Verified" because it is not signed with a paid Apple certificate. It only adds the Home Screen icon and changes nothing else. To remove it, delete the icon, or go to Settings → General → VPN & Device Management.
+
+**Saving on iPhone:** the GIF, video, picture and backup buttons open the iPhone share sheet. Choose **Save Image** or **Save Video** to keep it in Photos, or **Save to Files**. After a long recording, tap **Save to Photos or Files** once more to open the sheet.
 
 ## Android app
 

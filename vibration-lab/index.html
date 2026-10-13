@@ -740,6 +740,7 @@ input[type="checkbox"], input[type="radio"] { accent-color: var(--accent); }
 .hm-list { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
 .hm-row { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 64px; padding: 10px 12px 10px 14px; border: 0; background: none; color: var(--ink); text-align: left; cursor: pointer; }
 .hm-row + .hm-row { border-top: 1px solid var(--line); }
+a.hm-row { text-decoration: none; }
 .hm-row:hover, .hm-row:active { background: var(--surface-2); }
 .hm-row > .ico:last-child, .hm-cont > .ico:last-child { flex: none; color: var(--muted); }
 .hm-ico { flex: none; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 11px; }
@@ -1439,9 +1440,23 @@ function chartBox(host, title, sub, o) {
 /* ===== Save any animation as a GIF (own encoder: median-cut palette, LZW, changed-rectangle frames), as a video where the
    browser can record one, or as a PNG picture. Works offline; nothing is uploaded. ===== */
 
-/* ---------- handing a file to the viewer: the Android app's "Save to" dialog, claude.ai's download prompt, or a browser download ---------- */
+/* ---------- handing a file to the viewer: the Android app's "Save to" dialog, claude.ai's download prompt, the iPhone share sheet,
+   or a browser download. Returns 'saved', 'shared', 'cancelled', 'needs-tap' (iPhone: the file took too long to make, so the share
+   sheet needs a fresh tap: call shareFile() straight from a button) or 'failed'. ---------- */
+const IOS = (() => { try { const ua = navigator.userAgent || ''; return /iPhone|iPad|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1); } catch (e) { return false; } })();
 function blobToBase64(blob) {
   return new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(String(r.result).split(',')[1] || ''); r.onerror = () => rej(r.error); r.readAsDataURL(blob); });
+}
+function shareable(name, blob, mime) {                           // iPhone and iPad only: a File the share sheet takes, or null
+  try {
+    if (!IOS || typeof navigator.share !== 'function' || typeof navigator.canShare !== 'function' || typeof File !== 'function') return null;
+    const f = new File([blob], name, { type: mime || blob.type || 'application/octet-stream' });
+    return navigator.canShare({ files: [f] }) ? f : null;
+  } catch (e) { return null; }
+}
+async function shareFile(file) {                                 // the share sheet: Save Image or Save Video (Photos), Save to Files, AirDrop...
+  try { await navigator.share({ files: [file] }); return 'shared'; }
+  catch (e) { return e && e.name === 'AbortError' ? 'cancelled' : e && e.name === 'NotAllowedError' ? 'needs-tap' : 'failed'; }
 }
 async function saveFile(name, data, mime) {
   const blob = data instanceof Blob ? data : new Blob([data], { type: mime || 'application/octet-stream' });
@@ -1455,7 +1470,9 @@ async function saveFile(name, data, mime) {
       const dl = await window.claude.use('downloads');
       if (dl) { try { await dl.save({ filename: name, data: blob }); return 'saved'; } catch (e) { return e && e.code === 'declined' ? 'cancelled' : 'failed'; } }
     }
-  } catch (e) { /* not served here: fall through to a plain download */ }
+  } catch (e) { /* not served here: fall through */ }
+  const file = shareable(name, blob, mime);                      // iPhone and iPad (Safari or the Home Screen app): the share sheet
+  if (file) { const r = await shareFile(file); if (r !== 'failed') return r; }
   const url = URL.createObjectURL(blob), a = document.createElement('a');
   a.href = url; a.download = name; a.rel = 'noopener'; document.body.append(a); a.click(); a.remove();
   setTimeout(() => URL.revokeObjectURL(url), 60000);
@@ -1656,15 +1673,22 @@ function mediaSheet(o) {                                          // o: { title,
   let size = store.get('media.size', '480');
   const status = h('p', { class: 'ms-status', role: 'status', 'aria-live': 'polite' });
   const bar = h('div', { class: 'ms-bar', hidden: true }, h('i'));
-  let stopNow = false;
+  let stopNow = false, ready = null;                               // ready: { name, blob } waiting for a tap on the iPhone share button
   const stopBtn = h('button', { type: 'button', class: 'btn', hidden: true, text: 'Stop now', onclick: () => { stopNow = true; } });
+  const shareBtn = h('button', { type: 'button', class: 'btn primary', hidden: true, text: 'Save to Photos or Files', onclick: async () => {
+    if (!ready) return; const { name, blob } = ready, f = shareable(name, blob, blob.type);
+    const r = f ? await shareFile(f) : await saveFile(name, blob, blob.type);
+    if (r === 'shared' || r === 'saved') { setReady(null); status.textContent = `${r === 'shared' ? 'Shared' : 'Saved'} ${name} · ${fmtBytes(blob.size)}`; haptic('ok'); }
+    else status.textContent = r === 'cancelled' || r === 'needs-tap' ? `${name} is ready (${fmtBytes(blob.size)}). Tap Save to Photos or Files to keep it.` : 'Could not open the share sheet here.';
+  } });
+  const setReady = x => { ready = x; shareBtn.hidden = !x; const g = acts.querySelector('.ms-gif'); if (g) g.classList.toggle('primary', !x); };   // one yellow button: the next step
   const close = () => { if (MEDIA.busy) return; sheet.remove(); document.removeEventListener('keydown', esc); };
   const esc = e => { if (e.key === 'Escape') close(); };
   const seconds = () => len === 'step' && o.step ? Math.min(20, Math.max(2, o.step.seconds())) : +len;
   const setBar = f => { bar.hidden = false; bar.firstChild.style.width = Math.round(f * 100) + '%'; };
   const run = async kind => {
     if (MEDIA.busy) return; const src = o.source(); if (!src) return;
-    MEDIA.busy = true; stopNow = false; sheet.classList.add('busy'); for (const b of acts.querySelectorAll('button')) b.disabled = true; stopBtn.hidden = kind === 'png'; stopBtn.disabled = false;
+    MEDIA.busy = true; stopNow = false; setReady(null); sheet.classList.add('busy'); for (const b of acts.querySelectorAll('button')) b.disabled = true; stopBtn.hidden = kind === 'png'; stopBtn.disabled = false;
     const secs = seconds(), base = fileSlug(o.name ? o.name() : o.title);
     try {
       if (o.onStart && kind !== 'png') o.onStart(len);
@@ -1684,8 +1708,13 @@ function mediaSheet(o) {                                          // o: { title,
       const name = `${base}.${ext}`;
       status.textContent = `Saving ${name} (${fmtBytes(blob.size)})…`;
       const r = await saveFile(name, blob, blob.type);
-      status.textContent = r === 'saved' ? `Saved ${name} · ${fmtBytes(blob.size)}` : r === 'cancelled' ? 'Not saved: the save was cancelled.' : 'Could not save the file here.';
-      haptic(r === 'saved' ? 'ok' : 'no');
+      if (r === 'needs-tap') {                                    // iPhone: recording took longer than the tap stays valid; one more tap opens the share sheet
+        setReady({ name, blob });
+        status.textContent = `${name} is ready (${fmtBytes(blob.size)}). Tap Save to Photos or Files to keep it.`;
+        setTimeout(() => { try { shareBtn.focus({ preventScroll: true }); } catch (e) { /* ignore */ } }, 0);
+      } else status.textContent = r === 'saved' ? `Saved ${name} · ${fmtBytes(blob.size)}` : r === 'shared' ? `Shared ${name} · ${fmtBytes(blob.size)}`
+        : r === 'cancelled' ? 'Not saved: the save was cancelled.' : 'Could not save the file here.';
+      haptic(r === 'saved' || r === 'shared' ? 'ok' : r === 'needs-tap' ? 'tick' : 'no');
     } catch (e) {
       if (o.onEnd) o.onEnd();
       status.textContent = 'Could not record: ' + ((e && e.message) || 'unknown error') + '.';
@@ -1700,15 +1729,16 @@ function mediaSheet(o) {                                          // o: { title,
   const vidBtn = h('button', { type: 'button', class: 'btn', onclick: () => run('video') }, 'Video');
   const syncVideo = () => { vidBtn.hidden = !VIDEO_TYPE || !isCanvas(); };
   const acts = h('div', { class: 'ms-acts' },
-    h('button', { type: 'button', class: 'btn primary', onclick: () => run('gif') }, 'Save GIF'), vidBtn,
+    h('button', { type: 'button', class: 'btn primary ms-gif', onclick: () => run('gif') }, 'Save GIF'), vidBtn,
     h('button', { type: 'button', class: 'btn', onclick: () => run('png') }, 'Picture (PNG)'));
   syncVideo();
   const sheet = h('div', { class: 'msheet', role: 'dialog', 'aria-modal': 'false', 'aria-label': 'Save ' + o.title },
     h('div', { class: 'ms-head' }, h('b', { text: 'Save “' + o.title + '”' }), h('button', { type: 'button', class: 'ms-x', 'aria-label': 'Close', text: '✕', onclick: close })),
     h('div', { class: 'ms-row' }, h('span', { text: 'Length' }), segOf(lens, len, v => { len = v; store.set('media.len', v); }, 'Length')),
     h('div', { class: 'ms-row' }, h('span', { text: 'GIF size' }), segOf([['360', 'Small'], ['480', 'Medium'], ['640', 'Large']], size, v => { size = v; store.set('media.size', v); }, 'GIF size')),
-    acts, h('div', { class: 'ms-run' }, bar, stopBtn), status,
-    h('p', { class: 'ms-note', text: 'Keep this animation on screen while it records. The file is made on this device; nothing is uploaded.' }));
+    acts, h('div', { class: 'ms-run' }, bar, stopBtn, shareBtn), status,
+    h('p', { class: 'ms-note', text: 'Keep this animation on screen while it records. The file is made on this device; nothing is uploaded.'
+      + (IOS ? ' On iPhone, choose Save Image or Save Video in the share sheet to keep it in Photos, or Save to Files.' : '') }));
   document.addEventListener('keydown', esc);
   document.body.append(sheet);
   try { sheet.querySelector('.btn.primary').focus({ preventScroll: true }); } catch (e) { /* ignore */ }
@@ -1982,7 +2012,8 @@ const APPX = (() => {
     const data = {}; for (const k of KEYS) { const v = store.get(k, undefined); if (v !== undefined) data[k] = v; }
     const json = JSON.stringify({ app: 'vibration-analyst-lab', format: 1, version: APP_VERSION, exported: new Date().toISOString(), data }, null, 1);
     const r = await saveFile(`vibration-lab-backup-${day(new Date())}.json`, json, 'application/json');
-    snack(r === 'saved' ? 'Backup saved' : r === 'cancelled' ? 'Backup not saved' : 'Could not save the backup here');
+    snack(r === 'saved' ? 'Backup saved' : r === 'shared' ? 'Backup file shared' : r === 'needs-tap' ? 'Tap Back up to a file again to save it'
+      : r === 'cancelled' ? 'Backup not saved' : 'Could not save the backup here');
   };
   const importData = async file => {
     let j; try { j = JSON.parse(await file.text()); } catch (e) { snack('That file is not a lab backup.'); return; }
@@ -2006,18 +2037,29 @@ const APPX = (() => {
         rng.addEventListener('input', () => { out.textContent = rng.value + ' %'; follow.checked = false; setPref('textZoom', +rng.value); A.setTextZoom(+rng.value); });
         follow.addEventListener('change', () => { if (follow.checked) { setPref('textZoom', 0); A.setTextZoom(-1); rng.value = sys; out.textContent = sys + ' %'; } else { setPref('textZoom', +rng.value); A.setTextZoom(+rng.value); } });
         textRow = h('div', { class: 'st-row st-col' }, h('span', {}, 'Text size ', out), rng, h('label', { class: 'check' }, follow, 'Follow the phone’s font size'), h('p', { class: 'note', text: 'Sample: 1X 5.35 mm/s at 1780 RPM. Larger text reflows the panels; chart labels keep their size.' }));
-      } else textRow = h('div', { class: 'st-row st-col' }, h('span', { text: 'Text size' }), h('p', { class: 'note', text: 'Use your browser’s zoom (Ctrl and + on a computer, pinch on a phone). In the Android app this setting follows the phone and goes up to 200 %.' }));
+      } else textRow = h('div', { class: 'st-row st-col' }, h('span', { text: 'Text size' }), h('p', { class: 'note', text: IOS
+        ? 'On iPhone, Safari’s page menu (aA) changes the text size; in the Home Screen app, pinch to zoom.'
+        : 'Use your browser’s zoom (Ctrl and + on a computer, pinch on a phone). In the Android app this setting follows the phone and goes up to 200 %.' }));
       const file = h('input', { type: 'file', accept: '.json,application/json', hidden: true, onchange: () => { if (file.files[0]) importData(file.files[0]); file.value = ''; } });
+      // the website only (not the Android app, not a preview): where to get the phone apps, unless the lab already runs as one
+      const site = !A && /^https?:$/.test(location.protocol) && !!document.querySelector('link[rel="manifest"]');
+      const installed = navigator.standalone === true || (window.matchMedia && matchMedia('(display-mode: standalone)').matches);
+      const getRow = (href, dl, icon, title, sub) => h('a', { class: 'hm-row', href, download: dl }, h('span', { class: 'hm-ico sv-ic' }, ic(icon, 19)),
+        h('span', { class: 'hm-txt' }, h('b', { text: title }), h('span', { text: sub })), ic('next', 18));
+      const install = site && !installed ? card('Install the app',
+        getRow('VibrationAnalystLab.mobileconfig', false, 'phone', 'iPhone and iPad', 'Open this in Safari and tap Allow, then Settings → Profile Downloaded → Install. Or tap Share → Add to Home Screen.'),
+        getRow('VibrationAnalystLab.apk', true, 'download', 'Android', 'Download the app (APK) and tap it to install.')) : null;
       host.append(
         card('Appearance', segRow('Theme', [['auto', 'Auto'], ['light', 'Light'], ['dark', 'Dark']], theme, v => { store.set('theme', v); applyTheme(v); }), textRow,
           segRow('Motion', [['system', 'Follow device'], ['reduce', 'Reduce'], ['full', 'Full']], P.motion || 'system', v => { setPref('motion', v); snack('Motion changes apply after a restart'); restart.hidden = false; }),
-          (A && A.haptic) || navigator.vibrate ? segRow('Haptics', [['on', 'On'], ['off', 'Off']], P.haptics === false ? 'off' : 'on', v => { setPref('haptics', v === 'on'); if (v === 'on') haptic('tick'); }) : null),
+          (A && A.haptic) || (navigator.vibrate && !IOS && matchMedia('(pointer: coarse)').matches) ? segRow('Haptics', [['on', 'On'], ['off', 'Off']], P.haptics === false ? 'off' : 'on', v => { setPref('haptics', v === 'on'); if (v === 'on') haptic('tick'); }) : null),
         card('Your data',
           h('div', { class: 'st-row st-col' }, h('p', { class: 'note', text: 'Your progress, saved screens, notes and settings are kept only on this device. Make a backup file to move them to another phone or browser.' }),
             h('div', { class: 'btns' }, h('button', { type: 'button', class: 'btn', text: 'Back up to a file', onclick: exportData }), h('button', { type: 'button', class: 'btn', text: 'Restore from a file', onclick: () => file.click() }), file)),
           h('div', { class: 'st-row st-col' }, h('div', { class: 'btns' },
             h('button', { type: 'button', class: 'btn', text: 'Reset progress', onclick: async () => { if (await askConfirm('Reset your progress?', 'Lesson ticks, check-question history, challenge score and activity days go back to zero. Saved screens and notes stay.', 'Reset', true)) { prog = P0(); saveProg(); for (const k of ['ch3.done', 'ch4.done', 'ch5.done']) store.set(k, []); store.set('score', { right: 0, total: 0, streak: 0 }); location.reload(); } } }),
             h('button', { type: 'button', class: 'btn', text: 'Erase everything', onclick: async () => { if (await askConfirm('Erase everything?', 'Progress, saved screens, notes and settings are all removed from this device. This cannot be undone unless you have a backup file.', 'Erase', true)) { try { for (const k of Object.keys(localStorage)) if (k.startsWith('val.')) localStorage.removeItem(k); } catch (e) { /* ignore */ } location.reload(); } } })))),
+        ...(install ? [install] : []),
         card('Help', h('button', { type: 'button', class: 'hm-row', onclick: () => welcome(true) }, h('span', { class: 'hm-ico sv-ic' }, ic('play', 19)), h('span', { class: 'hm-txt' }, h('b', { text: 'Show the welcome screens again' }), h('span', { text: 'The three-screen introduction and your goal' })), ic('next', 18))),
         card('About', h('div', { class: 'st-row st-col' }, h('p', {}, h('b', { text: `Vibration Analyst Lab ${APP_VERSION}` }), ' · CAT III study simulator, built by a practising condition-monitoring engineer.'),
           h('p', { class: 'note', text: 'Works offline. No account, no tracking, no analytics: nothing you do here leaves this device unless you save or share a file yourself.' }),
@@ -12212,7 +12254,9 @@ const ICONS = {
   star: '<path d="M12 3.6l2.6 5.3 5.8.8-4.2 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z"/>',
   staron: '<path d="M12 3.6l2.6 5.3 5.8.8-4.2 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z" fill="currentColor"/>',
   note: '<path d="M4.5 19.5h4l10.8-10.8a2 2 0 0 0 0-2.8l-1.2-1.2a2 2 0 0 0-2.8 0L4.5 15.5zM13.8 6.2l4 4"/>',
-  x: '<path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/>' };
+  x: '<path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/>',
+  phone: '<rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M10.5 18.5h3"/>',
+  download: '<path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/>' };
 const THEMES = [['auto', 'Auto'], ['light', 'Light'], ['dark', 'Dark']];
 const PHONE = (() => { try { return matchMedia('(max-width: 860px)'); } catch (e) { return { matches: false, addEventListener() { /* none */ } }; } })();
 const TOPWIN = (() => { try { return window.top === window.self; } catch (e) { return false; } })();   // inside a frame (the claude.ai preview) history is left alone
@@ -12434,7 +12478,7 @@ boot();
 
 </script>
 <div id="ioshint" class="ioshint" hidden role="note">
-  <span><b>Install on your iPhone:</b> tap <svg viewBox="0 0 20 20" width="16" height="16" aria-label="Share" role="img"><path d="M10 2l4 4h-3v7H9V6H6l4-4zM4 9h3v2H5v6h10v-6h-2V9h3a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-8a1 1 0 0 1 1-1z" fill="currentColor"/></svg> Share, then <b>Add to Home Screen</b>. It then opens full screen and works offline.</span>
+  <span><b>Install on your iPhone:</b> tap <svg viewBox="0 0 20 20" width="16" height="16" aria-label="Share" role="img"><path d="M10 2l4 4h-3v7H9V6H6l4-4zM4 9h3v2H5v6h10v-6h-2V9h3a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-8a1 1 0 0 1 1-1z" fill="currentColor"/></svg> Share, then <b>Add to Home Screen</b>, or get the <a href="VibrationAnalystLab.mobileconfig">iPhone install file</a>. It opens full screen and works offline.</span>
   <button type="button" aria-label="Close the install hint">✕</button>
 </div>
 <div id="andhint" class="ioshint" hidden role="note">
