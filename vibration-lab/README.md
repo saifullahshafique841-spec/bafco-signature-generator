@@ -12,7 +12,9 @@ An interactive study lab for vibration analysis (ISO CAT III level). Simulate fa
 2. Tap **Share**, then **Add to Home Screen**.
 3. Open it from the Home Screen: it runs full screen like an app and keeps working offline.
 
-On Android, open the link in Chrome and choose **Install app** (or **Add to Home screen**) from the menu.
+## Android app
+
+Download **[VibrationAnalystLab.apk](VibrationAnalystLab.apk)** on your Android phone and tap it to install (allow installs from your browser if asked; Play Protect may warn because it is not from the Play Store: choose **Install anyway**). Or open the link in Chrome and choose **Install app** from the menu.
 
 ## What's inside
 
