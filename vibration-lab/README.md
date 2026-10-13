@@ -16,11 +16,19 @@ An interactive study lab for vibration analysis (ISO CAT III level). Simulate fa
 
 Download **[VibrationAnalystLab.apk](VibrationAnalystLab.apk)** on your Android phone and tap it to install (allow installs from your browser if asked; Play Protect may warn because it is not from the Play Store: choose **Install anyway**). Or open the link in Chrome and choose **Install app** from the menu.
 
-Version 1.2 installs over the earlier app and keeps your settings.
+Version 1.3 installs over the earlier app and keeps your settings.
 
 ## On a phone
 
 The lab opens as an app: a Home screen with every section, a bottom bar (Home, Diagnose, Setup, Learn, Labs) with a switcher for the sections in each group, and the bars slide away while you read. The back button returns to Home. Choose a Light, Dark or Auto theme at the bottom of Home.
+
+## Reading each screen
+
+Every section uses the same colour code:
+
+- **Settings** (yellow edge, sliders badge and an *Adjust* tag): the parameters you can change. Sliders have yellow knobs, dropdowns have an arrow, and the current value sits in a pill.
+- **Results** (screen badge): charts, readouts and tables that update as soon as you change a setting.
+- **Notes and checks** (book or question badge): key points, rule cards and quick questions.
 
 ## What's inside
 
