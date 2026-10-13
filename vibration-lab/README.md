@@ -16,7 +16,7 @@ An interactive study lab for vibration analysis (ISO CAT III level). Simulate fa
 
 Download **[VibrationAnalystLab.apk](VibrationAnalystLab.apk)** on your Android phone and tap it to install (allow installs from your browser if asked; Play Protect may warn because it is not from the Play Store: choose **Install anyway**). Or open the link in Chrome and choose **Install app** from the menu.
 
-Version 1.1 installs over the earlier app and keeps your settings.
+Version 1.2 installs over the earlier app and keeps your settings.
 
 ## On a phone
 
@@ -35,6 +35,7 @@ The lab opens as an app: a Home screen with every section, a bottom bar (Home, D
 | Ch 5 · Phase | How phase separates unbalance, misalignment, bent shaft, looseness and more |
 | Phase animations | Eleven animated phase lessons in plain words, plus a free-play phase simulator with missions |
 | Bearing, Gear, Balancing, Resonance labs | Defect frequencies, sidebands, single-plane balancing, Bode and bump tests |
+| Fan balancing | Field balancing of a fan: place the laser tacho and accelerometer, set the Adash to AR or WR, find the heavy spot, size the trial weight and split the correction over the blades |
 
 ## Notes
 

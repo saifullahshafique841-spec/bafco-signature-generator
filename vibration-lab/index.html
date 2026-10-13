@@ -382,6 +382,232 @@ footer { margin-top: 28px; color: var(--muted); font-size: 12px; max-width: 90ch
   .pacap p { font-size: 15px; }
   .patoast { font-size: 12px; top: 6px; }
 }
+/* ===== Fan balancing simulator (fanbal.js): its own spot colours, the lab's neutrals and fonts ===== */
+.fbal { --fb-acc: #0A6A85; --fb-acc-ink: #FFFFFF; --fb-acc-soft: #D5EAF0; --fb-heavy: #C2352B; --fb-high: #B36A00; --fb-light: #2A7F4E; --fb-trial: #6346BA;
+  --fb-corr: #0A7D72; --fb-tacho: #1D5FC8; --fb-pill-ink: #FFFFFF; --fb-blade: #A5B0AE; --fb-blade-1: #7C8A87; --fb-hub: #5B686B; --fb-casing: #E4E9E7;
+  --fb-screen: #0E181A; --fb-screen-ink: #BDF2D9; --fb-screen-dim: #6E9C8B; --fb-screen-hi: #FFD166;
+  --fb-ok-bg: color-mix(in srgb, var(--good) 14%, var(--surface)); --fb-ok-ink: var(--good-ink); --fb-bad-bg: color-mix(in srgb, var(--crit) 12%, var(--surface)); --fb-bad-ink: var(--crit-ink); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .fbal { --fb-acc: #4DB5D5; --fb-acc-ink: #062129; --fb-acc-soft: #15343D; --fb-heavy: #F0695C; --fb-high: #EFB13F;
+  --fb-light: #57C78A; --fb-trial: #A38CF2; --fb-corr: #3CC9B7; --fb-tacho: #6DA5FF; --fb-pill-ink: #0D1315; --fb-blade: #56635F; --fb-blade-1: #7A8985; --fb-hub: #86948F; --fb-casing: #1B2427; --fb-screen: #081012; } }
+:root[data-theme="dark"] .fbal { --fb-acc: #4DB5D5; --fb-acc-ink: #062129; --fb-acc-soft: #15343D; --fb-heavy: #F0695C; --fb-high: #EFB13F;
+  --fb-light: #57C78A; --fb-trial: #A38CF2; --fb-corr: #3CC9B7; --fb-tacho: #6DA5FF; --fb-pill-ink: #0D1315; --fb-blade: #56635F; --fb-blade-1: #7A8985; --fb-hub: #86948F; --fb-casing: #1B2427; --fb-screen: #081012; }
+.fbal { line-height: 1.5; }
+.fbal [hidden] { display: none !important; }
+.fbal .fb-grid{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,1fr);gap:18px;align-items:start}
+.fbal .fb-col{display:flex;flex-direction:column;gap:18px;min-width:0}
+.fbal .fb-card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;min-width:0}
+.fbal .fb-card-head{display:flex;align-items:center;justify-content:space-between;gap:8px 12px;flex-wrap:wrap;margin-bottom:12px}
+.fbal h2{margin:0;font-family:var(--font-display);font-weight:600;font-size:16px;letter-spacing:.09em;text-transform:uppercase}
+.fbal h3{margin:0 0 6px;font-family:var(--font-display);font-weight:600;font-size:21px;letter-spacing:.01em;text-wrap:balance}
+.fbal p{margin:0}
+.fbal .fb-hint{font-size:13px;color:var(--muted)}
+.fbal .fb-mono{font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+.fbal button{font:inherit;font-size:14px;line-height:1.2;border:1px solid var(--axis);background:var(--surface);color:var(--ink);border-radius:7px;padding:8px 12px;cursor:pointer}
+.fbal button:hover{border-color:var(--muted)}
+.fbal button.fb-primary{background:var(--fb-acc);border-color:var(--fb-acc);color:var(--fb-acc-ink);font-weight:700}
+.fbal button.fb-primary:hover{filter:brightness(1.08)}
+.fbal :focus-visible{outline:2px solid var(--fb-acc);outline-offset:2px}
+.fbal .fb-row-btns{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.fbal .fb-speed{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-2)}
+.fbal .fb-speed input{width:96px;accent-color:var(--fb-acc)}
+.fbal .fb-scroll-x{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.fbal #fb-fan{display:block;width:100%;min-width:400px;height:auto}
+.fbal #fb-sig{display:block;width:100%;min-width:470px;height:auto}
+.fbal .fb-fan-cap{margin-top:8px;font-size:13.5px;color:var(--ink-2)}
+.fbal .fb-swipe-hint{display:none;margin-top:6px;font-size:12.5px;color:var(--muted)}
+.fbal .fb-legend{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:10px;padding-top:10px;border-top:1px solid var(--line);font-size:13px;color:var(--ink-2)}
+.fbal .fb-legend span{display:inline-flex;align-items:center;gap:6px}
+.fbal .fb-sw{width:12px;height:12px;border-radius:3px;display:inline-block;flex:none}
+.fbal .fb-sw-round{border-radius:50%}
+.fbal .fb-sw-tape{background:var(--fb-tacho);height:5px;width:14px;border-radius:1px}
+.fbal .fb-sw-tacho{background:var(--fb-tacho)}
+.fbal .fb-sw-accel{background:var(--ink)}
+.fbal .fb-sw-heavy{background:var(--fb-heavy)}
+.fbal .fb-sw-high{background:var(--fb-high)}
+.fbal .fb-sw-light{background:var(--fb-light)}
+.fbal .fb-sw-trial{background:var(--fb-trial)}
+.fbal .fb-sw-corr{background:var(--fb-corr)}
+.fbal .fb-sw-rot{background:none;border:3px solid var(--fb-acc);border-left-color:transparent;border-bottom-color:transparent;border-radius:50%;transform:rotate(45deg)}
+.fbal .fb-casing{fill:var(--fb-casing);stroke:var(--axis);stroke-width:1.5}
+.fbal .fb-ticks line{stroke:var(--axis);stroke-width:1.5}
+.fbal .fb-clock text{fill:var(--muted);font:500 15px var(--font-mono)}
+.fbal .fb-blades line{stroke:var(--fb-blade);stroke-width:12;stroke-linecap:round}
+.fbal .fb-blades line.fb-b1{stroke:var(--fb-blade-1)}
+.fbal .fb-hub{fill:var(--fb-hub);stroke:var(--ink-2);stroke-width:1}
+.fbal .fb-tape{stroke:var(--fb-tacho);stroke-width:8}
+.fbal .fb-beam{stroke:var(--fb-tacho);stroke-width:1.6;stroke-dasharray:6 5}
+.fbal .fb-icon-tacho rect{fill:var(--fb-tacho)}
+.fbal .fb-icon-tacho .fb-lens{fill:var(--surface)}
+.fbal .fb-icon-accel rect{fill:var(--ink);transition:fill .08s}
+.fbal .fb-icon-accel .fb-stud{fill:var(--surface)}
+.fbal .fb-icon-accel.fb-hot rect{fill:var(--fb-acc)}
+.fbal .fb-lbl-icon{fill:var(--ink);font:700 15px var(--font-body)}
+.fbal .fb-lbl-icon .fb-sub{fill:var(--ink-2);font:500 13px var(--font-mono)}
+.fbal .fb-badge circle{fill:var(--surface);stroke:var(--ink-2);stroke-width:1.3}
+.fbal .fb-badge.fb-b1 circle{stroke:var(--fb-tacho);stroke-width:2.4}
+.fbal .fb-badge text{fill:var(--ink);font:700 14px var(--font-body)}
+.fbal .fb-angles text{fill:var(--ink-2);font:500 12.5px var(--font-mono)}
+.fbal .fb-pill rect{stroke-width:1.6}
+.fbal .fb-pill text{font:700 13px var(--font-body);fill:var(--fb-pill-ink)}
+.fbal .fb-pill-heavy rect{fill:var(--fb-heavy);stroke:var(--fb-heavy)}
+.fbal .fb-pill-high rect{fill:var(--fb-high);stroke:var(--fb-high)}
+.fbal .fb-pill-light rect{fill:var(--fb-light);stroke:var(--fb-light)}
+.fbal .fb-pill-q rect{fill:var(--surface);stroke-dasharray:4 3}
+.fbal .fb-pill-q.fb-pill-heavy text{fill:var(--fb-heavy)}
+.fbal .fb-pill-q.fb-pill-light text{fill:var(--fb-light)}
+.fbal .fb-light-line{stroke:var(--fb-light);stroke-width:1.6;stroke-dasharray:3 5}
+.fbal .fb-w-trial{fill:var(--fb-trial);stroke:var(--surface);stroke-width:1.5}
+.fbal .fb-w-corr{fill:var(--fb-corr);stroke:var(--surface);stroke-width:1.5}
+.fbal .fb-w-ghost{fill:none;stroke:var(--fb-corr);stroke-width:1.8;stroke-dasharray:3 3}
+.fbal .fb-arc{fill:none;stroke-linecap:round}
+.fbal .fb-arc-sensor{stroke:var(--ink-2);stroke-width:1.6;stroke-dasharray:5 4}
+.fbal .fb-arc-heavy{stroke:var(--fb-heavy);stroke-width:3}
+.fbal .fb-arc-corr{stroke:var(--fb-corr);stroke-width:3}
+.fbal .fb-rot-arrow{fill:none;stroke:var(--fb-acc);stroke-width:4;stroke-linecap:round}
+.fbal .fb-fill-ink{fill:var(--ink-2)}
+.fbal .fb-fill-heavy{fill:var(--fb-heavy)}
+.fbal .fb-fill-corr{fill:var(--fb-corr)}
+.fbal .fb-fill-accent{fill:var(--fb-acc)}
+.fbal .fb-sig-grid line{stroke:var(--line);stroke-width:1}
+.fbal .fb-sig-axis{stroke:var(--axis);stroke-width:1}
+.fbal .fb-sig-x text{fill:var(--muted);font:500 11.5px var(--font-mono)}
+.fbal .fb-tach-pulse{stroke:var(--fb-tacho);stroke-width:2.2}
+.fbal .fb-tach-lbl{fill:var(--fb-tacho);font:700 12px var(--font-body)}
+.fbal .fb-sig-main{fill:none;stroke:var(--ink);stroke-width:2.2;stroke-linejoin:round}
+.fbal .fb-sig-disp{fill:none;stroke:var(--muted);stroke-width:1.5;stroke-dasharray:6 4}
+.fbal .fb-peak{fill:var(--fb-acc);stroke:var(--surface);stroke-width:1.5}
+.fbal .fb-peak-d{fill:var(--surface);stroke:var(--muted);stroke-width:1.5}
+.fbal .fb-bracket{fill:none;stroke:var(--fb-acc);stroke-width:1.6}
+.fbal .fb-bracket-lbl{fill:var(--fb-acc);font:600 13px var(--font-mono)}
+.fbal .fb-adj-bracket{fill:none;stroke:var(--muted);stroke-width:1.4}
+.fbal .fb-adj-lbl{fill:var(--ink-2);font:500 11.5px var(--font-mono)}
+.fbal .fb-cursor{stroke:var(--ink-2);stroke-width:1.2;stroke-dasharray:2 3}
+.fbal .fb-sig-cap{margin-top:8px;font-size:13.5px;color:var(--ink-2)}
+.fbal .fb-sig-cap b{color:var(--ink)}
+.fbal .fb-seg{position:relative;display:inline-flex;flex-wrap:wrap;border:1px solid var(--axis);border-radius:8px;overflow:hidden;background:var(--surface-2)}
+.fbal .fb-seg input{position:absolute;opacity:0;pointer-events:none;width:1px;height:1px}
+.fbal .fb-seg label{padding:7px 12px;cursor:pointer;font-size:14px;color:var(--ink-2);border-right:1px solid var(--line);user-select:none}
+.fbal .fb-seg label:last-of-type{border-right:0}
+.fbal .fb-seg input:checked + label{background:var(--fb-acc);color:var(--fb-acc-ink);font-weight:700}
+.fbal .fb-seg input:focus-visible + label{outline:2px solid var(--fb-acc);outline-offset:-3px}
+.fbal .fb-seg-big{display:grid;grid-template-columns:1fr 1fr;width:100%}
+.fbal .fb-seg-big label{display:grid;gap:0;padding:10px 14px;text-align:left}
+.fbal .fb-seg-big label b{font-family:var(--font-display);font-size:26px;line-height:1;font-weight:700;letter-spacing:.02em}
+.fbal .fb-seg-big label small{font-size:13px}
+.fbal .fb-verdict{margin-top:12px;padding:10px 12px;border-radius:8px;font-size:14.5px}
+.fbal .fb-verdict.fb-ok{background:var(--fb-ok-bg);color:var(--fb-ok-ink)}
+.fbal .fb-verdict.fb-bad{background:var(--fb-bad-bg);color:var(--fb-bad-ink)}
+.fbal .fb-verdict b{font-weight:700}
+.fbal .fb-check{display:flex;gap:8px;align-items:flex-start;font-size:14px;color:var(--ink-2);margin-top:10px;cursor:pointer}
+.fbal .fb-check input{margin-top:3px;accent-color:var(--fb-acc);flex:none}
+.fbal .fb-small-note{margin-top:10px;font-size:13px;color:var(--muted)}
+.fbal .fb-screen{background:var(--fb-screen);color:var(--fb-screen-ink);font-family:var(--font-mono);border-radius:9px;padding:14px 16px;display:grid;gap:4px;border:1px solid var(--axis);font-variant-numeric:tabular-nums}
+.fbal .fb-scr-top{display:flex;justify-content:space-between;gap:8px;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--fb-screen-dim)}
+.fbal .fb-scr-run{font-size:13px;letter-spacing:.1em;color:var(--fb-screen-hi);margin-bottom:4px}
+.fbal .fb-scr-row{display:grid;grid-template-columns:5.5em auto 1fr;align-items:baseline;gap:10px}
+.fbal .fb-scr-row span:first-child{color:var(--fb-screen-dim);font-size:12px;letter-spacing:.1em}
+.fbal .fb-scr-row b{font-size:30px;line-height:1.1;font-weight:500}
+.fbal .fb-scr-row .fb-u{color:var(--fb-screen-dim);font-size:13px}
+.fbal .fb-scr-foot{margin-top:4px;font-size:12px;letter-spacing:.06em;color:var(--fb-screen-dim)}
+.fbal .fb-stepper{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.fbal .fb-stepper button{font-size:13.5px;padding:6px 10px;border-radius:20px;background:var(--surface-2)}
+.fbal .fb-stepper button[aria-current="step"]{background:var(--fb-acc);border-color:var(--fb-acc);color:var(--fb-acc-ink);font-weight:700}
+.fbal .fb-step{display:grid;gap:10px}
+.fbal .fb-step > p{color:var(--ink-2)}
+.fbal .fb-kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin:2px 0 0}
+.fbal .fb-kv div{background:var(--surface-2);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+.fbal .fb-kv dt{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em}
+.fbal .fb-kv dd{margin:2px 0 0;font-family:var(--font-mono);font-size:16px;font-variant-numeric:tabular-nums}
+.fbal .fb-note{font-size:13.5px;color:var(--ink-2)}
+.fbal .fb-note button{margin-left:6px;font-size:13px;padding:4px 8px}
+.fbal .fb-formula{background:var(--surface-2);border:1px solid var(--line);border-radius:8px;padding:10px 12px;display:grid;gap:4px}
+.fbal .fb-formula .fb-f-name{font-size:14px;color:var(--ink-2)}
+.fbal .fb-formula .fb-f-num{font-family:var(--font-mono);font-size:16px;font-variant-numeric:tabular-nums;color:var(--ink);overflow-wrap:anywhere}
+.fbal .fb-table-wrap{overflow-x:auto}
+.fbal .fb-spots{width:100%;border-collapse:collapse;font-size:14px}
+.fbal .fb-spots th,.fbal .fb-spots td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.fbal .fb-spots th{font-weight:700;white-space:nowrap}
+.fbal .fb-spots td.fb-mono{white-space:nowrap}
+.fbal .fb-spots td:last-child{color:var(--ink-2)}
+.fbal .fb-dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+.fbal .fb-same{font-size:14px;padding:8px 10px;border-left:3px solid var(--fb-acc);background:var(--fb-acc-soft);border-radius:0}
+.fbal .fb-warn{font-size:14px;padding:9px 11px;border-radius:8px;background:var(--fb-bad-bg);color:var(--fb-bad-ink)}
+.fbal .fb-checkline{font-size:14px;padding:8px 10px;border-radius:8px}
+.fbal .fb-checkline.fb-ok{background:var(--fb-ok-bg);color:var(--fb-ok-ink)}
+.fbal .fb-checkline.fb-bad{background:var(--fb-bad-bg);color:var(--fb-bad-ink)}
+.fbal .fb-inline-fields{display:flex;flex-wrap:wrap;gap:10px 14px}
+.fbal .fb-field{display:grid;gap:4px;font-size:13.5px;color:var(--ink-2);min-width:0}
+.fbal .fb-field > span{display:flex;justify-content:space-between;gap:8px}
+.fbal .fb-field output{font-family:var(--font-mono);color:var(--ink);font-variant-numeric:tabular-nums}
+.fbal .fb-field small{font-size:12.5px;color:var(--muted)}
+.fbal select,.fbal input[type="number"]{font:inherit;font-size:14.5px;color:var(--ink);background:var(--surface);border:1px solid var(--axis);border-radius:7px;padding:7px 9px;min-width:0;max-width:100%}
+.fbal input[type="number"]{width:8.5em;font-family:var(--font-mono)}
+.fbal input[type="range"]{width:100%;accent-color:var(--fb-acc)}
+.fbal details.fb-calc{border:1px dashed var(--axis);border-radius:8px;padding:8px 10px;font-size:14px}
+.fbal details.fb-calc summary{cursor:pointer;color:var(--fb-acc);font-weight:700}
+.fbal details.fb-calc[open]{display:grid;gap:8px}
+.fbal .fb-result{background:var(--surface-2);border:1px solid var(--line);border-left:4px solid var(--fb-corr);border-radius:0 8px 8px 0;padding:10px 12px;display:grid;gap:3px}
+.fbal .fb-result b{font-family:var(--font-mono);font-weight:600}
+.fbal .fb-result .fb-sub{font-size:13.5px;color:var(--ink-2)}
+.fbal .fb-split{margin:0;padding:0;list-style:none;display:grid;gap:6px}
+.fbal .fb-split li{display:flex;justify-content:space-between;gap:10px;padding:7px 10px;border:1px solid var(--line);border-radius:8px;font-size:14px}
+.fbal .fb-split li b{font-family:var(--font-mono)}
+.fbal .fb-split li.fb-wrong{border-color:var(--fb-heavy)}
+.fbal .fb-step-nav{display:flex;justify-content:space-between;gap:8px;margin-top:14px}
+.fbal .fb-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 16px}
+.fbal .fb-form .fb-wide{grid-column:1 / -1}
+.fbal fieldset{border:0;padding:0;margin:0;min-width:0;display:grid;gap:5px}
+.fbal legend{padding:0;font-size:13.5px;color:var(--ink-2);margin-bottom:5px}
+.fbal .fb-card-notes{margin-top:18px}
+.fbal .fb-notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px 22px;margin:0;padding:0;list-style:none}
+.fbal .fb-notes li{font-size:14.5px;color:var(--ink-2);padding-top:8px;border-top:2px solid var(--line)}
+.fbal .fb-notes li b{display:block;color:var(--ink);font-family:var(--font-display);font-size:17px;font-weight:600;letter-spacing:.01em;margin-bottom:2px}
+.fbal .fb-sources{margin-top:14px;font-size:13px;color:var(--muted)}
+@media (max-width: 920px){
+.fbal .fb-grid{grid-template-columns:minmax(0,1fr)}
+.fbal .fb-col{display:contents}
+.fbal .fb-card-fan{order:1}
+.fbal .fb-card-setting{order:2}
+.fbal .fb-card-screen{order:3}
+.fbal .fb-card-steps{order:4}
+.fbal .fb-card-signal{order:5}
+.fbal .fb-card-setup{order:6}
+}
+@media (max-width: 560px){
+.fbal .fb-form{grid-template-columns:minmax(0,1fr)}
+.fbal .fb-scr-row b{font-size:25px}
+.fbal .fb-card{padding:12px}
+}
+@media (max-width: 480px){
+.fbal .fb-swipe-hint{display:block}
+}
+@media (prefers-reduced-motion: reduce){
+.fbal .fb-icon-accel rect{transition:none}
+}
+/* the lab's own look for cards, buttons, switches and the step chips */
+.fbal .fb-grid { gap: 16px; padding-top: 16px; }
+.fbal .fb-col { gap: 16px; }
+.fbal .fb-card { border-radius: var(--r); padding: 12px 14px; }
+.fbal .fb-card-notes { margin-top: 16px; }
+.fbal h2 { font: 600 15px/1.2 var(--font-display); letter-spacing: .08em; color: var(--ink-2); }
+.fbal button { font-size: 13.5px; border-radius: 4px; padding: 7px 12px; font-weight: 500; }
+.fbal button:hover { border-color: var(--ink-2); }
+.fbal button.fb-primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 600; }
+.fbal button.fb-primary:hover { filter: brightness(1.05); }
+.fbal button:disabled { opacity: .5; cursor: not-allowed; }
+.fbal :focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.fbal .fb-seg { border-color: var(--axis); border-radius: 4px; background: var(--surface); }
+.fbal .fb-seg label { padding: 6px 12px; font-size: 13px; border-right-color: var(--axis); }
+.fbal .fb-seg input:checked + label { background: var(--ink); color: var(--surface); font-weight: 600; }
+.fbal .fb-seg input:focus-visible + label { outline-color: var(--focus); }
+.fbal .fb-stepper button { border-radius: 999px; background: var(--surface-2); font-size: 13px; }
+.fbal .fb-stepper button[aria-current="step"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 600; }
+.fbal details.fb-calc summary { color: var(--focus); font-weight: 600; }
+.fbal .fb-same { border-left-color: var(--accent); background: var(--surface-2); }
+.fbal input[type="range"], .fbal .fb-check input, .fbal .fb-speed input { accent-color: var(--trace); }
+.fbal select, .fbal input[type="number"] { border-radius: 4px; }
+@media (max-width: 860px) { .fbal select, .fbal input[type="number"] { font-size: 16px; } }
+@media (pointer: coarse) { .fbal button { min-height: 40px; } .fbal .fb-seg label { padding: 9px 12px; } .fbal select, .fbal input[type="number"] { min-height: 44px; } }
 /* phones and touch screens */
 @media (max-width: 860px) {
   select, input[type="number"], input[type="text"], input[type="search"], textarea { font-size: 16px; }   /* stops iOS zooming in on focus */
@@ -10030,6 +10256,834 @@ paScene({ id: 'sim', short: 'Free play', title: 'Phase simulator: operate it you
     paTag(c, wide ? 'arrow length = amplitude, angle = phase' : 'length = size', po.x + po.w / 2, po.y + po.h - 9, { size: fs - 2, col: PAC.mute, bg: null, w: 500 });
   } });
 
+/* ===== Fan balancing: single-plane field balancing of a fan with a laser tacho and an accelerometer, the AR/WR angle setting,
+   the heavy, high and light spots, a trial-weight run and the correction (Saif's Fan Balancing Simulator, built into the lab) ===== */
+const FB_HTML = `<div class="fb-grid">
+    <div class="fb-col fb-col-a">
+      <section class="fb-card fb-card-fan" aria-labelledby="fb-fanTitle">
+        <div class="fb-card-head">
+          <h2 id="fb-fanTitle">The fan, as you look at it</h2>
+          <div class="fb-row-btns">
+            <button id="fb-playBtn" type="button">Pause</button>
+            <button id="fb-alignBtn" type="button">Stop with tape at tacho</button>
+            <label class="fb-speed" for="fb-speed">Slow motion <input id="fb-speed" type="range" min="0.08" max="1" step="0.02" value="0.3"></label>
+          </div>
+        </div>
+        <div class="fb-scroll-x">
+          <svg id="fb-fan" viewBox="0 0 660 648" role="img" aria-labelledby="fb-fanSvgTitle fb-fanSvgDesc">
+            <title id="fb-fanSvgTitle">Fan front view</title>
+            <desc id="fb-fanSvgDesc">Fan with numbered blades, reflective tape on blade 1, a laser tacho and an accelerometer on the casing, and markers for the high spot, heavy spot, light spot, trial weight and correction weights.</desc>
+          </svg>
+        </div>
+        <p class="fb-swipe-hint">Swipe the drawing sideways to see all of it.</p>
+        <p class="fb-fan-cap" id="fb-fanCap"></p>
+        <div class="fb-legend" aria-label="Legend">
+          <span><i class="fb-sw fb-sw-tape"></i>Tape on blade 1</span>
+          <span><i class="fb-sw fb-sw-tacho"></i>Laser tacho</span>
+          <span><i class="fb-sw fb-sw-accel"></i>Accelerometer</span>
+          <span><i class="fb-sw fb-sw-round fb-sw-high"></i>High spot</span>
+          <span><i class="fb-sw fb-sw-round fb-sw-heavy"></i>Heavy spot</span>
+          <span><i class="fb-sw fb-sw-round fb-sw-light"></i>Light spot</span>
+          <span><i class="fb-sw fb-sw-trial"></i>Trial weight</span>
+          <span><i class="fb-sw fb-sw-corr"></i>Correction</span>
+          <span><i class="fb-sw fb-sw-rot"></i>Rotation</span>
+        </div>
+      </section>
+
+      <section class="fb-card fb-card-signal" aria-labelledby="fb-sigTitle">
+        <div class="fb-card-head">
+          <h2 id="fb-sigTitle">Signal at the accelerometer</h2>
+          <span class="fb-hint">Two revolutions · blue lines are tach pulses</span>
+        </div>
+        <div class="fb-scroll-x">
+          <svg id="fb-sig" viewBox="0 0 640 246" role="img" aria-labelledby="fb-sigSvgTitle">
+            <title id="fb-sigSvgTitle">1X waveform with tach pulses and the measured phase</title>
+          </svg>
+        </div>
+        <p class="fb-sig-cap" id="fb-sigCap"></p>
+      </section>
+
+      <section class="fb-card fb-card-setup" aria-labelledby="fb-setupTitle">
+        <div class="fb-card-head">
+          <h2 id="fb-setupTitle">Machine setup</h2>
+          <div class="fb-row-btns">
+            <button id="fb-presetBtn" type="button">Load your example</button>
+            <button id="fb-randBtn" type="button">Random heavy spot</button>
+          </div>
+        </div>
+        <div class="fb-form">
+          <fieldset>
+            <legend>Rotation, as you look at the fan</legend>
+            <div class="fb-seg">
+              <input type="radio" name="fb-rot" id="fb-rot-cw" value="CW"><label for="fb-rot-cw">Clockwise</label>
+              <input type="radio" name="fb-rot" id="fb-rot-ccw" value="CCW"><label for="fb-rot-ccw">Counter-clockwise</label>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>Blade numbers run</legend>
+            <div class="fb-seg">
+              <input type="radio" name="fb-num" id="fb-num-ar" value="AR"><label for="fb-num-ar">Against rotation</label>
+              <input type="radio" name="fb-num" id="fb-num-wr" value="WR"><label for="fb-num-wr">With rotation</label>
+            </div>
+          </fieldset>
+          <label class="fb-field" for="fb-tach"><span>Laser tacho position</span><select id="fb-tach"></select></label>
+          <label class="fb-field" for="fb-sens"><span>Accelerometer position</span><select id="fb-sens"></select></label>
+          <label class="fb-field" for="fb-blades"><span>Number of blades</span><select id="fb-blades"></select></label>
+          <label class="fb-field" for="fb-rpm"><span>Speed (rpm)</span><input id="fb-rpm" type="number" min="300" max="6000" step="10" value="1480"></label>
+          <fieldset class="fb-wide">
+            <legend>Units the Adash measures</legend>
+            <div class="fb-seg">
+              <input type="radio" name="fb-unit" id="fb-u-disp" value="disp"><label for="fb-u-disp">Displacement</label>
+              <input type="radio" name="fb-unit" id="fb-u-vel" value="vel"><label for="fb-u-vel">Velocity</label>
+              <input type="radio" name="fb-unit" id="fb-u-acc" value="acc"><label for="fb-u-acc">Acceleration</label>
+            </div>
+          </fieldset>
+          <label class="fb-field fb-wide" for="fb-lag"><span>System lag <output id="fb-lagOut" for="fb-lag"></output></span><input id="fb-lag" type="range" min="0" max="180" step="5" value="15"><small>About 0–30° well below the first critical speed, 90° at resonance, close to 180° above it.</small></label>
+          <label class="fb-field fb-wide" for="fb-heavy"><span>True heavy spot, from the tape <output id="fb-heavyOut" for="fb-heavy"></output></span><input id="fb-heavy" type="range" min="0" max="359" step="1" value="331"></label>
+          <label class="fb-field fb-wide" for="fb-u0"><span>Initial unbalance <output id="fb-u0Out" for="fb-u0"></output></span><input id="fb-u0" type="range" min="5" max="100" step="1" value="30"></label>
+          <label class="fb-check fb-wide" for="fb-hide"><input type="checkbox" id="fb-hide"> Hide the heavy spot during Run 1, then find it from the reading</label>
+          <label class="fb-check fb-wide" for="fb-scatter"><input type="checkbox" id="fb-scatter" checked> Add realistic scatter (±3%, ±3°) to the Run 2 and Run 3 readings</label>
+        </div>
+      </section>
+    </div>
+
+    <div class="fb-col fb-col-b">
+      <section class="fb-card fb-card-setting" aria-labelledby="fb-setTitle">
+        <div class="fb-card-head">
+          <h2 id="fb-setTitle">Adash angle setting</h2>
+          <span class="fb-hint">Global → Angles Counting</span>
+        </div>
+        <div class="fb-seg fb-seg-big" role="radiogroup" aria-labelledby="fb-setTitle">
+          <input type="radio" name="fb-setting" id="fb-set-ar" value="AR"><label for="fb-set-ar"><b>AR</b><small>against rotation</small></label>
+          <input type="radio" name="fb-setting" id="fb-set-wr" value="WR"><label for="fb-set-wr"><b>WR</b><small>with rotation</small></label>
+        </div>
+        <div class="fb-verdict" id="fb-verdict" aria-live="polite"></div>
+        <label class="fb-check" for="fb-mistake"><input type="checkbox" id="fb-mistake"> Show the common mistake: count on the fan the opposite way to the setting</label>
+        <p class="fb-small-note">With a laser tacho the phase is a lag, which counts against rotation. Mobius calls AR the standard convention for laser and optical tachs.</p>
+      </section>
+
+      <section class="fb-card fb-card-screen" aria-label="Balancer readout">
+        <div class="fb-screen" id="fb-screen" aria-live="polite"></div>
+      </section>
+
+      <section class="fb-card fb-card-steps" aria-labelledby="fb-stepsTitle">
+        <div class="fb-card-head"><h2 id="fb-stepsTitle">Balance it with a trial weight</h2></div>
+        <nav class="fb-stepper" id="fb-stepper" aria-label="Balancing steps">
+          <button type="button" data-stage="1">1 · Run 1</button>
+          <button type="button" data-stage="2">2 · Heavy spot</button>
+          <button type="button" data-stage="3">3 · Trial run</button>
+          <button type="button" data-stage="4">4 · Correction</button>
+        </nav>
+
+        <div class="fb-step" data-step="1">
+          <h3>Run 1 · initial reading</h3>
+          <p>Each time the tape on the shaft passes the tacho, the analyzer gets a trigger pulse. The phase is how far the rotor turns from that pulse to the positive peak of the signal at the accelerometer.</p>
+          <dl class="fb-kv">
+            <div><dt>1X amplitude</dt><dd id="fb-s1amp"></dd></div>
+            <div><dt>Phase</dt><dd id="fb-s1ph"></dd></div>
+            <div><dt>Accelerometer</dt><dd id="fb-s1acc"></dd></div>
+          </dl>
+          <p class="fb-note">Displacement peaks when the high spot passes the accelerometer. Velocity peaks 90° earlier and acceleration 180° earlier, so step 2 adds that back as the units adjustment.</p>
+          <p class="fb-note" id="fb-s1quiz" hidden>The heavy spot is hidden. Work it out in step 2, then compare. <button id="fb-revealBtn" type="button">Show it now</button></p>
+        </div>
+
+        <div class="fb-step" data-step="2" hidden>
+          <h3>Find the heavy spot</h3>
+          <p id="fb-s2intro"></p>
+          <div class="fb-formula"><div class="fb-f-name" id="fb-s2fname"></div><div class="fb-f-num" id="fb-s2fnum"></div></div>
+          <div class="fb-table-wrap"><table class="fb-spots"><tbody id="fb-s2table"></tbody></table></div>
+          <p class="fb-same" id="fb-s2same"></p>
+          <p class="fb-warn" id="fb-s2warn" hidden></p>
+        </div>
+
+        <div class="fb-step" data-step="3" hidden>
+          <h3>Trial weight · Run 2</h3>
+          <p>Fit the trial weight on the blade nearest the light spot, so Run 2 does not push the vibration up. The calculation itself works from any blade.</p>
+          <div class="fb-inline-fields">
+            <label class="fb-field" for="fb-trialPos"><span>Trial weight on</span><select id="fb-trialPos"></select></label>
+            <label class="fb-field" for="fb-trialMass"><span>Trial mass (g)</span><input id="fb-trialMass" type="number" min="0.5" max="500" step="0.5" value="15"></label>
+          </div>
+          <details class="fb-calc">
+            <summary>Size the trial weight (Mobius rule)</summary>
+            <div class="fb-inline-fields">
+              <label class="fb-field" for="fb-rotorKg"><span>Rotor mass (kg)</span><input id="fb-rotorKg" type="number" min="1" step="1" value="120"></label>
+              <label class="fb-field" for="fb-radiusMm"><span>Weight radius (mm)</span><input id="fb-radiusMm" type="number" min="10" step="5" value="400"></label>
+            </div>
+            <p class="fb-mono" id="fb-twOut"></p>
+            <div><button id="fb-useTw" type="button">Use this mass</button></div>
+          </details>
+          <dl class="fb-kv">
+            <div><dt>Run 2 amplitude</dt><dd id="fb-s3amp"></dd></div>
+            <div><dt>Run 2 phase</dt><dd id="fb-s3ph"></dd></div>
+            <div><dt>Change from Run 1</dt><dd id="fb-s3chg"></dd></div>
+          </dl>
+          <p class="fb-checkline" id="fb-s3check"></p>
+          <p class="fb-note" id="fb-s3note"></p>
+        </div>
+
+        <div class="fb-step" data-step="4" hidden>
+          <h3>Correction · Run 3</h3>
+          <label class="fb-check" for="fb-removeTrial"><input type="checkbox" id="fb-removeTrial" checked> Remove the trial weight after Run 2</label>
+          <div class="fb-result"><div id="fb-s4res"></div><div class="fb-sub" id="fb-s4count"></div></div>
+          <ul class="fb-split" id="fb-s4split"></ul>
+          <dl class="fb-kv">
+            <div><dt>Run 3 amplitude</dt><dd id="fb-s4amp"></dd></div>
+            <div><dt>Compared with Run 1</dt><dd id="fb-s4pct"></dd></div>
+          </dl>
+          <p class="fb-warn" id="fb-s4warn" hidden></p>
+          <p class="fb-note" id="fb-s4note"></p>
+        </div>
+
+        <div class="fb-step-nav">
+          <button id="fb-prevBtn" type="button">Back</button>
+          <button id="fb-nextBtn" type="button" class="fb-primary">Next</button>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <section class="fb-card fb-card-notes" aria-labelledby="fb-notesTitle">
+    <div class="fb-card-head"><h2 id="fb-notesTitle">What to take to the fan</h2></div>
+    <ul class="fb-notes">
+      <li><b>One spot, two ways to count</b>331°AR from the tape and 29°WR are the same point. The setting changes the number and the counting direction, never the spot.</li>
+      <li><b>Pick AR for your numbering</b>Your blade numbers run against rotation. With AR, the Adash angles run the same way, so a reading lands straight on a blade number.</li>
+      <li><b>Count with the tape at the tacho</b>Stop the fan with the tape facing the tacho, then count from that line. On a running or misaligned rotor the angles mean nothing.</li>
+      <li><b>The trial method doesn't need the heavy spot</b>The light-spot position only keeps Run 2 safe. The Adash works out the correction from the measured change, so a wrong lag estimate doesn't spoil the result.</li>
+    </ul>
+    <p class="fb-sources">Formula and worked example: Emerson CSI 2130 Advanced Fast Balance manual, p. 5-30. Phase conventions and trial-weight rules: Mobius Institute Category IV Precision Balancing, pp. 51–53, 146, 231–234. AR/WR setting: Adash VA5 Pro manual, Angles Counting. The model is a rigid rotor with one correction plane and a constant lag.</p>
+  </section>`;
+function FanBalanceLab(root) {
+  const box = h('div', { class: 'fbal' }); box.innerHTML = FB_HTML; root.append(box);
+  const $ = id => document.getElementById('fb-' + id);
+
+  const NS = "http://www.w3.org/2000/svg";
+  const CX = 330, CY = 324;
+  const R = { hub: 40, tapeIn: 28, tapeOut: 46, high: 72, weight: 114, spot: 150, bladeIn: 50, bladeOut: 162, badge: 186, angle: 216, casing: 234, arcS: 243, arcC: 252, icon: 266, label: 304 };
+  const DEG = Math.PI / 180;
+  const mod = (a, m = 360) => ((a % m) + m) % m;
+  const sdiff = (a, b) => { const d = mod(a - b); return d > 180 ? d - 360 : d; };
+  const ADJ = { disp: 0, vel: 90, acc: 180 };
+  const UNIT = { disp: "µm", vel: "mm/s", acc: "g" };
+  const UNIT_NAME = { disp: "displacement", vel: "velocity", acc: "acceleration" };
+  const KV = 7.1 / 30;
+
+  const cx = (re, im) => ({ re, im });
+  const polar = (m, a) => cx(m * Math.cos(a * DEG), m * Math.sin(a * DEG));
+  const add = (a, b) => cx(a.re + b.re, a.im + b.im);
+  const sub = (a, b) => cx(a.re - b.re, a.im - b.im);
+  const div = (a, b) => { const d = b.re * b.re + b.im * b.im; return cx((a.re * b.re + a.im * b.im) / d, (a.im * b.re - a.re * b.im) / d); };
+  const neg = a => cx(-a.re, -a.im);
+  const cabs = a => Math.hypot(a.re, a.im);
+  const carg = a => mod(Math.atan2(a.im, a.re) / DEG);
+
+  function hashStr(str) { let h = 2166136261; for (let i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
+  function rng(seed) { let t = seed; return () => { t += 0x6D2B79F5; let r = Math.imul(t ^ (t >>> 15), 1 | t); r ^= r + Math.imul(r ^ (r >>> 7), 61 | r); return ((r ^ (r >>> 14)) >>> 0) / 4294967296; }; }
+
+  const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const S = {
+    rot: "CCW", N: 8, numDir: "AR", tachClock: 12, sensClock: 3, unit: "vel",
+    lag: 15, heavy: 331, U0: 30, rpm: 1480, hide: false, revealed: false,
+    setting: "AR", mistake: false, trialPos: null, trialMass: 15, removeTrial: true, scatter: true,
+    stage: 1, playing: !reduceMotion, speed: 0.3, theta: 0
+  };
+  let D = null;
+
+  /* ---------- model ---------- */
+  function splitOnBlades(alpha, M, p, N) {
+    const a = mod(alpha);
+    const j = Math.floor(a / p + 1e-9) % N;
+    const f = a - j * p;
+    if (f < 0.5) return [{ pos: j, m: M }];
+    if (p - f < 0.5) return [{ pos: (j + 1) % N, m: M }];
+    const sp = Math.sin(p * DEG);
+    return [{ pos: j, m: M * Math.sin((p - f) * DEG) / sp }, { pos: (j + 1) % N, m: M * Math.sin(f * DEG) / sp }];
+  }
+
+  function derive() {
+    const d = {};
+    d.s = S.rot === "CCW" ? 1 : -1;
+    d.gT = (S.tachClock % 12) * 30;
+    d.gS = (S.sensClock % 12) * 30;
+    d.beta = mod(d.s * (d.gS - d.gT));
+    d.p = 360 / S.N;
+    d.adj = ADJ[S.unit];
+    d.omega = S.rpm * 2 * Math.PI / 60;
+    d.k = S.unit === "vel" ? KV : S.unit === "disp" ? KV / d.omega * 1000 : KV * d.omega / 1000 / 9.81;
+    d.rotK = S.lag - d.beta - d.adj;
+    const r = rng(hashStr([S.rot, S.N, S.tachClock, S.sensClock, S.unit, S.lag, S.heavy, S.U0, S.trialMass, S.trialPos, S.removeTrial, S.mistake].join("|")));
+    const eps = () => S.scatter ? { a: (r() * 2 - 1) * 0.03, p: (r() * 2 - 1) * 3 } : null;
+    const meas = (U, e) => {
+      let amp = cabs(U) * d.k, ph = carg(U) + d.rotK;
+      if (e) { amp *= 1 + e.a; ph += e.p; }
+      ph = mod(ph);
+      return { amp, ph, v: polar(amp, ph), U };
+    };
+    d.U0 = polar(S.U0, S.heavy);
+    d.run1 = meas(d.U0, null);
+    d.est = mod(d.beta + d.run1.ph + d.adj - S.lag);
+    d.mk = S.mistake ? -1 : 1;
+    d.markHeavy = mod(d.mk * d.est);
+    d.markLight = mod(d.mk * (d.est + 180));
+    d.suggest = Math.round(d.markLight / d.p) % S.N;
+    d.tPos = (S.trialPos == null || S.trialPos >= S.N) ? d.suggest : S.trialPos;
+    d.aT = d.tPos * d.p;
+    d.T = polar(S.trialMass, d.aT);
+    const e2 = eps(), e3 = eps();
+    d.run2 = meas(add(d.U0, d.T), e2);
+    d.dAmp = (d.run2.amp - d.run1.amp) / d.run1.amp * 100;
+    d.dPh = sdiff(d.run2.ph, d.run1.ph);
+    d.pass = Math.abs(d.dAmp) >= 30 || Math.abs(d.dPh) >= 30;
+    const H = div(sub(d.run2.v, d.run1.v), polar(S.trialMass, 0));
+    const Crel = neg(div(S.removeTrial ? d.run1.v : d.run2.v, H));
+    d.cMass = cabs(Crel);
+    d.cRel = carg(Crel);
+    d.cAbs = mod(d.aT + d.cRel);
+    d.cPlaced = mod(d.aT + d.mk * d.cRel);
+    d.split = splitOnBlades(d.cPlaced, d.cMass, d.p, S.N);
+    d.splitRight = splitOnBlades(d.cAbs, d.cMass, d.p, S.N);
+    const base = S.removeTrial ? d.U0 : add(d.U0, d.T);
+    let U3 = base; d.split.forEach(w => { U3 = add(U3, polar(w.m, w.pos * d.p)); });
+    let U3r = base; d.splitRight.forEach(w => { U3r = add(U3r, polar(w.m, w.pos * d.p)); });
+    d.run3 = meas(U3, e3);
+    d.run3Right = meas(U3r, null);
+    d.cur = S.stage <= 2 ? d.run1 : S.stage === 3 ? d.run2 : d.run3;
+    return d;
+  }
+
+  /* ---------- formatting ---------- */
+  const conv = a => S.setting === "AR" ? mod(a) : mod(-a);
+  const r360 = v => Math.round(v) % 360;
+  const fmtA = a => `${r360(conv(a))}°${S.setting}`;
+  const dirWords = set => set === "AR" ? "against rotation" : "with rotation";
+  const otherSet = set => set === "AR" ? "WR" : "AR";
+  function bladeNo(pos) { return S.numDir === "AR" ? pos + 1 : (pos === 0 ? 1 : S.N - pos + 1); }
+  function fmtAmp(v) { return S.unit === "vel" ? v.toFixed(2) : S.unit === "disp" ? v.toFixed(1) : v.toFixed(3); }
+  function phaseMain(ph) { return S.setting === "AR" ? `${r360(ph)}°AR` : `${r360(360 - ph)}°WR`; }
+  function phaseAlt(ph) { return S.setting === "AR" ? "" : (r360(ph) === 0 ? "" : `= −${r360(ph)}°WR`); }
+  function bladeNear(alpha) {
+    const a = mod(alpha), j = Math.floor(a / D.p + 1e-9) % S.N, f = a - j * D.p;
+    if (f < 1) return `on blade ${bladeNo(j)}`;
+    if (D.p - f < 1) return `on blade ${bladeNo((j + 1) % S.N)}`;
+    const near = f <= D.p / 2 ? j : (j + 1) % S.N;
+    return `between blades ${bladeNo(j)} and ${bladeNo((j + 1) % S.N)}, nearest blade ${bladeNo(near)}`;
+  }
+
+  /* ---------- svg helpers ---------- */
+  function el(tag, attrs, parent) {
+    const e = document.createElementNS(NS, tag);
+    if (attrs) for (const k in attrs) e.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+  const xy = (g, r) => [CX + r * Math.sin(g * DEG), CY - r * Math.cos(g * DEG)];
+  const vis = (e, on) => e.setAttribute("display", on ? "inline" : "none");
+  const f1 = n => n.toFixed(1);
+  function arcPath(g1, sweep, r, dir) {
+    sweep = Math.max(0, Math.min(359.4, sweep));
+    if (sweep < 1) return "";
+    const [x1, y1] = xy(g1, r), [x2, y2] = xy(g1 + dir * sweep, r);
+    return `M${f1(x1)} ${f1(y1)} A${r} ${r} 0 ${sweep > 180 ? 1 : 0} ${dir > 0 ? 1 : 0} ${f1(x2)} ${f1(y2)}`;
+  }
+
+  /* ---------- fan drawing ---------- */
+  const fan = $("fan");
+  const L = {}, P = {}, Wt = {};
+  let blades = [], badges = [], angleTexts = [];
+
+  function makePill(parent, cls, text) {
+    const g = el("g", { class: `fb-pill ${cls}` }, parent);
+    const w = text.length * 7.7 + 16;
+    el("rect", { x: -w / 2, y: -10, width: w, height: 20, rx: 10 }, g);
+    const t = el("text", { "text-anchor": "middle", "dominant-baseline": "central", y: 0.5 }, g);
+    t.textContent = text;
+    return g;
+  }
+  function makeIconLabel() {
+    const t = el("text", { class: "fb-lbl fb-lbl-icon", "text-anchor": "middle" }, fan);
+    t._a = el("tspan", {}, t);
+    t._b = el("tspan", { class: "fb-sub" }, t);
+    return t;
+  }
+
+  function buildFan() {
+    const defs = el("defs", null, fan);
+    [["fb-mk-ink", "fb-fill-ink"], ["fb-mk-heavy", "fb-fill-heavy"], ["fb-mk-corr", "fb-fill-corr"], ["fb-mk-accent", "fb-fill-accent"]].forEach(([id, cls]) => {
+      const m = el("marker", { id, viewBox: "0 0 10 10", refX: "6", refY: "5", markerWidth: "13", markerHeight: "13", markerUnits: "userSpaceOnUse", orient: "auto-start-reverse" }, defs);
+      el("path", { d: "M0.5 0.8 L9.5 5 L0.5 9.2 Z", class: cls }, m);
+    });
+    L.casing = el("circle", { cx: CX, cy: CY, r: R.casing, class: "fb-casing" }, fan);
+    L.ticks = el("g", { class: "fb-ticks" }, fan);
+    for (let i = 0; i < 12; i++) {
+      const [x1, y1] = xy(i * 30, R.casing), [x2, y2] = xy(i * 30, R.casing - 9);
+      el("line", { x1: f1(x1), y1: f1(y1), x2: f1(x2), y2: f1(y2) }, L.ticks);
+    }
+    L.clock = el("g", { class: "fb-clock" }, fan);
+    L.clockTexts = {};
+    [12, 3, 6, 9].forEach(h => {
+      const [x, y] = xy((h % 12) * 30, R.label);
+      const t = el("text", { x: f1(x), y: f1(y), "text-anchor": "middle", "dominant-baseline": "central" }, L.clock);
+      t.textContent = String(h);
+      L.clockTexts[h] = t;
+    });
+    L.rotArrows = el("g", null, fan);
+    L.sensorArc = el("path", { class: "fb-arc fb-arc-sensor", "marker-end": "url(#fb-mk-ink)" }, fan);
+    L.countArc = el("path", { class: "fb-arc fb-arc-heavy", "marker-end": "url(#fb-mk-heavy)" }, fan);
+    L.beam = el("line", { class: "fb-beam" }, fan);
+    L.rotor = el("g", { class: "fb-rotor" }, fan);
+    L.lightLine = el("line", { class: "fb-light-line" }, L.rotor);
+    L.blades = el("g", { class: "fb-blades" }, L.rotor);
+    L.hub = el("circle", { cx: CX, cy: CY, r: R.hub, class: "fb-hub" }, L.rotor);
+    L.tape = el("line", { class: "fb-tape" }, L.rotor);
+    L.weights = el("g", null, L.rotor);
+    Wt.ghost = [0, 1].map(() => el("rect", { class: "fb-w-ghost", width: 16, height: 16, rx: 3 }, L.weights));
+    Wt.trial = el("rect", { class: "fb-w-trial", width: 15, height: 15, rx: 3 }, L.weights);
+    Wt.corr = [0, 1].map(() => el("rect", { class: "fb-w-corr", rx: 3 }, L.weights));
+    L.pills = el("g", null, L.rotor);
+    P.light = makePill(L.pills, "fb-pill-light", "Light");
+    P.lightQ = makePill(L.pills, "fb-pill-light fb-pill-q", "Light?");
+    P.heavyQ = makePill(L.pills, "fb-pill-heavy fb-pill-q", "Heavy?");
+    P.heavy = makePill(L.pills, "fb-pill-heavy", "Heavy");
+    P.high = makePill(L.pills, "fb-pill-high", "High");
+    L.badges = el("g", null, L.rotor);
+    L.angles = el("g", { class: "fb-angles" }, L.rotor);
+    L.tacho = el("g", { class: "fb-icon-tacho" }, fan);
+    el("rect", { x: -14, y: -11, width: 28, height: 22, rx: 4 }, L.tacho);
+    el("circle", { cx: 0, cy: 0, r: 4.5, class: "fb-lens" }, L.tacho);
+    L.accel = el("g", { class: "fb-icon-accel" }, fan);
+    el("rect", { x: -12, y: -12, width: 24, height: 24, rx: 4 }, L.accel);
+    el("circle", { cx: 0, cy: 0, r: 4.5, class: "fb-stud" }, L.accel);
+    L.tachoLbl = makeIconLabel();
+    L.accelLbl = makeIconLabel();
+  }
+
+  function buildRotor() {
+    L.blades.textContent = ""; L.badges.textContent = ""; L.angles.textContent = "";
+    blades = []; badges = []; angleTexts = [];
+    for (let i = 0; i < S.N; i++) {
+      blades.push(el("line", { class: i === 0 ? "fb-b1" : "" }, L.blades));
+      const g = el("g", { class: i === 0 ? "fb-badge fb-b1" : "fb-badge" }, L.badges);
+      el("circle", { r: 13 }, g);
+      const t = el("text", { "text-anchor": "middle", "dominant-baseline": "central", y: 0.5 }, g);
+      g._t = t;
+      badges.push(g);
+      angleTexts.push(el("text", { "text-anchor": "middle", "dominant-baseline": "central" }, L.angles));
+    }
+  }
+
+  const isAligned = () => !S.playing && Math.abs(sdiff(mod(S.theta, 360), 0)) < 0.01;
+  const gam = a => D.gT + D.s * (a - S.theta);
+  const place = (node, g, r) => { const [x, y] = xy(g, r); node.setAttribute("transform", `translate(${f1(x)} ${f1(y)})`); };
+  const placeRect = (node, g, r, size) => { const [x, y] = xy(g, r); node.setAttribute("x", f1(x - size / 2)); node.setAttribute("y", f1(y - size / 2)); node.setAttribute("width", size); node.setAttribute("height", size); };
+
+  function drawStatic() {
+    const aligned = isAligned();
+    // icons
+    let gTi = D.gT, gSi = D.gS;
+    if (S.tachClock % 12 === S.sensClock % 12) { gTi = D.gT - 9; gSi = D.gS + 9; }
+    place(L.tacho, gTi, R.icon);
+    place(L.accel, gSi, R.icon);
+    const [bx1, by1] = xy(D.gT, R.icon - 13), [bx2, by2] = xy(D.gT, R.hub + 3);
+    L.beam.setAttribute("x1", f1(bx1)); L.beam.setAttribute("y1", f1(by1));
+    L.beam.setAttribute("x2", f1(bx2)); L.beam.setAttribute("y2", f1(by2));
+    setIconLabel(L.tachoLbl, gTi, "Tacho", aligned ? "0° tape" : "");
+    setIconLabel(L.accelLbl, gSi, "Accel", aligned ? fmtA(D.beta) : "");
+    // clock numerals, hidden where an icon sits
+    [12, 3, 6, 9].forEach(h => {
+      const g = (h % 12) * 30;
+      const busy = Math.abs(sdiff(g, gTi)) < 24 || Math.abs(sdiff(g, gSi)) < 24;
+      vis(L.clockTexts[h], !busy);
+    });
+    // rotation arrows on the casing, in the widest free gap
+    L.rotArrows.textContent = "";
+    const icons = [gTi, gSi];
+    let best = 0, bestGap = -1;
+    for (let g = 0; g < 360; g += 5) {
+      const gap = Math.min(...icons.map(a => Math.abs(sdiff(g, a))));
+      if (gap > bestGap) { bestGap = gap; best = g; }
+    }
+    const centers = [best];
+    const opp = mod(best + 180);
+    if (Math.min(...icons.map(a => Math.abs(sdiff(opp, a)))) >= 45) centers.push(opp);
+    const rdir = -D.s;
+    centers.forEach(c => el("path", { d: arcPath(c - rdir * 22, 44, R.casing, rdir), class: "fb-rot-arrow", "marker-end": "url(#fb-mk-accent)" }, L.rotArrows));
+    // counting arcs, only when stopped with the tape at the tacho
+    const cdir = (S.setting === "AR" ? 1 : -1) * D.s;
+    L.sensorArc.setAttribute("d", aligned ? arcPath(D.gT, conv(D.beta), R.arcS, cdir) : "");
+    let countD = "";
+    if (aligned && S.stage === 2) {
+      countD = arcPath(D.gT, conv(D.est), R.arcC, cdir * D.mk);
+      L.countArc.setAttribute("class", "fb-arc fb-arc-heavy"); L.countArc.setAttribute("marker-end", "url(#fb-mk-heavy)");
+    } else if (aligned && S.stage === 4) {
+      countD = arcPath(D.gT + D.s * D.aT, conv(D.cRel), R.arcC, cdir * D.mk);
+      L.countArc.setAttribute("class", "fb-arc fb-arc-corr"); L.countArc.setAttribute("marker-end", "url(#fb-mk-corr)");
+    }
+    L.countArc.setAttribute("d", countD);
+    // markers
+    const showTruth = !(S.hide && S.stage === 1 && !S.revealed);
+    vis(P.heavy, showTruth);
+    vis(P.high, showTruth && cabs(D.cur.U) >= 0.08 * S.U0);
+    vis(P.light, S.stage >= 2 && !S.mistake);
+    vis(P.lightQ, S.stage >= 2 && S.mistake);
+    vis(P.heavyQ, S.stage >= 2 && S.mistake);
+    vis(L.lightLine, S.stage >= 2);
+    vis(Wt.trial, S.stage === 3 || (S.stage === 4 && !S.removeTrial));
+    Wt.corr.forEach((r, i) => vis(r, S.stage === 4 && i < D.split.length));
+    Wt.ghost.forEach((r, i) => vis(r, S.stage === 4 && S.mistake && i < D.splitRight.length));
+    // blade numbers and angle labels
+    for (let i = 0; i < S.N; i++) {
+      badges[i]._t.textContent = String(bladeNo(i));
+      angleTexts[i].textContent = i === 0 ? "" : `${r360(conv(i * D.p))}°`;
+    }
+    vis(L.angles, aligned);
+    // captions
+    const cap = $("fanCap");
+    if (aligned) cap.textContent = `Stopped with the tape facing the tacho. Blade angles are in °${S.setting}, counted ${dirWords(S.setting)} from blade 1.`;
+    else if (!S.playing) cap.textContent = "Paused. Press “Stop with tape at tacho” to line up the tape before you count any angle.";
+    else cap.textContent = "Spinning in slow motion. The rotor movement is exaggerated: it always leans toward the high spot, and the accelerometer lights up as the signal peaks.";
+  }
+
+  function setIconLabel(t, g, name, sub) {
+    const [x, y] = xy(g, R.label);
+    const two = !!sub;
+    t._a.textContent = name;
+    t._a.setAttribute("x", f1(x)); t._a.setAttribute("y", f1(two ? y - 8 : y + 5));
+    t._b.textContent = sub;
+    t._b.setAttribute("x", f1(x)); t._b.setAttribute("y", f1(y + 12));
+  }
+
+  function drawDynamic() {
+    const playing = S.playing;
+    let dx = 0, dy = 0;
+    const curMag = cabs(D.cur.U);
+    const hiAlpha = carg(D.cur.U) + S.lag;
+    if (playing) {
+      const e = 7 * Math.min(1.3, curMag / S.U0);
+      const gh = gam(hiAlpha);
+      dx = e * Math.sin(gh * DEG); dy = -e * Math.cos(gh * DEG);
+    }
+    L.rotor.setAttribute("transform", `translate(${f1(dx)} ${f1(dy)})`);
+    for (let i = 0; i < S.N; i++) {
+      const g = gam(i * D.p);
+      const [x1, y1] = xy(g, R.bladeIn), [x2, y2] = xy(g, R.bladeOut);
+      const b = blades[i];
+      b.setAttribute("x1", f1(x1)); b.setAttribute("y1", f1(y1)); b.setAttribute("x2", f1(x2)); b.setAttribute("y2", f1(y2));
+      place(badges[i], g, R.badge);
+      const [ax, ay] = xy(g, R.angle);
+      angleTexts[i].setAttribute("x", f1(ax)); angleTexts[i].setAttribute("y", f1(ay));
+    }
+    const g0 = gam(0);
+    const [tx1, ty1] = xy(g0, R.tapeIn), [tx2, ty2] = xy(g0, R.tapeOut);
+    L.tape.setAttribute("x1", f1(tx1)); L.tape.setAttribute("y1", f1(ty1)); L.tape.setAttribute("x2", f1(tx2)); L.tape.setAttribute("y2", f1(ty2));
+    place(P.heavy, gam(S.heavy), R.spot);
+    place(P.high, gam(hiAlpha), R.high);
+    place(P.light, gam(D.markLight), R.spot);
+    place(P.lightQ, gam(D.markLight), R.spot);
+    place(P.heavyQ, gam(D.markHeavy), R.spot);
+    const hFrom = S.mistake ? D.markHeavy : S.heavy;
+    const [lx1, ly1] = xy(gam(hFrom), R.spot - 30), [lx2, ly2] = xy(gam(D.markLight), R.spot - 30);
+    L.lightLine.setAttribute("x1", f1(lx1)); L.lightLine.setAttribute("y1", f1(ly1)); L.lightLine.setAttribute("x2", f1(lx2)); L.lightLine.setAttribute("y2", f1(ly2));
+    placeRect(Wt.trial, gam(D.aT), R.weight, 15);
+    const kept = S.stage === 4 && !S.removeTrial;
+    D.split.forEach((w, i) => {
+      const size = 8 + 9 * Math.sqrt(Math.min(1, w.m / Math.max(D.cMass, 1e-6)));
+      const r = kept && w.pos === D.tPos ? R.weight - 22 : R.weight;
+      placeRect(Wt.corr[i], gam(w.pos * D.p), r, size);
+    });
+    D.splitRight.forEach((w, i) => placeRect(Wt.ghost[i], gam(w.pos * D.p), R.weight + 2, 18));
+    // accelerometer flashes at the signal peak
+    const hot = playing && Math.cos((S.theta - D.cur.ph) * DEG) > 0.985 && D.cur.amp > 0.05 * D.run1.amp;
+    L.accel.classList.toggle("fb-hot", hot);
+    drawCursor();
+  }
+
+  /* ---------- signal ---------- */
+  const sig = $("sig");
+  const SW = { x0: 52, x1: 620, yc: 120, amp: 58, top: 24, bot: 214 };
+  const xT = th => SW.x0 + (th / 720) * (SW.x1 - SW.x0);
+  const G = {};
+  function buildSig() {
+    const grid = el("g", { class: "fb-sig-grid" }, sig);
+    const xl = el("g", { class: "fb-sig-x" }, sig);
+    for (let th = 0; th <= 720; th += 90) {
+      el("line", { x1: f1(xT(th)), y1: SW.top, x2: f1(xT(th)), y2: SW.bot }, grid);
+      const t = el("text", { x: f1(xT(th)), y: 236, "text-anchor": "middle" }, xl);
+      t.textContent = `${th}°`;
+    }
+    el("line", { class: "fb-sig-axis", x1: SW.x0, y1: SW.yc, x2: SW.x1, y2: SW.yc }, sig);
+    [0, 360, 720].forEach(th => el("line", { class: "fb-tach-pulse", x1: f1(xT(th)), y1: SW.top - 6, x2: f1(xT(th)), y2: SW.bot }, sig));
+    G.disp = el("path", { class: "fb-sig-disp" }, sig);
+    G.main = el("path", { class: "fb-sig-main" }, sig);
+    G.bracket = el("path", { class: "fb-bracket" }, sig);
+    G.bLbl = el("text", { class: "fb-bracket-lbl", "dominant-baseline": "central" }, sig);
+    G.adj = el("path", { class: "fb-adj-bracket" }, sig);
+    G.adjLbl = el("text", { class: "fb-adj-lbl", "dominant-baseline": "central" }, sig);
+    G.peakD = [0, 1].map(() => el("circle", { class: "fb-peak-d", r: 4 }, sig));
+    G.peak = [0, 1].map(() => el("circle", { class: "fb-peak", r: 5 }, sig));
+    G.cursor = el("line", { class: "fb-cursor", y1: SW.top - 6, y2: SW.bot }, sig);
+  }
+  function drawSig() {
+    const cur = D.cur, phi = cur.ph, phd = phi + D.adj;
+    const A = Math.min(1.35, cur.amp / D.run1.amp) * SW.amp;
+    let dm = "", dd = "";
+    for (let th = 0; th <= 720; th += 3) {
+      const x = f1(xT(th));
+      dm += `${th ? "L" : "M"}${x} ${f1(SW.yc - A * Math.cos((th - phi) * DEG))}`;
+      dd += `${th ? "L" : "M"}${x} ${f1(SW.yc - 0.72 * A * Math.cos((th - phd) * DEG))}`;
+    }
+    G.main.setAttribute("d", dm);
+    G.disp.setAttribute("d", D.adj ? dd : "");
+    [phi, phi + 360].forEach((th, i) => { G.peak[i].setAttribute("cx", f1(xT(th))); G.peak[i].setAttribute("cy", f1(SW.yc - A)); });
+    [phd, phd + 360].forEach((th, i) => {
+      const on = D.adj > 0 && th <= 720;
+      vis(G.peakD[i], on);
+      if (on) { G.peakD[i].setAttribute("cx", f1(xT(th))); G.peakD[i].setAttribute("cy", f1(SW.yc - 0.72 * A)); }
+    });
+    // phase bracket
+    const yb = 30, xa = xT(0), xb = xT(phi);
+    G.bracket.setAttribute("d", phi > 1 ? `M${f1(xa)} ${yb - 6} V${yb + 6} M${f1(xa)} ${yb} H${f1(xb)} M${f1(xb)} ${yb - 6} V${yb + 6}` : "");
+    const lbl = S.setting === "AR" ? `${r360(phi)}°AR` : `−${r360(phi)}°WR = ${r360(360 - phi)}°WR`;
+    G.bLbl.textContent = lbl;
+    const lw = lbl.length * 7.9;
+    const inside = (xb - xa) > lw + 14;
+    G.bLbl.setAttribute("x", f1(inside ? (xa + xb) / 2 : xb + 8));
+    G.bLbl.setAttribute("y", inside ? yb - 12 : yb);
+    G.bLbl.setAttribute("text-anchor", inside ? "middle" : "start");
+    // units adjustment bracket
+    if (D.adj) {
+      const ya = 206, x1 = xT(phi), x2 = xT(phd);
+      G.adj.setAttribute("d", `M${f1(x1)} ${ya - 5} V${ya + 5} M${f1(x1)} ${ya} H${f1(x2)} M${f1(x2)} ${ya - 5} V${ya + 5}`);
+      G.adjLbl.textContent = `+${D.adj}° to the displacement peak`;
+      const room = SW.x1 - x2 > 200;
+      G.adjLbl.setAttribute("x", f1(room ? x2 + 8 : x1 - 8));
+      G.adjLbl.setAttribute("text-anchor", room ? "start" : "end");
+      G.adjLbl.setAttribute("y", ya);
+    } else { G.adj.setAttribute("d", ""); G.adjLbl.textContent = ""; }
+    const cap = $("sigCap");
+    const ph = r360(phi);
+    const u = UNIT_NAME[S.unit];
+    let txt = S.setting === "AR"
+      ? `<b>AR:</b> the ${u} peak comes ${ph}° of rotation after the tach pulse, so the Adash shows <b>${ph}°AR</b>.`
+      : `<b>WR:</b> the tach pulse comes ${ph}° before the ${u} peak, so the Adash shows <b>−${ph}°WR</b>, which is the same as ${r360(360 - phi)}°WR.`;
+    if (D.adj) txt += ` The dashed trace is displacement; its peak is ${D.adj}° later, when the high spot passes the accelerometer.`;
+    else txt += " Displacement peaks when the high spot passes the accelerometer.";
+    cap.innerHTML = txt;
+  }
+  function drawCursor() {
+    const show = S.playing;
+    vis(G.cursor, show);
+    if (show) { const x = f1(xT(mod(S.theta, 720))); G.cursor.setAttribute("x1", x); G.cursor.setAttribute("x2", x); }
+  }
+
+  /* ---------- panels ---------- */
+  function renderPanels() {
+    // verdict
+    const v = $("verdict");
+    const match = S.setting === S.numDir;
+    v.className = "fb-verdict " + (match ? "fb-ok" : "fb-bad");
+    if (match) {
+      v.innerHTML = `<b>Match.</b> The Adash counts angles ${dirWords(S.setting)}, the same way your blade numbers run. Blade ${bladeNo(1)} is ${fmtA(D.p)} and blade ${bladeNo(2 % S.N)} is ${fmtA(2 * D.p)}, so every reading lands straight on a blade number.`;
+    } else {
+      const pos = 1;
+      v.innerHTML = `<b>Mismatch.</b> Your blade numbers run ${dirWords(S.numDir)}, but ${S.setting} counts ${dirWords(S.setting)}. The Adash calls blade ${bladeNo(pos)} ${fmtA(pos * D.p)}, not ${r360(D.p)}°. Every angle would need converting (360° − reading). Choose ${S.numDir}.`;
+    }
+    // screen
+    const cur = D.cur;
+    const runName = S.stage <= 2 ? "Run 1 · initial" : S.stage === 3 ? "Run 2 · trial weight on" : "Run 3 · check";
+    let foot = `${S.rpm} rpm · ${UNIT_NAME[S.unit]} · accel ${fmtA(D.beta)} from tacho`;
+    if (S.stage === 3) foot = `Trial ${S.trialMass} g on blade ${bladeNo(D.tPos)} · ${D.dAmp >= 0 ? "+" : ""}${Math.round(D.dAmp)}% · ${D.dPh >= 0 ? "+" : ""}${Math.round(D.dPh)}°`;
+    if (S.stage === 4) foot = `${Math.round(D.run3.amp / D.run1.amp * 100)}% of Run 1 · ${S.removeTrial ? "trial removed" : "trial left on"}`;
+    $("screen").innerHTML = `
+      <div class="fb-scr-top"><span>Balancer readout</span><span>Angles °${S.setting}</span></div>
+      <div class="fb-scr-run">${runName}</div>
+      <div class="fb-scr-row"><span>1X</span><b>${fmtAmp(cur.amp)}</b><span class="fb-u">${UNIT[S.unit]}</span></div>
+      <div class="fb-scr-row"><span>Phase</span><b>${phaseMain(cur.ph)}</b><span class="fb-u">${phaseAlt(cur.ph)}</span></div>
+      <div class="fb-scr-foot">${foot}</div>`;
+    // stepper
+    box.querySelectorAll("#fb-stepper button").forEach(b => {
+      if (+b.dataset.stage === S.stage) b.setAttribute("aria-current", "step"); else b.removeAttribute("aria-current");
+    });
+    box.querySelectorAll(".fb-step").forEach(s => { s.hidden = +s.dataset.step !== S.stage; });
+    $("prevBtn").disabled = S.stage === 1;
+    $("nextBtn").hidden = S.stage === 4;
+    $("nextBtn").textContent = ["", "Next: find the heavy spot", "Next: fit the trial weight", "Next: correction"][S.stage] || "Next";
+    // step 1
+    $("s1amp").textContent = `${fmtAmp(D.run1.amp)} ${UNIT[S.unit]}`;
+    $("s1ph").textContent = phaseMain(D.run1.ph) + (S.setting === "WR" ? ` (${phaseAlt(D.run1.ph).replace("= ", "")})` : "");
+    $("s1acc").textContent = `${fmtA(D.beta)} from tacho`;
+    $("s1quiz").hidden = !(S.hide && !S.revealed);
+    // step 2
+    const set = S.setting;
+    const b = r360(conv(D.beta)), ph = r360(conv(D.run1.ph)), adj = D.adj, lag = S.lag;
+    const raw = set === "AR" ? b + ph + adj - lag : b + ph - adj + lag;
+    const res = r360(mod(raw));
+    $("s2intro").textContent = `Stop the fan with the tape facing the tacho. Count every angle from that line, ${dirWords(set)}. That is what °${set} means.`;
+    $("s2fname").textContent = set === "AR" ? "Heavy spot = accel angle + phase + units adjustment − lag" : "Heavy spot = accel angle + phase − units adjustment + lag";
+    $("s2fnum").textContent = set === "AR"
+      ? `= ${b}° + ${ph}° + ${adj}° − ${lag}° = ${raw}°${raw !== res ? ` → ${res}°` : ""}AR`
+      : `= ${b}° + ${ph}° − ${adj}° + ${lag}° = ${raw}°${raw !== res ? ` → ${res}°` : ""}WR`;
+    const rows = [
+      ["var(--ink)", "Accelerometer", fmtA(D.beta), "fixed on the casing, counted from the tacho"],
+      ["var(--fb-high)", "High spot", fmtA(D.est + S.lag), `${bladeNear(D.mk * (D.est + S.lag))}; ${lag}° behind the heavy spot`],
+      ["var(--fb-heavy)", "Heavy spot", fmtA(D.est), bladeNear(D.markHeavy)],
+      ["var(--fb-light)", "Light spot", fmtA(D.est + 180), `${bladeNear(D.markLight)}; trial weight goes here`]
+    ];
+    $("s2table").innerHTML = rows.map(r => `<tr><th><span class="fb-dot" style="background:${r[0]}"></span>${r[1]}</th><td class="fb-mono">${r[2]}</td><td>${r[3]}</td></tr>`).join("");
+    const arV = r360(mod(D.est)), wrV = r360(mod(-D.est));
+    $("s2same").textContent = `${arV}°AR from the tape is the same point as ${wrV}°WR. The setting changes the number and the counting direction, not the spot.`;
+    const w2 = $("s2warn");
+    w2.hidden = !S.mistake;
+    if (S.mistake) {
+      const off = Math.round(Math.abs(sdiff(D.markHeavy, S.heavy)));
+      const lightOff = Math.round(Math.abs(sdiff(D.markLight, S.heavy)));
+      w2.textContent = `Mistake shown: ${res}° counted ${dirWords(otherSet(set))} instead of ${dirWords(set)}. Your heavy-spot mark lands ${bladeNear(D.markHeavy)}, ${off}° from the real heavy spot, and your “light spot” is only ${lightOff}° from the heavy side.`;
+    }
+    // step 3
+    syncTrialOptions();
+    $("s3amp").textContent = `${fmtAmp(D.run2.amp)} ${UNIT[S.unit]}`;
+    $("s3ph").textContent = phaseMain(D.run2.ph);
+    $("s3chg").textContent = `${D.dAmp >= 0 ? "+" : ""}${Math.round(D.dAmp)}% · ${D.dPh >= 0 ? "+" : ""}${Math.round(D.dPh)}°`;
+    const ck = $("s3check");
+    ck.className = "fb-checkline " + (D.pass ? "fb-ok" : "fb-bad");
+    ck.textContent = D.pass
+      ? "30% / 30° check passed. The trial weight changed the reading enough for a reliable calculation."
+      : "30% / 30° check not met. Stop, add more mass on the same blade and run again.";
+    let n3 = `The Adash measures the correction angle from the trial weight, so blade ${bladeNo(D.tPos)} is 0° for the result.`;
+    if (D.dAmp > 10) n3 += ` Run 2 went up ${Math.round(D.dAmp)}%: the trial weight is on the heavy side.`;
+    $("s3note").textContent = n3;
+    const tw = 1e8 * (+$("rotorKg").value || 0) / ((+$("radiusMm").value || 1) * S.rpm * S.rpm);
+    $("twOut").textContent = `TW ≈ 100,000,000 × ${$("rotorKg").value} kg ÷ (${$("radiusMm").value} mm × ${S.rpm}²) = ${tw.toFixed(1)} g`;
+    $("useTw").dataset.tw = tw.toFixed(1);
+    // step 4
+    $("s4res").innerHTML = `Adash result: <b>${D.cMass.toFixed(1)} g at ${fmtA(D.cRel)}</b> from the trial weight`;
+    const relV = r360(conv(D.cRel));
+    $("s4count").textContent = S.mistake
+      ? `Should be: from blade ${bladeNo(D.tPos)}, count ${relV}° ${dirWords(set)}. Shown here: counted ${dirWords(otherSet(set))} by mistake.`
+      : `On the fan: start at blade ${bladeNo(D.tPos)} and count ${relV}° ${dirWords(set)}.`;
+    $("s4split").innerHTML = D.split.map(w => `<li class="${S.mistake ? "fb-wrong" : ""}"><span>Blade ${bladeNo(w.pos)} · ${fmtA(w.pos * D.p)} from the tape</span><b>${w.m.toFixed(1)} g</b></li>`).join("");
+    $("s4amp").textContent = `${fmtAmp(D.run3.amp)} ${UNIT[S.unit]}`;
+    const pct = Math.round(D.run3.amp / D.run1.amp * 100);
+    $("s4pct").textContent = `${pct}%${pct > 100 ? " · worse" : pct <= 25 ? " · good" : ""}`;
+    const w4 = $("s4warn");
+    w4.hidden = !S.mistake;
+    if (S.mistake) {
+      const right = D.splitRight.map(w => `blade ${bladeNo(w.pos)} (${w.m.toFixed(1)} g)`).join(" and ");
+      w4.textContent = `Wrong side of the trial weight. The weights belong on ${right}, the dashed squares. Placed correctly, Run 3 would be about ${Math.round(D.run3Right.amp / D.run1.amp * 100)}% of Run 1.`;
+    }
+    $("s4note").textContent = (S.removeTrial ? "The trial weight comes off, so the correction replaces it." : "The trial weight stays on, so this is the extra weight to add.")
+      + " If Run 3 is still above your limit, a trim run reuses the same trial result, so no new trial weight is needed.";
+    // outputs in setup
+    $("lagOut").textContent = `${S.lag}°`;
+    $("heavyOut").textContent = `${S.heavy}°AR = ${r360(mod(-S.heavy))}°WR`;
+    $("u0Out").textContent = `${S.U0} g`;
+    $("playBtn").textContent = S.playing ? "Pause" : "Play";
+  }
+
+  function syncTrialOptions() {
+    const sel = $("trialPos");
+    const order = [...Array(S.N).keys()].sort((a, b) => bladeNo(a) - bladeNo(b));
+    const html = order.map(pos => `<option value="${pos}">Blade ${bladeNo(pos)} · ${fmtA(pos * D.p)}${pos === D.suggest ? " · nearest light spot" : ""}</option>`).join("");
+    if (sel._html !== html) { sel.innerHTML = html; sel._html = html; }
+    sel.value = String(D.tPos);
+  }
+
+  /* ---------- inputs ---------- */
+  function fillSelects() {
+    const names = { 12: "12 o'clock (top)", 3: "3 o'clock (right)", 6: "6 o'clock (bottom)", 9: "9 o'clock (left)" };
+    const opts = [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map(h => `<option value="${h}">${names[h] || h + " o'clock"}</option>`).join("");
+    $("tach").innerHTML = opts; $("sens").innerHTML = opts;
+    $("blades").innerHTML = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(n => `<option value="${n}">${n}</option>`).join("");
+  }
+  function syncInputs() {
+    $("rot-cw").checked = S.rot === "CW"; $("rot-ccw").checked = S.rot === "CCW";
+    $("num-ar").checked = S.numDir === "AR"; $("num-wr").checked = S.numDir === "WR";
+    $("set-ar").checked = S.setting === "AR"; $("set-wr").checked = S.setting === "WR";
+    $("u-disp").checked = S.unit === "disp"; $("u-vel").checked = S.unit === "vel"; $("u-acc").checked = S.unit === "acc";
+    $("tach").value = String(S.tachClock); $("sens").value = String(S.sensClock);
+    $("blades").value = String(S.N); $("rpm").value = String(S.rpm);
+    $("lag").value = String(S.lag); $("heavy").value = String(S.heavy); $("u0").value = String(S.U0);
+    $("hide").checked = S.hide; $("scatter").checked = S.scatter; $("mistake").checked = S.mistake;
+    $("trialMass").value = String(S.trialMass); $("removeTrial").checked = S.removeTrial;
+    $("speed").value = String(S.speed);
+  }
+
+  function refresh(rebuild) {
+    D = derive();
+    if (rebuild) buildRotor();
+    renderPanels();
+    drawStatic();
+    drawDynamic();
+    drawSig();
+  }
+  function align() { S.playing = false; S.theta = 0; }
+  function setStage(n) {
+    S.stage = Math.max(1, Math.min(4, n));
+    if (S.stage >= 2) align();
+    else if (!reduceMotion) S.playing = true;
+    refresh();
+  }
+
+  function bind() {
+    box.querySelectorAll('input[name="fb-rot"]').forEach(i => i.addEventListener("change", () => { S.rot = i.value; refresh(); }));
+    box.querySelectorAll('input[name="fb-num"]').forEach(i => i.addEventListener("change", () => { S.numDir = i.value; refresh(); }));
+    box.querySelectorAll('input[name="fb-setting"]').forEach(i => i.addEventListener("change", () => { S.setting = i.value; refresh(); }));
+    box.querySelectorAll('input[name="fb-unit"]').forEach(i => i.addEventListener("change", () => { S.unit = i.value; refresh(); }));
+    $("tach").addEventListener("change", e => { S.tachClock = +e.target.value; refresh(); });
+    $("sens").addEventListener("change", e => { S.sensClock = +e.target.value; refresh(); });
+    $("blades").addEventListener("change", e => { S.N = +e.target.value; S.trialPos = null; refresh(true); });
+    $("rpm").addEventListener("change", e => { const v = Math.round(+e.target.value); S.rpm = v >= 100 && v <= 20000 ? v : 1480; e.target.value = S.rpm; refresh(); });
+    $("lag").addEventListener("input", e => { S.lag = +e.target.value; refresh(); });
+    $("heavy").addEventListener("input", e => { S.heavy = +e.target.value; S.trialPos = null; refresh(); });
+    $("u0").addEventListener("input", e => { S.U0 = +e.target.value; refresh(); });
+    $("hide").addEventListener("change", e => { S.hide = e.target.checked; S.revealed = false; refresh(); });
+    $("scatter").addEventListener("change", e => { S.scatter = e.target.checked; refresh(); });
+    $("mistake").addEventListener("change", e => { S.mistake = e.target.checked; S.trialPos = null; refresh(); });
+    $("revealBtn").addEventListener("click", () => { S.revealed = true; refresh(); });
+    $("trialPos").addEventListener("change", e => { S.trialPos = +e.target.value; refresh(); });
+    $("trialMass").addEventListener("change", e => { const v = +e.target.value; S.trialMass = v > 0 ? Math.min(500, v) : 15; e.target.value = S.trialMass; refresh(); });
+    $("removeTrial").addEventListener("change", e => { S.removeTrial = e.target.checked; refresh(); });
+    $("rotorKg").addEventListener("input", () => refresh());
+    $("radiusMm").addEventListener("input", () => refresh());
+    $("useTw").addEventListener("click", () => { const v = Math.round(+$("useTw").dataset.tw * 2) / 2; if (v > 0) { S.trialMass = v; $("trialMass").value = v; refresh(); } });
+    $("speed").addEventListener("input", e => { S.speed = +e.target.value; });
+    $("playBtn").addEventListener("click", () => { S.playing = !S.playing; refresh(); });
+    $("alignBtn").addEventListener("click", () => { align(); refresh(); });
+    $("prevBtn").addEventListener("click", () => setStage(S.stage - 1));
+    $("nextBtn").addEventListener("click", () => setStage(S.stage + 1));
+    box.querySelectorAll("#fb-stepper button").forEach(b => b.addEventListener("click", () => setStage(+b.dataset.stage)));
+    $("presetBtn").addEventListener("click", () => {
+      Object.assign(S, { rot: "CCW", N: 8, numDir: "AR", tachClock: 12, sensClock: 3, unit: "vel", lag: 15, heavy: 331, U0: 30, rpm: 1480, setting: "AR", mistake: false, trialPos: null, trialMass: 15, removeTrial: true, hide: false, revealed: false, stage: 1, playing: !reduceMotion });
+      syncInputs(); refresh(true);
+    });
+    $("randBtn").addEventListener("click", () => {
+      S.heavy = Math.floor(Math.random() * 360); S.trialPos = null; S.revealed = false;
+      syncInputs(); refresh();
+    });
+  }
+
+  let last = performance.now(), running = false;
+  function frame(now) {
+    if (box.offsetParent === null) { running = false; return; }      // the section is hidden: stop until it is shown again
+    const dt = Math.min(0.05, (now - last) / 1000);
+    last = now;
+    if (S.playing) { S.theta = mod(S.theta + 360 * S.speed * dt, 720); drawDynamic(); }
+    requestAnimationFrame(frame);
+  }
+  const kick = () => { if (!running && box.offsetParent !== null) { running = true; last = performance.now(); requestAnimationFrame(frame); } };
+  REDRAW_HOOKS.push(kick);
+
+  fillSelects();
+  buildFan();
+  buildSig();
+  syncInputs();
+  bind();
+  refresh(true);
+  const fanScroll = fan.parentElement;
+  if (fanScroll.scrollWidth > fanScroll.clientWidth) fanScroll.scrollLeft = (fanScroll.scrollWidth - fanScroll.clientWidth) / 2;
+  kick();
+  window.__FB = { S, derive: () => derive(), refresh, setStage };
+}
+
 /* ===== Balancing lab (single plane, phase-lag instrument) and app bootstrap ===== */
 class BalanceLab {
   constructor(root) {
@@ -10171,6 +11225,7 @@ const TABS = [
   ['bearing', 'Bearing lab', 'Defect frequencies from geometry, the four failure stages, and why the envelope spectrum sees a defect before velocity does.', r => new BearingLab(r)],
   ['gear', 'Gear lab', 'Gear mesh, sidebands and impacts: which shaft a fault belongs to, read from the sideband spacing and the waveform.', r => new GearLab(r)],
   ['balance', 'Balancing lab', 'Single-plane balancing with a trial weight, the 30/30 rule, the vector diagram, splitting, trim runs and ISO 1940.', r => new BalanceLab(r)],
+  ['fanbal', 'Fan balancing', 'Single-plane field balancing of a fan with a laser tacho and an accelerometer. Place the tacho and the accelerometer, spin the fan, and follow the reading to the high spot, the heavy spot, the trial weight and the correction. Switch the Adash angle setting between AR and WR to see what changes and what stays put.', r => FanBalanceLab(r)],
   ['resonance', 'Resonance lab', 'Natural frequency, damping, the Bode plot and the bump test, and how far to detune.', r => new ResonanceLab(r)]];
 /* ---------- phone app shell (860 px and narrower): a Home screen and four groups on a bottom tab bar, a switcher for the sections
    of a group, the phone's back button steps back to Home, a theme choice, and bars that slide away while you scroll down ---------- */
@@ -10178,14 +11233,14 @@ const NAV_GROUPS = [
   ['diag', 'Diagnose', ['fault', 'challenge']],
   ['setup', 'Setup', ['plan', 'map']],
   ['learn', 'Learn', ['ch3', 'ch4', 'ch5', 'anim']],
-  ['labs', 'Labs', ['bearing', 'gear', 'balance', 'resonance']]];
+  ['labs', 'Labs', ['bearing', 'gear', 'balance', 'fanbal', 'resonance']]];
 const SHORT = { fault: 'Simulator', challenge: 'Challenge', plan: 'Planner', map: 'Settings map', ch3: 'Ch 3', ch4: 'Ch 4', ch5: 'Ch 5', anim: 'Animations',
-  bearing: 'Bearing', gear: 'Gear', balance: 'Balancing', resonance: 'Resonance' };
+  bearing: 'Bearing', gear: 'Gear', balance: 'Balancing', fanbal: 'Fan balancing', resonance: 'Resonance' };
 const BLURB = { fault: 'Pick a fault: spectrum, waveform, phase and orbit', challenge: 'A hidden fault: measure it, then name it',
   plan: 'Fmax, lines and demod settings for your machine', map: 'Follow one setting change through everything else',
   ch3: 'From the sensor to the spectrum, section by section', ch4: 'Set up, read and recognize time waveforms', ch5: 'Measure phase and tell the faults apart',
   anim: '11 animated phase stories and a free-play simulator', bearing: 'Defect frequencies and the four failure stages', gear: 'Gear mesh, sidebands and impacts',
-  balance: 'Trial weight, vectors, trim runs and ISO 1940', resonance: 'Natural frequency, the Bode plot and the bump test' };
+  balance: 'Trial weight, vectors, trim runs and ISO 1940', fanbal: 'Tacho, accelerometer and AR/WR angles, run by run', resonance: 'Natural frequency, the Bode plot and the bump test' };
 const ICONS = {
   home: '<path d="M3.5 10.5 12 4l8.5 6.5V20a1 1 0 0 1-1 1H15v-6H9v6H4.5a1 1 0 0 1-1-1z"/>',
   diag: '<path d="M2.5 12.5h4l2.5-7 4.5 13 3-8.5 1.5 2.5h3.5"/>',
