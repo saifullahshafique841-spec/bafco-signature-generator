@@ -375,10 +375,33 @@ footer { margin-top: 28px; color: var(--muted); font-size: 12px; max-width: 90ch
 .pafx { margin: 6px 0 2px; padding: 8px 10px; border-radius: 4px; background: var(--surface-2); font-size: 14px; line-height: 1.5; display: grid; gap: 2px; }
 .pafx b { font-weight: 600; color: var(--ink-2); }
 .pafx b.e { color: var(--good-ink); }
+/* a scene's summary table (the three speed zones): each row keeps its zone colour, the present row lights up */
+.patab { margin-top: 12px; }
+.patab > h2 { margin-bottom: 8px; }
+.patabw { overflow-x: auto; }
+.patab table { width: 100%; border-collapse: collapse; font-size: 13.5px; line-height: 1.4; }
+.patab th { text-align: left; vertical-align: bottom; padding: 6px 10px; font: 600 12px/1.25 var(--font-display); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); border-bottom: 1px solid var(--line); }
+.patab td { vertical-align: top; padding: 8px 10px; border-bottom: 1px solid var(--line); transition: background-color .3s; }
+.patab tbody tr:last-child td { border-bottom: 0; }
+.patab td:first-child { border-left: 4px solid var(--zc); }
+.patab td b { display: block; font-weight: 600; color: var(--ink); }
+.patab td small { display: block; margin-top: 2px; font-size: 12px; line-height: 1.35; color: var(--muted); }
+.patab tr.on td { background: color-mix(in srgb, var(--focus) 13%, transparent); }
+.patab .now { display: inline-block; margin-top: 5px; padding: 1px 9px; border-radius: 999px; background: var(--focus); color: #ffffff; font: 600 12px/1.5 var(--font-body); font-variant-numeric: tabular-nums; }
+.patab .now:empty { display: none; }
+.patab > .note { margin: 8px 0 0; }
+@media (max-width: 640px) {
+  .patab thead { display: none; }
+  .patab table, .patab tbody, .patab tr, .patab td { display: block; }
+  .patab tr { margin-bottom: 8px; border: 1px solid var(--line); border-left: 4px solid var(--zc); border-radius: 8px; overflow: hidden; }
+  .patab td, .patab td:first-child { display: grid; grid-template-columns: 7.4em minmax(0, 1fr); gap: 10px; padding: 7px 10px; border-left: 0; }
+  .patab tr td:last-child { border-bottom: 0; }
+  .patab td::before { content: attr(data-l); font-size: 11.5px; line-height: 1.35; color: var(--muted); }
+}
 @media (max-width: 860px) {
   .palab { display: flex; flex-direction: column; gap: 12px; }
   .palab > .col { display: contents; }
-  .palab .pastage { order: 1; } .palab .patrans { order: 2; margin-top: -4px; } .palab .pacap { order: 3; margin-top: -4px; } .palab .patry { order: 4; } .palab .pastory { order: 5; } .palab .pakeyp { order: 6; } .palab .paterm { order: 7; }
+  .palab .pastage { order: 1; } .palab .patrans { order: 2; margin-top: -4px; } .palab .pacap { order: 3; margin-top: -4px; } .palab .patab { order: 3; margin-top: 0; } .palab .patry { order: 4; } .palab .pastory { order: 5; } .palab .pakeyp { order: 6; } .palab .paterm { order: 7; }
   .pacap p { font-size: 15px; }
   .patoast { font-size: 12px; top: 6px; }
 }
@@ -1776,9 +1799,9 @@ function haptic(kind) {
     if (navigator.vibrate && matchMedia('(pointer: coarse)').matches) navigator.vibrate(kind === 'no' ? [14, 50, 14] : kind === 'ok' ? 18 : 8); } catch (e) { /* no haptics here */ }
 }
 
-/* ===== Vibration Analyst Lab 2.0: progress, bookmarks and notes, search, settings and the first-run welcome.
+/* ===== Vibration Analyst Lab 2.x: progress, bookmarks and notes, search, settings and the first-run welcome.
    Everything is kept on this device (no account, no network, no analytics). ===== */
-const APP_VERSION = '2.0';
+const APP_VERSION = '2.1';
 const APPX = (() => {
   const day = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
   const canStore = (() => { try { localStorage.setItem('val.__t', '1'); localStorage.removeItem('val.__t'); return true; } catch (e) { return false; } })();
@@ -1884,7 +1907,7 @@ const APPX = (() => {
     map: 'fmax lines lor record length resolution sample rate overlap averages window concept map before after', bearing: 'bpfo bpfi bsf ftf envelope demodulation stage defect race ball cage ge gE',
     gear: 'gmf gear mesh sidebands hunting tooth backlash eccentric cracked tooth wear', balance: 'trial weight 30/30 vector diagram iso 1940 g2.5 g6.3 trim split weights heavy spot',
     fanbal: 'fan balancing laser tacho accelerometer ar wr against with rotation heavy high light spot trial correction split adash', resonance: 'natural frequency bode damping bump test critical speed detune amplification q factor',
-    anim: 'phase animation strobe tach reference lag lead sensor', ch3: 'signal processing', ch4: 'time waveform twf', ch5: 'phase' };
+    anim: 'phase animation strobe tach reference lag lead sensor heavy spot high spot critical speed rigid rotor flexible rotor centre of mass geometric centre self-centring', ch3: 'signal processing', ch4: 'time waveform twf', ch5: 'phase' };
   const TYPES = [['Sections', 'home'], ['Faults', 'diag'], ['Chapter topics', 'learn'], ['Animations', 'play'], ['Glossary', 'note']];
   let IDX = null;
   const buildIndex = () => {
@@ -1892,7 +1915,8 @@ const APPX = (() => {
     for (const [id, name, intro] of TABS) add('Sections', id, name, api.groupName(id), intro, (KEYWORDS[id] || '') + ' ' + (BLURB[id] || ''));
     for (const [k, secs, label] of CHAPTERS()) secs.forEach((s, i) => add('Chapter topics', k + '/' + s.id, s.title, `${label} · section ${i + 1} · pages ${s.pages}`,
       [s.intro, ...(s.points || []).map(p => p[0]), ...(s.tryit || [])].join(' '), s.short));
-    PA_SCENES.forEach((s, i) => add('Animations', 'anim/' + s.id, s.title, `Phase animations · ${i + 1} of ${PA_SCENES.length}`, [s.intro, s.key].filter(Boolean).join(' '), s.short));
+    PA_SCENES.forEach((s, i) => add('Animations', 'anim/' + s.id, s.title, `Phase animations · ${i + 1} of ${PA_SCENES.length}`,
+      [s.intro, s.key, ...(s.table ? s.table.rows.flatMap(r => r.cells.map(c => c[0])) : [])].filter(Boolean).join(' '), s.short));
     for (const f of FAULTS) add('Faults', 'fault/' + f.id, f.name, f.group, [f.key, f.rule && f.rule.spectrum, f.rule && f.rule.phase, f.rule && f.rule.twf].filter(Boolean).join(' '), f.id);
     const seen = new Set();
     PA_SCENES.forEach(s => (s.terms || []).forEach(([term, def]) => { const n = norm(term); if (seen.has(n)) return; seen.add(n); add('Glossary', 'anim/' + s.id, term, def, '', term); }));
@@ -9843,8 +9867,8 @@ function paRuler(c, x1, x2, y, col, label, o = {}) {
 }
 /* clockwise arc arrow around (cx, cy) from a0 to a1 (radians clockwise from 12 o'clock) */
 function paArc(c, cx, cy, r, a0, a1, col, lw = 2.5, head = 9) {
-  if (Math.abs(a1 - a0) < 0.03) return; const cw = a1 > a0;
-  c.strokeStyle = col; c.lineWidth = lw; c.beginPath(); c.arc(cx, cy, r, a0 - Math.PI / 2, a1 - Math.PI / 2 - (cw ? 1 : -1) * Math.min(0.12, head * 0.6 / r), !cw); c.stroke();
+  if (Math.abs(a1 - a0) < 0.03) return; const cw = a1 > a0, trim = Math.min(0.12, head * 0.6 / r, Math.abs(a1 - a0) * 0.5);   // a short arc keeps its direction
+  c.strokeStyle = col; c.lineWidth = lw; c.beginPath(); c.arc(cx, cy, r, a0 - Math.PI / 2, a1 - Math.PI / 2 - (cw ? 1 : -1) * trim, !cw); c.stroke();
   const [x, y] = paPt(cx, cy, r, a1); paHead(c, x, y, cw ? a1 : a1 + Math.PI, col, head);
 }
 const PA7 = { 0: 'abcdef', 1: 'bc', 2: 'abdeg', 3: 'abcdg', 4: 'bcfg', 5: 'acdfg', 6: 'acdefg', 7: 'abc', 8: 'abcdefg', 9: 'abcdfg', '-': 'g', ' ': '' };
@@ -10038,7 +10062,8 @@ function paIcon(name) {
 class PhaseAnim {
   constructor(root) {
     this.root = root; this.play = !REDUCED; this.rate = 1; this.explore = false; this.onScreen = true; this.W = 0; this.H = 0; this.uiT = 0;
-    this.build(); this.load(clamp(+store.get('pa.scene', 0) || 0, 0, PA_SCENES.length - 1)); try { window.__PA = this; } catch (e) { /* not needed */ }
+    const saved = store.get('pa.scene', 0), i0 = typeof saved === 'string' ? PA_SCENES.findIndex(s => s.id === saved) : +saved || 0;   // kept by name (older versions kept the number)
+    this.build(); this.load(clamp(i0, 0, PA_SCENES.length - 1)); try { window.__PA = this; } catch (e) { /* not needed */ }
     requestAnimationFrame(t => this.loop(t));
   }
   build() {
@@ -10087,7 +10112,8 @@ class PhaseAnim {
         onStart: len => { if (len === 'step') { this.explore = false; this.goStep(this.k); } if (!this.play) this.toggle(); } }) }, mediaIcon(), h('span', { text: 'GIF' })));
     trans.lastChild.setAttribute('aria-label', 'Playback speed');
     this.cap = h('div', { class: 'pacap', 'aria-live': 'polite' });
-    right.append(this.stage, trans, this.cap);
+    this.tab = h('div', { class: 'panel patab', hidden: true });     // a scene's summary table, its present row lit up
+    right.append(this.stage, trans, this.cap, this.tab);
     this.stepsEl = h('ol', { class: 'pasteps' });
     this.keyEl = h('p', { class: 'pakey' }); this.termsEl = h('dl', { class: 'paterms' });
     this.ctlHost = h('div', { class: 'pactl' }); this.liveEl = h('p', { class: 'palive', 'aria-live': 'polite' });
@@ -10103,12 +10129,30 @@ class PhaseAnim {
     try { new IntersectionObserver(es => { this.onScreen = es[es.length - 1].isIntersecting; }).observe(this.stage); } catch (e) { /* older browsers: always draw */ }
   }
   load(si) {
-    this.si = si; store.set('pa.scene', si); const S = this.S = PA_SCENES[si]; APPX.visit('anim/' + S.id);
+    this.si = si; const S = this.S = PA_SCENES[si]; store.set('pa.scene', S.id); APPX.visit('anim/' + S.id);
     this.P = { rps: 0.5, ...S.init }; this.T = { ...this.P }; this.t = 0; this.tPrev = 0; this.ang = (S.ang0 || 0) * DEG; this.angPrev = this.ang;
     this.w = TAU * (S.rpsOf ? S.rpsOf(this.P) : this.P.rps); this.sweeps = {}; this.mem = {}; this.explore = false; this.ended = false; this.k = 0; this.st = 0;
     if (S.setup) S.setup(this);
     this.snap0 = null; this.hl = {}; this.toast.hidden = true; this.outRows = null; this.lastEff = null;
-    this.sel.value = si; this.renderHead(); this.renderNav(); this.renderSteps(); this.renderControls(); this.renderPager(); this.resize(true); this.goStep(0, true); APPX.ctx();
+    this.sel.value = si; this.renderHead(); this.renderNav(); this.renderSteps(); this.renderControls(); this.renderTable(); this.renderPager(); this.resize(true); this.goStep(0, true); APPX.ctx();
+  }
+  /* S.table { title, note, cols, rows: [{ col, cells: [[text, plain words]] }], cur(P) → row (or −1), live(P) → [[column, text]] } */
+  renderTable() {
+    const T = this.S.table; this.tabRows = null;
+    if (!T) { this.tab.hidden = true; this.tab.replaceChildren(); return; }
+    this.tabRows = T.rows.map(rw => h('tr', { style: `--zc: ${rw.col}` }, ...rw.cells.map(([main, plain], j) => h('td', { 'data-l': T.cols[j] },
+      h('div', {}, h('b', { text: main }), plain ? h('small', { text: plain }) : null, h('span', { class: 'now' }))))));
+    this.tab.replaceChildren(h('h2', { text: T.title }), h('div', { class: 'patabw' }, h('table', {},
+      h('thead', {}, h('tr', {}, ...T.cols.map(t => h('th', { scope: 'col', text: t })))), h('tbody', {}, ...this.tabRows))), T.note ? h('p', { class: 'note', text: T.note }) : null);
+    this.tab.hidden = false; this.syncTable();
+  }
+  syncTable() {
+    const T = this.S.table; if (!T || !this.tabRows) return;
+    const cur = T.cur(this.P, this), lv = cur >= 0 && T.live ? T.live(this.P, this) : [];
+    this.tabRows.forEach((tr, i) => {
+      const on = i === cur; if (tr.classList.contains('on') !== on) { tr.classList.toggle('on', on); if (on) tr.setAttribute('aria-current', 'true'); else tr.removeAttribute('aria-current'); }
+      tr.querySelectorAll('.now').forEach((el, j) => { const q = on ? lv.find(x => x[0] === j) : null, t = q ? q[1] : ''; if (el.textContent !== t) el.textContent = t; });
+    });
   }
   sweep(key, o) { return this.sweeps[key] || (this.sweeps[key] = new PaSweep(o)); }
   /* something on the stage the viewer can drag: o { id, x, y, r, drag(x, y), hold (freeze the shaft while held) } */
@@ -10130,7 +10174,7 @@ class PhaseAnim {
     const T = this.stateAt(k); if (!S.free || snap) for (const p in T) { this.T[p] = T[p]; if (hard) this.P[p] = T[p]; }
     if (st.clear) for (const s of Object.values(this.sweeps)) s.clear(this.t); else if (hard && !snap) for (const s of Object.values(this.sweeps)) s.reset();
     if (S.onStep) S.onStep(this, k);
-    this.renderCaption(); this.syncSteps(); this.syncControls(); this.renderPager(); this.dirty = true;
+    this.renderCaption(); this.syncSteps(); this.syncControls(); this.renderPager(); this.syncTable(); this.dirty = true;
   }
   stepBy(d) {
     if (d > 0 && this.k === this.S.steps.length - 1) { if (this.si < PA_SCENES.length - 1) this.load(this.si + 1); return; }
@@ -10225,7 +10269,7 @@ class PhaseAnim {
     if (this.explore) {
       this.cap.classList.add('mine');
       const fx = this.lastEff ? h('div', { class: 'pafx' }, h('div', {}, h('b', { text: 'You changed ' }), this.lastEff.cause), h('div', {}, h('b', { class: 'e', text: this.lastEff.stays ? 'Effect: ' : 'Effect ⇒ ' }), this.lastEff.eff)) : null;
-      this.cap.replaceChildren(h('div', { class: 'eyebrow', text: 'Your turn · the story is waiting' }), fx, this.capLive = h('p', { text: S.live ? S.live(this.T, this) : 'Change the controls and watch the stage.' }));
+      this.cap.replaceChildren(h('div', { class: 'eyebrow', text: 'Your turn · the story is waiting' }), ...(fx ? [fx] : []), this.capLive = h('p', { text: S.live ? S.live(this.T, this) : 'Change the controls and watch the stage.' }));
     } else {
       this.cap.classList.remove('mine'); this.capLive = null;
       const kids = [h('div', { class: 'eyebrow', text: `${s.goal ? 'Mission' : s.quiz ? 'Predict it' : 'Step'} ${this.k + 1} of ${n} · ${s.t}` }), h('p', { text: s.cap })];
@@ -10299,6 +10343,7 @@ class PhaseAnim {
     const live = S.live ? S.live(this.P, this) : '';
     if (this.liveEl.textContent !== live) this.liveEl.textContent = live;
     if (this.capLive && this.capLive.textContent !== live) this.capLive.textContent = live;
+    this.syncTable();
     if (this.ov.hidden !== this.play) this.syncPlay();
   }
 }
@@ -11253,6 +11298,244 @@ paScene({ id: 'sim', short: 'Free play', title: 'Phase simulator: operate it you
     paFplot(c, rph, { kind: 'phase', f: P.hz, fmin: 5, fmax: 80, fn: P.fn, fa, fp, title: 'phase reading', rec: M.rec, pmax: 360, axis: true }, fs);
     paPolar(c, { x: po.x + 4, y: po.y + 6, w: po.w - 8, h: po.h - 22 }, { amp: fa, ph: fp, f: P.hz, fmin: 5, fmax: 80, rec: M.rec, title: '' }, fs);
     paTag(c, wide ? 'arrow length = amplitude, angle = phase' : 'length = size', po.x + po.w / 2, po.y + po.h - 9, { size: fs - 2, col: PAC.mute, bg: null, w: 500 });
+  } });
+
+/* ===== Phase animations: the three speed zones (shown right after "Heavy spot and high spot: speeding up through resonance").
+   A disc with a heavy spot on a flexible shaft between two bearings (the Jeffcott rotor), seen end on and from the side, run from
+   well below to well above its critical speed: which way the shaft bends, which point the rotor spins about (its geometric centre,
+   then its centre of mass), how far the high spot lags the heavy spot, and the damping that sets the peak.
+   Speed ratio r = N / Nc and damping ratio ζ: the shaft centre whirls at A = e·r² / √((1 − r²)² + (2ζr)²), where e is how far the
+   heavy spot moves the centre of mass off the shaft centre, and the high spot lags the heavy spot by ψ = atan2(2ζr, 1 − r²). ===== */
+const PZ_NC = 3000, PZ_RMAX = 2.5, PZ_DMAX = 4.2;                  // critical speed (RPM), top of the speed scale (× critical), largest whirl drawn (× e)
+const PZ_ZONES = [
+  { stage: 'Below critical speed', tag: 'BELOW', col: PAC.grn, rotor: 'Rigid rotor', axis: 'Geometric centre', lag: 'Near 0°',
+    beh: 'Stiff shaft, low vibration, force grows with speed squared', behS: 'Stiff shaft, low vibration; the pull grows with speed²',
+    spins: 'its geometric centre (the shaft centre)', spinsS: 'its geometric centre', spinsLive: 'spins about its geometric centre',
+    side: 'Stiff: the shaft hardly bends', out: ['Below critical', 'Stiff, low vibration'],
+    plain: ['slower than the rotor’s own natural rhythm', 'the shaft barely bends', 'it spins about the middle of the shaft', 'the high spot sits on the heavy spot', 'twice the speed, four times the pull'] },
+  { stage: 'At critical speed', tag: 'AT', col: PAC.org, rotor: 'Resonant mode', axis: 'Transitioning', lag: 'Exactly 90°',
+    beh: 'Strong vibration amplification, governed by damping', behS: 'Big vibration, held back only by damping',
+    spins: 'changing over from one centre to the other', spinsS: 'changing over', spinsLive: 'is changing over from its geometric centre to its centre of mass',
+    side: 'Resonance: the shaft bends the most', out: ['At critical', 'Big, set by damping'],
+    plain: ['turning at its own natural rhythm', 'the rotor resonates', 'changing from one centre to the other', 'the high spot is a quarter turn behind', 'only damping keeps the peak down'] },
+  { stage: 'Above critical speed', tag: 'ABOVE', col: PAC.blu, rotor: 'Flexible rotor', axis: 'Centre of mass', lag: 'Approaches 180°',
+    beh: 'Shaft flexes, self-centres around the centre of gravity', behS: 'Shaft flexes; the rotor centres itself',
+    spins: 'its centre of mass (the balance point)', spinsS: 'its centre of mass', spinsLive: 'spins about its centre of mass',
+    side: 'Flexible: the shaft bends away', out: ['Above critical', 'Flexes, self-centres'],
+    plain: ['faster than its natural rhythm', 'the shaft bends', 'it spins about its balance point', 'the high spot is nearly opposite the heavy spot', 'the rotor finds its own balance'] }];
+const pzR = P => P.rpm / PZ_NC;
+const pzZone = r => (r < 0.85 ? 0 : r <= 1.15 ? 1 : 2);             // the critical-speed zone: within ±15 % of it
+const pzAmp = P => paSdofA(pzR(P), 1, P.z), pzLag = P => paSdofP(pzR(P), 1, P.z);
+const pzDisp = a => (a <= 2 ? a : 2 + 2.2 * Math.tanh((a - 2) / 2.2));   // whirl radius as drawn (× e): the resonance peak is squeezed so it fits
+const pzLagWords = (p, short) => (p < 10 ? (short ? 'on the heavy spot' : 'the high spot sits on the heavy spot')
+  : p < 75 ? (short ? 'falling behind' : 'the high spot falls behind the heavy spot')
+  : p <= 105 ? (short ? 'a quarter turn behind' : 'a quarter turn behind the heavy spot')
+  : p < 160 ? (short ? 'heading for opposite' : 'swinging round towards the far side') : (short ? 'nearly opposite' : 'nearly opposite the heavy spot'));
+const pzShake = a => (a < 0.5 ? 'small' : a < 1.5 ? 'moderate' : a < 3 ? 'large' : 'very large');
+function paSceneAfter(id, o) { const i = PA_SCENES.findIndex(s => s.id === id); PA_SCENES.splice(i < 0 ? PA_SCENES.length : i + 1, 0, o); }
+
+function pzLayout(A) {
+  const W = A.W, H = A.H;
+  if (A.wide) {
+    const lw = Math.round((W - 24) * 0.42), x0 = 16 + lw, rw = W - 24 - lw, sh = Math.round((H - 24) * 0.42);
+    return { end: { x: 8, y: 8, w: lw, h: H - 16 }, side: { x: x0, y: 8, w: rw, h: sh }, zone: { x: x0, y: 16 + sh, w: rw, h: H - 24 - sh } };
+  }
+  const eh = Math.round((H - 32) * 0.44), sh = Math.round((H - 32) * 0.21);
+  return { end: { x: 8, y: 8, w: W - 16, h: eh }, side: { x: 8, y: 16 + eh, w: W - 16, h: sh }, zone: { x: 8, y: 24 + eh + sh, w: W - 16, h: H - 32 - eh - sh } };
+}
+function pzCG(c, x, y, r) {                                          // the centre-of-mass symbol: yellow and black quarters
+  c.fillStyle = PAC.yel; c.beginPath(); c.arc(x, y, r, 0, TAU); c.fill();
+  c.fillStyle = '#111518'; for (const a of [-Math.PI / 2, Math.PI / 2]) { c.beginPath(); c.moveTo(x, y); c.arc(x, y, r, a, a + Math.PI / 2); c.closePath(); c.fill(); }
+  c.strokeStyle = '#111518'; c.lineWidth = 1.4; c.beginPath(); c.arc(x, y, r, 0, TAU); c.stroke();
+}
+function pzG(c, x, y, r) {                                           // the shaft centre (geometric centre): a white ring and cross
+  c.fillStyle = '#1b2125'; c.beginPath(); c.arc(x, y, r, 0, TAU); c.fill();
+  c.strokeStyle = '#ffffff'; c.lineWidth = 2; c.stroke(); c.beginPath(); c.moveTo(x - r * 0.55, y); c.lineTo(x + r * 0.55, y); c.moveTo(x, y - r * 0.55); c.lineTo(x, y + r * 0.55); c.stroke();
+}
+function pzHalo(c, x, y, r, k, col, t) {                             // a soft pulsing ring round the point the rotor spins about
+  if (k < 0.02) return; const p = 0.5 + 0.5 * Math.sin(t * 4);
+  paFlash(c, x, y, r * 2.6, 0.5 * k, col); c.strokeStyle = withAlpha(col, 0.9 * k); c.lineWidth = 2; c.beginPath(); c.arc(x, y, r * (1.45 + 0.3 * p), 0, TAU); c.stroke();
+}
+
+/* the rotor end on: the disc whirls round the bearing centre line; returns the angles and the bend size for the side view */
+function pzEnd(c, A, f, k) {
+  const P = A.P, fs = paFs(A), hide = P.hideP > 0.5, cen = clamp(P.cen, 0, 1), arw = clamp(P.arw, 0, 1), lagA = hide ? 0 : clamp(P.lagA, 0, 1), tags = clamp(P.tags, 0, 1);
+  const legH = 42, top = f.y + 22, area = f.h - 22 - legH;
+  const R = Math.max(24, Math.min(f.w / 2 - 8, area / 2 - 4) / (1 + 0.2 * PZ_DMAX)), e = R * 0.2, ext = R * (1 + 0.2 * PZ_DMAX) + 4, spare = area - 2 * ext;
+  const ox = f.x + f.w / 2, oy = spare > 70 ? top + ext + Math.min(14, spare - 70) : top + area / 2;   // a tall panel keeps room under the rotor for a line of explanation
+  const Ad = pzDisp(k.amp) * e, aH = A.ang, aG = A.ang - k.psi * DEG, inner = { x: f.x, y: top, w: f.w, h: area };
+  const [gx, gy] = paPt(ox, oy, Ad, aG), [mx, my] = paPt(gx, gy, e, aH);
+  const rG = Ad, rM = Math.hypot(mx - ox, my - oy), sp = (rM - rG) / (rM + rG + 1e-6);
+  const gG = cen * paSmooth(clamp(sp * 1.6, 0, 1)), gM = cen * paSmooth(clamp(-sp * 1.6, 0, 1));
+  /* the bearing centre line, end on */
+  c.setLineDash([5, 5]); c.strokeStyle = withAlpha(PAC.cyan, 0.4); c.lineWidth = 1; c.beginPath();
+  c.moveTo(ox - ext, oy + 0.5); c.lineTo(ox + ext, oy + 0.5); c.moveTo(ox + 0.5, oy - ext); c.lineTo(ox + 0.5, oy + ext); c.stroke(); c.setLineDash([]);
+  /* the disc, the shaft end in its middle and the heavy spot bolted on */
+  paDisc(c, gx, gy, R, A.ang, { tape: false, faceHi: '#7d8790', faceLo: '#3b4349', rimHi: '#b6bdc2', rimLo: '#454d53' });
+  c.fillStyle = '#5b656c'; c.beginPath(); c.arc(gx, gy, R * 0.2, 0, TAU); c.fill(); c.strokeStyle = 'rgba(0,0,0,0.5)'; c.lineWidth = 1; c.stroke();
+  c.save(); c.translate(gx, gy); c.rotate(aH);
+  const bw = Math.max(11, R * 0.22), bh = Math.max(8, R * 0.14), by = -R * 0.7;
+  paRR(c, -bw / 2, by - bh / 2, bw, bh, 2.5); c.fillStyle = PAC.red; c.fill(); c.strokeStyle = 'rgba(0,0,0,0.7)'; c.lineWidth = 1.2; c.stroke();
+  c.fillStyle = 'rgba(255,255,255,0.8)'; for (const dx of [-bw * 0.26, bw * 0.26]) { c.beginPath(); c.arc(dx, by, Math.max(1.3, bh * 0.15), 0, TAU); c.fill(); }
+  c.restore();
+  /* the high spot: the side pushed out the most, on the line from the bearing centre through the shaft centre */
+  if (!hide) { const [hx, hy] = paPt(gx, gy, R * 0.9, aG); paFlash(c, hx, hy, R * 0.32, 0.75, PAC.grn); c.fillStyle = PAC.grn; c.beginPath(); c.arc(hx, hy, Math.max(5, R * 0.075), 0, TAU); c.fill(); c.strokeStyle = 'rgba(0,0,0,0.6)'; c.lineWidth = 1.3; c.stroke(); }
+  /* the paths of the two centres */
+  if (cen > 0.02) {
+    c.globalAlpha = cen;
+    if (rG > 1.5) { c.setLineDash([4, 4]); c.strokeStyle = 'rgba(255,255,255,0.8)'; c.lineWidth = 1.3; c.beginPath(); c.arc(ox, oy, rG, 0, TAU); c.stroke(); }
+    if (rM > 1.5) { c.setLineDash([1.5, 3.5]); c.strokeStyle = PAC.yel; c.lineWidth = 1.7; c.beginPath(); c.arc(ox, oy, rM, 0, TAU); c.stroke(); }
+    c.setLineDash([]); c.globalAlpha = 1;
+  }
+  c.strokeStyle = PAC.cyan; c.lineWidth = 1.6; c.beginPath(); c.arc(ox, oy, 4, 0, TAU); c.stroke();
+  /* the pull of the heavy spot (grows with speed squared) and the direction the shaft is pushed out */
+  if (arw > 0.02) {
+    const Lp = R * clamp(0.2 + 0.5 * k.r * k.r, 0.2, 1.32), [px, py] = paPt(gx, gy, Lp, aH);
+    c.globalAlpha = arw; paArrow(c, gx, gy, px, py, PAC.red, 3, 10); c.globalAlpha = 1;
+    if (Lp > R * 0.36) { const [mx2, my2] = paPt(gx, gy, Lp * 0.62, aH), [tx, ty] = paPt(mx2, my2, 17, aH + Math.PI / 2);   // beside the arrow, on the leading side (the lag is on the trailing side)
+      paTag(c, 'pull', tx, ty, { size: fs - 1.5, col: '#ffffff', bg: 'rgba(150,24,24,0.85)', w: 600, alpha: arw, pad: 4 }); }
+    if (!hide) { const [qx, qy] = paPt(gx, gy, R * 0.82, aG); c.globalAlpha = arw * 0.95; paArrow(c, gx, gy, qx, qy, PAC.grn, 2.2, 8); c.globalAlpha = 1; }
+  }
+  /* the lag: from the heavy spot back to the high spot, against the rotation */
+  if (lagA > 0.02) {
+    const rl = R * 0.47;
+    if (k.psi > 3) { c.globalAlpha = lagA; paArc(c, gx, gy, rl, aH, aG, PAC.org, 2.6, 8); c.globalAlpha = 1; }
+    const [lx, ly] = paPt(gx, gy, R + 17, aH - Math.max(k.psi, 16) * DEG / 2);              // just outside the rim, between the two spots
+    paTagIn(c, `lag ${Math.round(k.psi)}°`, lx, ly, inner, { size: fs - 0.5, col: '#1c1306', bg: PAC.org, w: 700, alpha: lagA });
+  }
+  /* the two centres; the one the rotor spins about glows */
+  if (cen > 0.02) {
+    const mr = Math.max(5, R * 0.075); c.globalAlpha = cen;
+    pzHalo(c, gx, gy, mr, gG, '#ffffff', A.t); pzHalo(c, mx, my, mr, gM, PAC.yel, A.t);
+    pzG(c, gx, gy, mr); pzCG(c, mx, my, mr); c.globalAlpha = 1;
+    const spin = gG > 0.45 ? ['the shaft centre', '#ffffff', 'The shaft centre (white) hardly moves, so the rotor spins about it; the centre of mass circles round it.']
+      : gM > 0.45 ? ['the centre of mass', PAC.yel, 'The centre of mass (yellow) hardly moves, so the rotor spins about it; the shaft centre circles round it.']
+      : ['changing over', PAC.org, 'Both centres swing round in big circles: the rotor is changing over from one centre to the other.'];
+    paTag(c, 'Spins about: ' + spin[0], f.x + f.w - 8, f.y + 11, { align: 'right', size: fs - 0.5, col: spin[1], bg: null, w: 600, alpha: cen });
+    if (spare > 70) paText(c, spin[2], f.x + 14, oy + ext + 8, f.w - 28, { size: fs, col: PAC.ink, w: 500, alpha: cen });
+  }
+  /* which way it turns, and names on the spots for the first step */
+  const rx = R * (1 + 0.2 * PZ_DMAX) + 2; paArc(c, ox, oy, rx, -0.95, -0.42, withAlpha(PAC.mute, 0.8), 2, 7);
+  const [wx, wy] = paPt(ox, oy, rx + 12, -1.1); paTag(c, 'turns', wx, wy, { size: fs - 2, col: PAC.mute, bg: null, w: 600 });
+  if (tags > 0.02) {
+    const [hx, hy] = paPt(gx, gy, R * 0.7, aH); paTag(c, 'heavy spot', hx, hy - 17, { size: fs - 0.5, col: '#ffffff', bg: 'rgba(170,26,26,0.9)', w: 600, alpha: tags });
+    if (!hide) { const [qx, qy] = paPt(gx, gy, R * 0.9, aG); paTag(c, 'high spot', qx, qy + 18, { size: fs - 0.5, col: '#05200e', bg: PAC.grn, w: 600, alpha: tags }); }
+  }
+  paLegend(c, f.x + 10, f.y + f.h - legH + 13, [[PAC.red, 'heavy spot', 'bar'], [PAC.grn, 'high spot', 'dot'], ['#ffffff', 'shaft centre', 'dot'], [PAC.yel, 'centre of mass', 'dot'], [PAC.cyan, 'bearing centre line', 'line']], f.w - 20, fs - 1.5);
+  return { aG, aH, dr: clamp(Ad / (e * PZ_DMAX), 0, 1) };
+}
+
+/* the shaft between its bearings, from the side: it bows with the shaft centre's up-and-down motion */
+function pzSide(c, A, s, k, g) {
+  const fs = paFs(A), Z = PZ_ZONES[k.zone], hide = A.P.hideP > 0.5;
+  paTag(c, Z.side, s.x + s.w - 8, s.y + 11, { align: 'right', size: fs - 1, col: Z.col, bg: null, w: 600 });
+  const x1 = s.x + s.w * 0.13, x2 = s.x + s.w * 0.87, xm = (x1 + x2) / 2, room = (s.h - 20 - 24) / 2, y0 = s.y + 20 + room;
+  const Rs = room * 0.52, dmax = room * 0.42, yd = y0 - dmax * g.dr * Math.cos(g.aG);
+  const Y = x => (x <= x1 || x >= x2 ? y0 : y0 + (yd - y0) * Math.sin(Math.PI * (x - x1) / (x2 - x1)));
+  c.setLineDash([6, 5]); c.strokeStyle = withAlpha(PAC.cyan, 0.5); c.lineWidth = 1; c.beginPath(); c.moveTo(s.x + 6, y0 + 0.5); c.lineTo(s.x + s.w - 6, y0 + 0.5); c.stroke(); c.setLineDash([]);
+  const pw = Math.max(24, s.w * 0.06);
+  for (const bx of [x1, x2]) {                                        // bearing pedestals with the housing round the shaft
+    const gp = c.createLinearGradient(bx - pw / 2, 0, bx + pw / 2, 0); gp.addColorStop(0, '#363e44'); gp.addColorStop(0.5, '#78828a'); gp.addColorStop(1, '#30373c');
+    c.fillStyle = gp; c.beginPath(); c.moveTo(bx - pw * 0.34, y0 + 4); c.lineTo(bx + pw * 0.34, y0 + 4); c.lineTo(bx + pw / 2, s.y + s.h - 2); c.lineTo(bx - pw / 2, s.y + s.h - 2); c.closePath(); c.fill();
+    c.fillStyle = '#262c31'; c.beginPath(); c.arc(bx, y0, Math.max(9, pw * 0.42), 0, TAU); c.fill(); c.strokeStyle = '#8b959c'; c.lineWidth = 1.5; c.stroke();
+  }
+  c.lineCap = 'round'; c.lineJoin = 'round'; c.beginPath();
+  for (let x = s.x + 10, i = 0; x <= s.x + s.w - 10; x += 3, i++) { const y = Y(x); if (i) c.lineTo(x, y); else c.moveTo(x, y); }
+  c.strokeStyle = '#8d979e'; c.lineWidth = A.wide ? 7 : 6; c.stroke();
+  c.save(); c.translate(0, -1.6); c.strokeStyle = 'rgba(232,237,240,0.55)'; c.lineWidth = 1.4; c.stroke(); c.restore(); c.lineCap = 'butt';
+  const dw = clamp(s.w * 0.035, 12, 18), gd = c.createLinearGradient(xm - dw / 2, 0, xm + dw / 2, 0);
+  gd.addColorStop(0, '#59626a'); gd.addColorStop(0.45, '#cfd5d9'); gd.addColorStop(1, '#4a5258');
+  c.fillStyle = gd; paRR(c, xm - dw / 2, yd - Rs, dw, 2 * Rs, 3); c.fill(); c.strokeStyle = 'rgba(0,0,0,0.45)'; c.lineWidth = 1; c.stroke();
+  const hy = yd - Rs * 0.7 * Math.cos(g.aH), near = Math.sin(g.aH) >= 0, hb = Math.max(7, Rs * 0.24);   // the heavy spot on the near face of the disc
+  paRR(c, xm + dw / 2 - 1, hy - hb / 2, 9, hb, 2); c.fillStyle = near ? PAC.red : '#a83a34'; c.fill(); c.strokeStyle = 'rgba(0,0,0,0.6)'; c.lineWidth = 1; c.stroke();
+  const bend = hide ? 'Which way does it bend? Watch the red weight.' : k.psi < 25 ? (g.dr < 0.06 ? 'Barely bends, and towards the heavy spot' : 'Bends towards the heavy spot')
+    : k.psi < 65 ? 'The bend starts to trail the heavy spot' : k.psi <= 115 ? 'The bend trails the heavy spot by a quarter turn'
+    : k.psi < 155 ? 'The bend swings round, away from the heavy spot' : 'Bends away from the heavy spot';
+  paTag(c, bend, xm, s.y + s.h - 12, { size: fs - 1, col: PAC.ink, bg: 'rgba(4,7,6,0.8)', w: 500 });
+}
+
+/* the speed-zone bar (drag the marker) and a card with the row of the table you are in */
+function pzZones(c, A, zp, k) {
+  const P = A.P, fs = paFs(A), hide = P.hideP > 0.5, Z = PZ_ZONES[k.zone], compact = zp.w < 440;
+  paTag(c, compact ? `${Math.round(P.rpm)} RPM · ${k.r.toFixed(2)}×` : `${Math.round(P.rpm)} RPM · ${k.r.toFixed(2)} × critical`, zp.x + zp.w - 8, zp.y + 11, { align: 'right', size: fs - 0.5, col: PAC.ink, bg: null, w: 600 });
+  const bx = zp.x + 12, bw = zp.w - 24, by = zp.y + 32, bh = 22, X = r => bx + clamp(r / PZ_RMAX, 0, 1) * bw;
+  [[0, 0.85], [0.85, 1.15], [1.15, PZ_RMAX]].forEach(([a, b], i) => {
+    const on = i === k.zone, col = PZ_ZONES[i].col, w = X(b) - X(a) - 2;
+    c.fillStyle = withAlpha(col, on ? 0.9 : 0.2); paRR(c, X(a) + 1, by, w, bh, 4); c.fill();
+    paFont(c, fs - 1, 700); if (c.measureText(PZ_ZONES[i].tag).width < w - 6) paTag(c, PZ_ZONES[i].tag, X(a) + 1 + w / 2, by + bh / 2, { size: fs - 1, col: on ? '#07100b' : withAlpha(col, 0.95), bg: null, w: 700 });
+  });
+  const xc = X(1); c.strokeStyle = PAC.ink; c.lineWidth = 1.5; c.beginPath(); c.moveTo(xc, by - 3); c.lineTo(xc, by + bh + 3); c.stroke();
+  paTag(c, `critical ${PZ_NC} RPM`, xc, by + bh + 12, { size: fs - 2, col: PAC.mute, bg: null, w: 600 });
+  paTag(c, '0', bx, by + bh + 12, { align: 'left', size: fs - 2, col: PAC.mute, bg: null, pad: 0 });
+  paTag(c, `${PZ_RMAX * PZ_NC} RPM`, bx + bw, by + bh + 12, { align: 'right', size: fs - 2, col: PAC.mute, bg: null, pad: 0 });
+  const xm = X(k.r);
+  c.fillStyle = '#ffffff'; c.beginPath(); c.moveTo(xm, by - 1); c.lineTo(xm - 7, by - 11); c.lineTo(xm + 7, by - 11); c.closePath(); c.fill();
+  c.strokeStyle = '#ffffff'; c.lineWidth = 2.5; c.beginPath(); c.moveTo(xm, by - 1); c.lineTo(xm, by + bh + 2); c.stroke();
+  A.handle(c, { id: 'spd', x: xm, y: by + bh / 2 - 4, r: 13, drag: x => A.setP('rpm', Math.round(clamp((x - bx) / bw * PZ_RMAX * PZ_NC, 300, PZ_RMAX * PZ_NC) / 50) * 50) });
+  /* the card: this speed's row of the table */
+  const x0 = zp.x + 12, lw = compact ? 92 : 112, vw = zp.w - 24 - lw;
+  let y = by + bh + 26;
+  paTag(c, Z.stage.toUpperCase(), x0, y + 8, { align: 'left', size: fs + 2.5, col: Z.col, bg: null, w: 700, f: 'd', pad: 0 });
+  y += 22;
+  const row = (label, value, col) => {
+    paText(c, label, x0, y + 1, lw - 8, { size: fs - 1.5, col: PAC.mute, w: 500 });
+    const hh = paText(c, value, x0 + lw, y, vw, { size: fs - 0.5, col: col || PAC.ink, w: 500 }); y += Math.max(hh, 15) + 5;
+  };
+  row('Rotor', compact ? Z.rotor : `${Z.rotor} · ${Z.plain[1]}`);
+  row('Spins about', compact ? Z.spinsS : Z.spins);
+  row('High spot lag', hide ? '?  (answer the question first)' : `${Math.round(k.psi)}° · ${pzLagWords(k.psi, compact)}`, hide ? PAC.mute : '#ffb36b');
+  row('Behaviour', compact ? Z.behS : Z.beh);
+  paText(c, 'Shaking', x0, y + 1, lw - 8, { size: fs - 1.5, col: PAC.mute, w: 500 });
+  const sw = Math.min(vw - 80, 170), fr = clamp(pzDisp(k.amp) / PZ_DMAX, 0, 1);
+  c.fillStyle = '#1a2328'; paRR(c, x0 + lw, y + 3, sw, 9, 4.5); c.fill(); c.fillStyle = Z.col; paRR(c, x0 + lw, y + 3, Math.max(9, sw * fr), 9, 4.5); c.fill();
+  paTag(c, pzShake(k.amp), x0 + lw + sw + 8, y + 8, { align: 'left', size: fs - 0.5, col: PAC.ink, bg: null, w: 500, pad: 0 });
+  y += 20;
+  if (y < zp.y + zp.h - 16) paTag(c, 'Slow motion · movement exaggerated, not to scale', zp.x + zp.w - 8, zp.y + zp.h - 9, { align: 'right', size: fs - 2.5, col: PAC.dim, bg: null, w: 500, pad: 0 });
+}
+
+paSceneAfter('res', { id: 'zones', short: 'Speed zones', title: 'Three speed zones: rigid rotor, critical speed, flexible rotor', pages: '5-18, 6-29..6-31',
+  intro: 'The same rotor behaves in three different ways depending on its speed. Speed it up from well below to well above its critical speed and watch three things: which way the shaft bends, which point the rotor spins about, and how far the high spot falls behind the heavy spot.',
+  key: 'Below the critical speed the rotor acts rigid: it spins about its geometric centre and the high spot sits on the heavy spot (about 0°). At the critical speed it resonates: the high spot lags exactly 90° and only damping limits the vibration. Above it the rotor acts flexible: the lag heads for 180°, the shaft bends away from the heavy spot and the rotor spins about its centre of mass.',
+  terms: [['Heavy spot', 'where the extra weight is: the unbalance'], ['High spot', 'the side of the shaft pushed out the most, the point a sensor sees come closest'],
+    ['Critical speed', 'the speed that matches the rotor\'s own natural rhythm (its natural frequency), where it resonates'],
+    ['Geometric centre', 'the middle of the shaft'], ['Centre of mass', 'the rotor\'s balance point, pulled slightly towards the heavy spot (also called the centre of gravity)'],
+    ['Rigid rotor', 'a rotor working well below its first critical speed: the shaft barely bends'], ['Flexible rotor', 'a rotor working above a critical speed: the shaft bends and the rotor centres itself'],
+    ['Damping', 'what soaks up the motion, such as the oil film in the bearings: more damping, a lower peak']],
+  dragTip: 'Drag the white marker on the speed-zone bar to change the speed.',
+  init: { rpm: 900, z: 0.15, cen: 0, arw: 0, lagA: 0, tags: 1, hideP: 0 },
+  rpsOf: P => 0.1 + 0.3 * clamp(P.rpm / PZ_NC, 0, PZ_RMAX),
+  size: { wide: [0.62, 460, 640], narrow: [2.05, 660, 820] },
+  steps: [
+    { t: 'Meet the heavy spot', dur: 12, cap: 'A disc on a shaft, seen end on and from the side. The red block is the heavy spot: a little extra weight on one side. As the disc spins it pulls outwards, like a stone whirled on a string. The green mark is the high spot: the side of the shaft pushed out the most, which is what a vibration sensor sees.' },
+    { t: 'Slow: the shaft stays in charge', dur: 14, set: { tags: 0, lagA: 1, cen: 1 }, ramp: { rpm: [900, 1500] }, cap: 'Well below the critical speed the shaft is stiff compared with the pull. It bends only a little, straight towards the heavy spot, so the high spot sits on the heavy spot: a lag near 0°. The rotor spins about its geometric centre (white) while its centre of mass (yellow and black) circles round it. This is a rigid rotor.' },
+    { t: 'Faster: the pull grows with speed squared', dur: 13, set: { arw: 1 }, ramp: { rpm: [1500, 2400] }, cap: 'The red arrow is the pull of the heavy spot. Double the speed and the pull is four times bigger, because it grows with the speed squared. The shaft bends further and the green high spot starts to fall behind the red heavy spot.' },
+    { t: 'At the critical speed', dur: 14, ramp: { rpm: [2400, 3000] }, cap: 'Now the rotor turns at its own natural rhythm, its critical speed, like a swing pushed at just the right moment. The shaking is at its biggest and the high spot is exactly a quarter turn (90°) behind the heavy spot. Neither centre stays still: the rotation axis is changing over. This is the resonant mode.' },
+    { t: 'Damping decides how big', dur: 13, set: { rpm: 3000 }, ramp: { z: [0.07, 0.35] }, cap: 'At the critical speed only damping holds the shaking back: the oil film in the bearings and the materials that soak up motion. Watch as damping is added: the shaking shrinks, but the high spot stays a quarter turn (90°) behind.' },
+    { t: 'Above: the heavy spot takes over', dur: 15, set: { z: 0.15 }, ramp: { rpm: [3000, 6600] }, cap: 'Past the critical speed the shaking settles down and the high spot keeps falling behind, towards half a turn (180°): the shaft now bends away from the heavy spot. The centre of mass settles onto the bearing centre line and the rotor spins about it: it centres itself. This is a flexible rotor.' },
+    { t: 'A whole run-up', dur: 18, snap: true, ramp: { rpm: [600, 6600] }, rampAt: 0.9, cap: 'A whole start-up: the lag slides from 0° through 90° to nearly 180°, and the shaking swells at the critical speed and then settles. A washing machine does the same on its spin: it shakes hard at one speed, then runs smoother at full speed. Big turbines and compressors pass their critical speed every time they start and stop.' },
+    { t: 'Why it matters', dur: 13, set: { rpm: 1500 }, cap: 'A sensor shows where the high spot is, not where the heavy spot is. Below the critical speed they are in the same place; at the critical speed the heavy spot is 90° ahead of the high spot; well above it, nearly opposite. That is why balancers allow for this lag and compare phase readings only at the same speed.' },
+    { t: 'Check yourself', dur: 1, set: { rpm: 6000, hideP: 1 }, quiz: { opts: [['same', 'In the same place'], ['quarter', 'A quarter turn (90°) apart'], ['opp', 'Nearly opposite (close to 180°)']], ans: 'opp',
+      why: 'At twice the critical speed the high spot lags the heavy spot by about 170° with this damping: nearly opposite. The shaft bends away from the heavy spot and the rotor spins about its centre of mass.', reveal: { hideP: 0 } },
+      cap: 'The rotor now runs at twice its critical speed. Where is the high spot compared with the heavy spot?' }],
+  controls: [{ p: 'rpm', label: 'Speed', min: 300, max: 7500, step: 50, fmt: v => `${v} RPM · ${(v / PZ_NC).toFixed(2)} × critical` },
+    { p: 'z', type: 'seg', label: 'Damping', opts: [[0.07, 'Low'], [0.15, 'Medium'], [0.35, 'High']] },
+    { p: 'lagA', type: 'seg', label: 'Lag angle', opts: [[1, 'Show'], [0, 'Hide']] },
+    { p: 'cen', type: 'seg', label: 'Shaft centre and centre of mass', opts: [[1, 'Show'], [0, 'Hide']] },
+    { p: 'arw', type: 'seg', label: 'Pull and push arrows', opts: [[1, 'Show'], [0, 'Hide']] }],
+  outputs: P => { const r = pzR(P), Z = PZ_ZONES[pzZone(r)];
+    return [['Operational stage', Z.out[0], true], ['Rotor classification', Z.rotor], ['Rotation axis', Z.axis], ['High spot lags the heavy spot by', P.hideP > 0.5 ? '?' : Math.round(pzLag(P)) + '°', true],
+      ['Physical behaviour', Z.out[1]], ['Shaking (× centre-of-mass offset)', pzAmp(P).toFixed(2)], ['Pull of the heavy spot (× at critical)', (r * r).toFixed(2)]]; },
+  live: P => { const r = pzR(P), Z = PZ_ZONES[pzZone(r)];
+    return `${Math.round(P.rpm)} RPM is ${r.toFixed(2)} × the critical speed: ${Z.stage.toLowerCase()}. ${P.hideP > 0.5 ? '' : `The high spot lags the heavy spot by ${Math.round(pzLag(P))}° and `}the rotor ${Z.spinsLive}.`; },
+  table: { title: 'The three speed zones at a glance', note: 'The row for the present speed lights up. Exact angles depend on damping; here the critical-speed zone is taken as ±15 % of the critical speed.',
+    cols: ['Operational stage', 'Rotor classification', 'Rotation axis', 'Heavy spot vs high spot lag', 'Physical behaviour'],
+    rows: PZ_ZONES.map(Z => ({ col: Z.col, cells: [Z.stage, Z.rotor, Z.axis, Z.lag, Z.beh].map((t, j) => [t, Z.plain[j]]) })),
+    cur: P => (P.hideP > 0.5 ? -1 : pzZone(pzR(P))),
+    live: P => [[0, 'you are here'], [3, `now ${Math.round(pzLag(P))}°`]] },
+  draw(c, W, H, A) {
+    const P = A.P, r = pzR(P), k = { r, amp: pzAmp(P), psi: pzLag(P), zone: pzZone(r) }, L = pzLayout(A);
+    const f = paPanel(c, L.end, { title: 'END VIEW', grid: 22 }), s = paPanel(c, L.side, { title: 'SIDE VIEW' }), z = paPanel(c, L.zone, { title: 'THE THREE SPEED ZONES' });
+    const g = pzEnd(c, A, f, k); pzSide(c, A, s, k, g); pzZones(c, A, z, k);
   } });
 
 /* ===== Fan balancing: single-plane field balancing of a fan with a laser tacho and an accelerometer, the AR/WR angle setting,
@@ -12220,7 +12503,7 @@ const TABS = [
   ['ch3', 'Ch 3 · Signal processing', 'Chapter 3 of the CAT III manual, section by section: from the sensor to the spectrum, with a simulation, the key points and check questions for each part.', r => new Ch3Lab(r)],
   ['ch4', 'Ch 4 · Time waveform', 'Chapter 4 of the CAT III manual, section by section: setting up, reading and recognizing time waveforms, with a simulation, the key points and check questions for each part.', r => new ChapterLab(r, { secs: CH4, pfx: 'c4', store: 'ch4', label: 'Chapter 4' })],
   ['ch5', 'Ch 5 · Phase', 'Chapter 5 of the CAT III manual, section by section: what phase is, how to measure it, and how phase readings tell unbalance, misalignment, eccentricity, a bent shaft, a cocked bearing and looseness apart, with a simulation, the key points and check questions for each part.', r => new ChapterLab(r, { secs: CH5, pfx: 'c5', store: 'ch5', label: 'Chapter 5' })],
-  ['anim', 'Phase animations', 'Chapter 5 as eleven short animated stories in plain words, plus a free-play phase simulator: what a phase angle is, how it is measured with a tach or a strobe, why the sensor type and position change it, how resonance moves the high spot away from the heavy spot, and how phase tells unbalance from misalignment. Press play, step through, answer the quick checks, or take over the controls and see exactly what each change does.', r => new PhaseAnim(r)],
+  ['anim', 'Phase animations', 'Chapter 5 as twelve short animated stories in plain words, plus a free-play phase simulator: what a phase angle is, how it is measured with a tach or a strobe, why the sensor type and position change it, how resonance moves the high spot away from the heavy spot, how a rotor behaves below, at and above its critical speed (rigid rotor, resonance, flexible rotor), and how phase tells unbalance from misalignment. Press play, step through, answer the quick checks, or take over the controls and see exactly what each change does.', r => new PhaseAnim(r)],
   ['bearing', 'Bearing lab', 'Defect frequencies from geometry, the four failure stages, and why the envelope spectrum sees a defect before velocity does.', r => new BearingLab(r)],
   ['gear', 'Gear lab', 'Gear mesh, sidebands and impacts: which shaft a fault belongs to, read from the sideband spacing and the waveform.', r => new GearLab(r)],
   ['balance', 'Balancing lab', 'Single-plane balancing with a trial weight, the 30/30 rule, the vector diagram, splitting, trim runs and ISO 1940.', r => new BalanceLab(r)],
@@ -12238,7 +12521,7 @@ const SHORT = { fault: 'Simulator', challenge: 'Challenge', plan: 'Planner', map
 const BLURB = { fault: 'Pick a fault: spectrum, waveform, phase and orbit', challenge: 'A hidden fault: measure it, then name it',
   plan: 'Fmax, lines and demod settings for your machine', map: 'Follow one setting change through everything else',
   ch3: 'From the sensor to the spectrum, section by section', ch4: 'Set up, read and recognize time waveforms', ch5: 'Measure phase and tell the faults apart',
-  anim: '11 animated phase stories and a free-play simulator', bearing: 'Defect frequencies and the four failure stages', gear: 'Gear mesh, sidebands and impacts',
+  anim: '12 animated phase stories and a free-play simulator', bearing: 'Defect frequencies and the four failure stages', gear: 'Gear mesh, sidebands and impacts',
   balance: 'Trial weight, vectors, trim runs and ISO 1940', fanbal: 'Tacho, accelerometer and AR/WR angles, run by run', resonance: 'Natural frequency, the Bode plot and the bump test' };
 const ICONS = {
   home: '<path d="M3.5 10.5 12 4l8.5 6.5V20a1 1 0 0 1-1 1H15v-6H9v6H4.5a1 1 0 0 1-1-1z"/>',

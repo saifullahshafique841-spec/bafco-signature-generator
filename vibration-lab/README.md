@@ -24,7 +24,7 @@ The iPhone shows the file as "Not Verified" because it is not signed with a paid
 
 Download **[VibrationAnalystLab.apk](VibrationAnalystLab.apk)** on your Android phone and tap it to install (allow installs from your browser if asked; Play Protect may warn because it is not from the Play Store: choose **Install anyway**). Or open the link in Chrome and choose **Install app** from the menu.
 
-Version 2.0 installs over the earlier app and keeps your settings.
+Version 2.1 installs over the earlier app and keeps your settings.
 
 ## On a phone
 
@@ -38,10 +38,15 @@ Every section uses the same colour code:
 - **Results** (screen badge): charts, readouts and tables that update as soon as you change a setting.
 - **Notes and checks** (book or question badge): key points, rule cards and quick questions.
 
+## New in 2.1
+
+- **Three speed zones**, a new phase animation in plain words: speed a rotor from below to above its critical speed and watch the heavy spot and the high spot, which point it spins about (geometric centre or centre of mass), the shaft bending in a side view, and a table of the three zones (rigid rotor, resonant mode, flexible rotor) with the row for the present speed lit up.
+- **iPhone install file** and saving through the iPhone share sheet (see above).
+
 ## New in 2.0
 
 - **Search** every section, chapter topic, animation, fault and term; a result opens the exact place (for example Ch 3 · Nyquist and aliasing).
-- **Your progress**: lessons done (Chapters 3–5 and the 12 animations), check questions right first time, challenge score and your day streak.
+- **Your progress**: lessons done (Chapters 3–5 and the phase animations), check questions right first time, challenge score and your day streak.
 - **Save and notes**: save any screen and write notes on it; find them under Saved.
 - **Save any animation** as a GIF, a video or a PNG picture: the GIF button on every phase animation, and the download button on every chart and moving picture.
 - **Settings**: theme, text size up to 200 % in the Android app, reduced motion, haptics, and a backup file to move your progress to another phone.
@@ -58,7 +63,7 @@ Every section uses the same colour code:
 | Ch 3 · Signal processing | From the sensor to the spectrum, section by section |
 | Ch 4 · Time waveform | Setting up, reading and recognising time waveforms |
 | Ch 5 · Phase | How phase separates unbalance, misalignment, bent shaft, looseness and more |
-| Phase animations | Eleven animated phase lessons in plain words, plus a free-play phase simulator with missions |
+| Phase animations | Twelve animated phase lessons in plain words, including the three speed zones (rigid rotor, critical speed, flexible rotor), plus a free-play phase simulator with missions |
 | Bearing, Gear, Balancing, Resonance labs | Defect frequencies, sidebands, single-plane balancing, Bode and bump tests |
 | Fan balancing | Field balancing of a fan: place the laser tacho and accelerometer, set the Adash to AR or WR, find the heavy spot, size the trial weight and split the correction over the blades |
 
