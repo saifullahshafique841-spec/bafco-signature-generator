@@ -24,7 +24,7 @@ The iPhone shows the file as "Not Verified" because it is not signed with a paid
 
 Download **[VibrationAnalystLab.apk](VibrationAnalystLab.apk)** on your Android phone and tap it to install (allow installs from your browser if asked; Play Protect may warn because it is not from the Play Store: choose **Install anyway**). Or open the link in Chrome and choose **Install app** from the menu.
 
-Version 2.1 installs over the earlier app and keeps your settings.
+Version 2.2 installs over the earlier app and keeps your settings.
 
 ## On a phone
 
@@ -37,6 +37,11 @@ Every section uses the same colour code:
 - **Settings** (yellow edge, sliders badge and an *Adjust* tag): the parameters you can change. Sliders have yellow knobs, dropdowns have an arrow, and the current value sits in a pill.
 - **Results** (screen badge): charts, readouts and tables that update as soon as you change a setting.
 - **Notes and checks** (book or question badge): key points, rule cards and quick questions.
+
+## New in 2.2
+
+- **Heavy & high spot simulator**, a new section under Labs: one rotor with a heavy spot, seen four ways at once and all in step. A 3D machine (the disc whirls towards the high spot and the probe lights up as it sweeps past), a strobe view with the vibration vector and the polar plot its tip draws, the probe and tach signals with the phase reading, a Bode plot of every run-up, and the hand-and-ball picture. Take the guided tour (predict, then watch), explore freely, balance the rotor with a trial weight, the vector method and trim runs, or find a hidden heavy spot from a phase reading in the challenge. Count phase + with rotation (Adash) or + against rotation.
+- **Finding the heavy spot**, a new phase animation told the way Adash's *Secrets of imbalance* videos explain it: a five-blade fan with a clip, a tacho and one sensor. The phase reading becomes an arrow (the vibration vector); correct it for the kind of signal (displacement as read, velocity −90°, acceleration −180°), for where the sensor sits and for the speed (about +180° above the first resonance), then put the trial mass on the opposite side. Switch between Adash's + with rotation and the + against rotation convention.
 
 ## New in 2.1
 
@@ -63,9 +68,10 @@ Every section uses the same colour code:
 | Ch 3 · Signal processing | From the sensor to the spectrum, section by section |
 | Ch 4 · Time waveform | Setting up, reading and recognising time waveforms |
 | Ch 5 · Phase | How phase separates unbalance, misalignment, bent shaft, looseness and more |
-| Phase animations | Twelve animated phase lessons in plain words, including the three speed zones (rigid rotor, critical speed, flexible rotor), plus a free-play phase simulator with missions |
+| Phase animations | Thirteen animated phase lessons in plain words, including the three speed zones (rigid rotor, critical speed, flexible rotor) and finding the heavy spot from a phase reading, plus a free-play phase simulator with missions |
 | Bearing, Gear, Balancing, Resonance labs | Defect frequencies, sidebands, single-plane balancing, Bode and bump tests |
 | Fan balancing | Field balancing of a fan: place the laser tacho and accelerometer, set the Adash to AR or WR, find the heavy spot, size the trial weight and split the correction over the blades |
+| Heavy & high spot simulator | A rotor in 3D with a strobe view, polar plot, phase waveform and Bode plot in step: a guided tour, free exploring, vector balancing with trim runs, and a find-the-heavy-spot challenge |
 
 ## Notes
 

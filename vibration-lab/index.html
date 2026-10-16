@@ -1011,6 +1011,67 @@ body.onb-open { overflow: hidden; }
 }
 @media (pointer: coarse) { .btn.sa { min-height: 40px; } .pg-item { min-height: 36px; } }
 /* end of 2.0 */
+/* ===== 2.2: heavy & high spot simulator ===== */
+.sp-top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; padding-top: 16px; }
+.sp-modes { display: flex; flex-wrap: wrap; gap: 6px; }
+.sp-mode { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 6px 15px 6px 7px; border: 1px solid var(--axis); border-radius: 999px; background: var(--surface); color: var(--ink); font: 600 13.5px/1 var(--font-body); cursor: pointer; }
+.sp-mode:hover { border-color: var(--ink-2); }
+.sp-mode:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.sp-mi { display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--surface-2); color: var(--ink-2); }
+.sp-mode[aria-selected="true"] { background: var(--ink); border-color: var(--ink); color: var(--surface); }
+.sp-mode[aria-selected="true"] .sp-mi { background: var(--accent); color: var(--accent-ink); }
+.sp-run { display: flex; flex-wrap: wrap; gap: 6px; }
+.sp-run .btn:disabled { opacity: .45; cursor: default; }
+.sp-lab { padding-top: 12px; }
+.sp-stagep { padding: 12px; }
+.sp-stagep > h2 { margin-bottom: 10px; }
+.sp-stage { position: relative; border-radius: 6px; overflow: hidden; background: #040706; }
+.sp-stage canvas { display: block; width: 100%; touch-action: pan-y; }
+.sp-inst { margin-bottom: 8px; }
+.sp-inst[hidden] { display: none; }
+.sp-inst .seg { display: flex; width: 100%; }
+.sp-inst .seg button { flex: 1; }
+.sp-row { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 14px; align-items: start; }
+.sp-tt { font: 700 19px/1.2 var(--font-display); letter-spacing: .03em; text-transform: uppercase; margin: 0 0 4px; }
+.sp-modep > p:not(.pafb):not(.note), .sp-ins-t { font-size: 15px; line-height: 1.55; margin: 6px 0 0; max-width: 72ch; text-wrap: pretty; }
+.sp-modep > .note { margin: 6px 0 0; }
+.sp-modep .sp-qq { font-weight: 600; margin-top: 12px; }
+.sp-modep .btns { margin-top: 12px; }
+.sp-modep .btns .btn[aria-pressed="true"] { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); font-weight: 600; }
+.sp-modep .ctl:has(> .check) { margin: 10px 0 0; }
+.sp-modep .check { margin: 0; justify-content: flex-start; font-size: 13.5px; color: var(--ink); }
+.sp-modep.sp-quiz > h2::before { background: var(--surface-2) var(--ico-quiz) center / 15px no-repeat; }
+.sp-modep.rule.sp-quiz > h2::before { background-color: var(--surface); }
+.sp-demo { margin-top: 12px; }
+.sp-nav { margin-top: 14px; }
+.sp-tips { margin: 8px 0 0; padding-left: 20px; font-size: 14.5px; line-height: 1.5; }
+.sp-tips li + li { margin-top: 4px; }
+.sp-trial { margin-top: 12px; }
+.sp-trial .ctl:last-child { margin-bottom: 0; }
+.sp-bal { margin-top: 10px; }
+.sp-score { margin: 12px 0 0; }
+.sp-myth { display: grid; gap: 6px; margin-top: 12px; padding: 10px 12px; border-radius: 6px; background: var(--surface); border: 1px solid var(--line); font-size: 14px; line-height: 1.5; }
+.sp-m1 b { color: var(--crit); }
+.sp-m2 b { color: var(--good); }
+.sp-out .paout { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 2px 16px; }
+.sp-cp .seg { flex-wrap: wrap; }
+.sp-cp .seg.sp-vert { display: grid; width: 100%; }
+.sp-cp .seg.sp-vert button { text-align: left; padding: 7px 12px; }
+.sp-cp .seg.sp-vert button + button { border-left: 0; border-top: 1px solid var(--axis); }
+.sp-inst .seg button { padding: 5px 4px; white-space: nowrap; }
+@media (max-width: 1180px) { .sp-row { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 860px) {
+  .sp-lab { display: flex; flex-direction: column; gap: 12px; }
+  .sp-lab > .col { display: contents; }
+  .sp-lab .sp-stagep { order: 1; } .sp-lab .sp-row { order: 2; } .sp-lab .sp-cp { order: 3; } .sp-lab .sp-out { order: 4; }
+  .sp-top { padding-top: 10px; gap: 8px; }
+  .sp-modes { width: 100%; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+  .sp-mode { flex-direction: column; justify-content: center; gap: 4px; min-height: 58px; padding: 6px 2px; border-radius: 12px; font-size: 12px; text-align: center; }
+  .sp-run { width: 100%; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .sp-run .btn { padding: 6px 4px; }
+  .sp-stagep { padding: 8px; }
+  .sp-modep > p:not(.pafb):not(.note), .sp-ins-t { font-size: 15px; }
+}
 </style>
 <style>
 @font-face{font-family:"IBM Plex Sans";font-style:normal;font-weight:400;font-display:swap;src:url(data:font/woff2;base64,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) format("woff2")}
@@ -1801,7 +1862,7 @@ function haptic(kind) {
 
 /* ===== Vibration Analyst Lab 2.x: progress, bookmarks and notes, search, settings and the first-run welcome.
    Everything is kept on this device (no account, no network, no analytics). ===== */
-const APP_VERSION = '2.1';
+const APP_VERSION = '2.2';
 const APPX = (() => {
   const day = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
   const canStore = (() => { try { localStorage.setItem('val.__t', '1'); localStorage.removeItem('val.__t'); return true; } catch (e) { return false; } })();
@@ -1906,8 +1967,9 @@ const APPX = (() => {
     challenge: 'quiz test yourself route hidden fault score streak', plan: 'fmax fmin lines resolution averages overlap window hanning demodulation envelope route setup adash dds belt sheave bearing frequencies copy',
     map: 'fmax lines lor record length resolution sample rate overlap averages window concept map before after', bearing: 'bpfo bpfi bsf ftf envelope demodulation stage defect race ball cage ge gE',
     gear: 'gmf gear mesh sidebands hunting tooth backlash eccentric cracked tooth wear', balance: 'trial weight 30/30 vector diagram iso 1940 g2.5 g6.3 trim split weights heavy spot',
-    fanbal: 'fan balancing laser tacho accelerometer ar wr against with rotation heavy high light spot trial correction split adash', resonance: 'natural frequency bode damping bump test critical speed detune amplification q factor',
-    anim: 'phase animation strobe tach reference lag lead sensor heavy spot high spot critical speed rigid rotor flexible rotor centre of mass geometric centre self-centring', ch3: 'signal processing', ch4: 'time waveform twf', ch5: 'phase' };
+    fanbal: 'fan balancing laser tacho accelerometer ar wr against with rotation heavy high light spot trial correction split adash',
+    spots: 'heavy spot high spot vibration vector polar plot nyquist bode strobe phase lag critical speed resonance damping jeffcott whirl centre of mass trial weight correction weight single plane balancing vector method challenge proximity probe tach accelerometer velocity displacement adash convention ball on a string', resonance: 'natural frequency bode damping bump test critical speed detune amplification q factor',
+    anim: 'phase animation strobe tach reference lag lead sensor heavy spot high spot critical speed rigid rotor flexible rotor centre of mass geometric centre self-centring vibration vector polar plot trial mass cookbook adash', ch3: 'signal processing', ch4: 'time waveform twf', ch5: 'phase' };
   const TYPES = [['Sections', 'home'], ['Faults', 'diag'], ['Chapter topics', 'learn'], ['Animations', 'play'], ['Glossary', 'note']];
   let IDX = null;
   const buildIndex = () => {
@@ -2105,7 +2167,7 @@ const APPX = (() => {
     if (g === 'cat3') out.push(lesson(c3) || lesson(c4) || lesson(c5), anim(), ['challenge', 'Diagnose challenge', 'Test yourself']);
     if (g === 'tech') out.push(['plan', 'Setup planner', 'Plan the settings for your next route'], ['fault', 'Fault simulator', 'See each fault on spectrum, waveform and phase'], lesson(c4));
     if (g === 'eng') out.push(['challenge', 'Diagnose challenge', `Score ${S.sc.right} / ${S.sc.total}`], ['fanbal', 'Fan balancing', 'Field balancing, run by run'], ['resonance', 'Resonance lab', 'Bode plot and bump test']);
-    if (g === 'teach') out.push(anim(), ['map', 'Settings map', 'Show how one setting changes everything else'], ['fault', 'Fault simulator', 'Live spectra for any fault']);
+    if (g === 'teach') out.push(anim(), ['spots', 'Heavy & high spot simulator', 'Show heavy spot, high spot and phase live'], ['map', 'Settings map', 'Show how one setting changes everything else']);
     return out.filter(Boolean).slice(0, 3);
   };
   const homeCards = () => {
@@ -11538,6 +11600,277 @@ paSceneAfter('res', { id: 'zones', short: 'Speed zones', title: 'Three speed zon
     const g = pzEnd(c, A, f, k); pzSide(c, A, s, k, g); pzZones(c, A, z, k);
   } });
 
+/* ===== Phase animations: finding the heavy spot (shown after "Three speed zones"), told the way Adash's "Secrets of imbalance"
+   videos and the VIBSYS article "Relationship between heavy spot, high spot and vibration vectors" tell it. A five-blade fan with a
+   clip on one blade, reflective tape and a tacho, a sensor on the casing, and an analyser that turns the pulse-to-peak delay into a
+   phase. The reading becomes an arrow (the vibration vector) on a dial frozen at the pulse. Displacement points at the high spot;
+   velocity and acceleration need −90° and −180° (Adash counts + with the rotation); a sensor off the tacho line needs its angle
+   added; above the first resonance the high spot falls behind (about +180°). Ends with a trial mass opposite the heavy spot.
+   Model: a rigid fan on springs (one degree of freedom), so the high spot lags the heavy spot by ψ = atan2(2ζr, 1 − r²). ===== */
+const PV_FN = 20, PV_E = 60, PV_BLADES = 5, PV_TRIAL = 0.6;       // first resonance (Hz), centre-of-mass offset (µm), blades, trial mass ÷ unbalance
+const PV_COL = [PAC.grn, PAC.blu, PAC.org], PV_NAME = ['Displacement', 'Velocity', 'Acceleration'], PV_TAG = ['D', 'V', 'A'];
+const pvW180 = d => paWrap(d + 180) - 180;
+const pvSoft = a => 1 - Math.exp(-a / 0.8);                         // arrow length for a vibration of a × e: big resonance peaks squeezed
+function pvModel(P) {                                                // every angle in degrees, + with the rotation, from the tape
+  const r = P.hz / PV_FN, psi = paSdofP(r, 1, P.z), amp = paSdofA(r, 1, P.z), k = Math.round(P.st);
+  const aim = P.trial === 'opp' ? P.hs + 180 : P.trial === 'same' ? P.hs : P.trial === 'side' ? P.hs + 90 : null, per = 360 / PV_BLADES;
+  const tr = aim === null ? null : pvW180(Math.round(aim / per) * per);                     // a clip goes on the nearest blade
+  const ux = Math.cos(P.hs * DEG) + (tr === null ? 0 : PV_TRIAL * Math.cos(tr * DEG)), uy = Math.sin(P.hs * DEG) + (tr === null ? 0 : PV_TRIAL * Math.sin(tr * DEG));
+  const um = Math.hypot(ux, uy), bu = Math.atan2(uy, ux) / DEG, bHi = bu - psi;   // the unbalance (with any trial mass) and the high spot behind it
+  return { r, psi, amp, k, tr, um, bu, bHi, readA: pvW180(bHi - P.sens + 90 * k), dpp: 2 * PV_E * amp * um, w: TAU * P.hz };
+}
+function pvFmt(a, P, led) {                                          // a reading counted + with the rotation, shown the chosen way
+  let v = P.conv === 'lag' ? -a : a; v = P.rng === '360' ? paWrap(v) : pvW180(v);
+  let n = Math.round(v); if (P.rng === '360' && n === 360) n = 0; if (P.rng !== '360' && n === 180) n = -180;
+  if (led) return String(n);
+  return (P.rng !== '360' && n > 0 ? '+' : '') + String(n).replace('-', '−') + '°';
+}
+function pvAmp(m, k) {
+  const dpk = m.dpp / 2;
+  if (k === 0) return `${Math.round(m.dpp)} µm pk-pk`;
+  if (k === 1) { const v = m.w * dpk / 1000 / Math.SQRT2; return `${v.toFixed(v < 10 ? 2 : 1)} mm/s`; }
+  const a = m.w * m.w * dpk * 1e-6 / G0; return `${a.toFixed(a < 0.1 ? 3 : 2)} g`;
+}
+function pvBlade(b) {                                                 // which blade an angle (+ with rotation from the tape) lands on
+  const per = 360 / PV_BLADES, s = b / per, i = Math.round(s), steps = Math.round(pvW180(i * per) / per), n = ((i % PV_BLADES) + PV_BLADES) % PV_BLADES;
+  if (Math.abs(s - i) * per > 18) return 'between two blades';
+  return steps === 0 ? 'blade 1, at the tape' : `blade ${n + 1}, ${Math.abs(steps)} blade${Math.abs(steps) > 1 ? 's' : ''} ${steps > 0 ? 'forward' : 'back'}`;
+}
+const pvPct = um => { const p = Math.round((um - 1) * 100); return p === 0 ? 'no change' : `${p > 0 ? '+' : '−'}${Math.abs(p)} %`; };
+
+function pvLayout(A) {
+  const W = A.W, H = A.H;
+  if (A.wide) {
+    const lw = Math.round((W - 24) * 0.37), x0 = 16 + lw, rw = W - 24 - lw, ah = Math.round((H - 24) * 0.42), bh = H - 24 - ah, dw = Math.min(Math.round(rw * 0.5), bh + 20);
+    return { fan: { x: 8, y: 8, w: lw, h: H - 16 }, scope: { x: x0, y: 8, w: rw, h: ah }, dial: { x: x0, y: 16 + ah, w: dw, h: bh }, card: { x: x0 + dw + 8, y: 16 + ah, w: rw - dw - 8, h: bh } };
+  }
+  const n = H - 40, fh = Math.round(n * 0.3), ah = Math.round(n * 0.2), dh = Math.round(n * 0.28);
+  return { fan: { x: 8, y: 8, w: W - 16, h: fh }, scope: { x: 8, y: 16 + fh, w: W - 16, h: ah }, dial: { x: 8, y: 24 + fh + ah, w: W - 16, h: dh }, card: { x: 8, y: 32 + fh + ah + dh, w: W - 16, h: n - fh - ah - dh } };
+}
+/* a fan wheel with PV_BLADES blades, blade 1 at the tape (body angle 0), turning clockwise */
+function pvWheel(c, cx, cy, R, ang, fs) {
+  const n = PV_BLADES, hub = R * 0.25;
+  for (let i = 0; i < n; i++) {
+    c.save(); c.translate(cx, cy); c.rotate(ang + i * TAU / n);
+    c.beginPath(); c.moveTo(-R * 0.1, -hub * 0.8); c.quadraticCurveTo(-R * 0.36, -R * 0.6, -R * 0.2, -R * 0.97);
+    c.quadraticCurveTo(R * 0.04, -R * 1.04, R * 0.25, -R * 0.92); c.quadraticCurveTo(R * 0.24, -R * 0.52, R * 0.1, -hub * 0.8); c.closePath();
+    const g = c.createLinearGradient(-R * 0.3, 0, R * 0.3, 0); g.addColorStop(0, 'rgba(84,104,182,0.97)'); g.addColorStop(0.5, 'rgba(152,172,236,0.97)'); g.addColorStop(1, 'rgba(94,116,196,0.97)');
+    c.fillStyle = g; c.fill(); c.strokeStyle = 'rgba(214,226,252,0.55)'; c.lineWidth = 1; c.stroke(); c.restore();
+  }
+  const gh = c.createRadialGradient(cx - hub * 0.3, cy - hub * 0.3, hub * 0.05, cx, cy, hub);
+  gh.addColorStop(0, '#ffffff'); gh.addColorStop(0.25, '#a9c8ff'); gh.addColorStop(0.7, '#3a5797'); gh.addColorStop(1, '#121a30');
+  c.fillStyle = gh; c.beginPath(); c.arc(cx, cy, hub, 0, TAU); c.fill();
+  c.strokeStyle = '#ffffff'; c.lineWidth = Math.max(4, hub * 0.24); c.beginPath(); c.arc(cx, cy, hub * 0.8, ang - 0.34 - Math.PI / 2, ang + 0.34 - Math.PI / 2); c.stroke();   // the reflective tape
+  for (let i = 0; i < n; i++) { const [x, y] = paPt(cx, cy, R * 0.6, ang + i * TAU / n); paTag(c, String(i + 1), x, y, { size: fs - 1.5, col: '#0d1430', bg: 'rgba(236,241,255,0.88)', w: 700, pad: 4 }); }
+}
+function pvClip(c, cx, cy, R, a, col) {                              // a clip on a blade at screen angle a
+  const [x, y] = paPt(cx, cy, R * 0.8, a), w = Math.max(10, R * 0.15), hh = Math.max(7, R * 0.1);
+  c.save(); c.translate(x, y); c.rotate(a); paRR(c, -w / 2, -hh / 2, w, hh, 2.5); c.fillStyle = col; c.fill(); c.strokeStyle = 'rgba(0,0,0,0.7)'; c.lineWidth = 1.2; c.stroke(); c.restore();
+  return [x, y];
+}
+
+/* the fan end on: casing, tacho with its beam, the sensor on the casing, the clip, and the high spot */
+function pvFanView(c, A, f, m) {
+  const P = A.P, wide = A.wide, fs = paFs(A), hide = P.hideP > 0.5, ss = wide ? 0.85 : 0.6, sl = 12 + 54 * ss, legH = 34;
+  const R = Math.max(26, Math.min(f.w / 2 - sl - 10, (f.h - 24 - legH - sl - 12) / 2)), cx = f.x + f.w / 2, cy = f.y + 22 + sl + 6 + R;
+  const frozen = P.frz > 0.5, ang = frozen ? 0 : A.ang, angR = paWrap(A.ang / DEG), lit = angR < 10 || angR > 350;
+  const aHi = ang + m.bHi * DEG, swr = R * 0.12 * pvSoft(m.amp * m.um), [gx, gy] = paPt(cx, cy, swr, aHi);   // the shaft swings towards the high spot (exaggerated)
+  c.strokeStyle = '#3d464c'; c.lineWidth = 4; c.beginPath(); c.arc(cx, cy, R + 9, 0, TAU); c.stroke();             // the fan casing
+  pvWheel(c, gx, gy, R, ang, fs);
+  if (P.hiA > 0.02 && !hide) {
+    c.globalAlpha = P.hiA; c.strokeStyle = PAC.grn; c.lineWidth = 4.5; c.lineCap = 'round'; c.beginPath(); c.arc(gx, gy, R + 3, aHi - 0.24 - Math.PI / 2, aHi + 0.24 - Math.PI / 2); c.stroke(); c.lineCap = 'butt';
+    const [hx, hy] = paPt(gx, gy, R + 3, aHi); paFlash(c, hx, hy, 20, 0.8, PAC.grn); c.globalAlpha = 1;
+  }
+  const hxy = hide ? null : pvClip(c, gx, gy, R, ang + P.hs * DEG, PAC.red);
+  if (m.tr !== null) pvClip(c, gx, gy, R, ang + m.tr * DEG, PAC.vio);
+  /* the tacho: a light sensor up and to the left, its beam on the tape's path at 12 o'clock */
+  const bt = [cx, cy - R * 0.2], [tx, ty] = paPt(cx, cy, R + 30 * ss + 18, -0.66), d = Math.atan2(bt[1] - ty, bt[0] - tx);
+  c.strokeStyle = withAlpha('#ff5a4a', lit ? 0.95 : 0.5); c.lineWidth = lit ? 2.5 : 1.4; c.beginPath(); c.moveTo(tx, ty); c.lineTo(bt[0], bt[1]); c.stroke();
+  if (lit) { paFlash(c, bt[0], bt[1], 20, 0.9); paFlash(c, tx, ty, 14, 0.7, '#ff8a7a'); }
+  paTach(c, tx, ty, d + Math.PI / 2, lit, { s: ss });
+  paTagIn(c, 'tacho', tx - 6, ty - 30 * ss - 6, f, { size: fs - 1, col: PAC.mute, bg: null, w: 600 });
+  /* the vibration sensor on the casing */
+  const sa = P.sens * DEG, [sx, sy] = paPt(cx, cy, R + 11, sa); paSensor(c, sx, sy, sa, { s: ss, ring: P.sens > 0 ? PAC.org : null });
+  const [lx, ly] = paPt(cx, cy, R + 11 + 58 * ss, sa), side = Math.sin(sa), name = m.k === 0 ? 'probe' : 'accelerometer';
+  paTagIn(c, name, lx + (Math.abs(side) < 0.35 ? 12 : side * 6), ly, { x: f.x, y: f.y + 16, w: f.w, h: f.h - 16 - legH }, { size: fs - 1, col: PAC.ink, bg: 'rgba(4,7,6,0.7)', align: Math.abs(side) < 0.35 || side > 0 ? 'left' : 'right', w: 600 });
+  const [hx2, hy2] = paPt(cx, cy, R + 11 + 26 * ss, sa);
+  A.handle(c, { id: 'sens', x: hx2, y: hy2, r: 13, drag: (x, y) => A.setP('sens', Math.round(paWrap(paAngAt(cx, cy, x, y) / DEG) / 15) * 15 % 360) });
+  if (hxy) A.handle(c, { id: 'hs', x: hxy[0], y: hxy[1], r: 11, hold: true, drag: (x, y) => A.setP('hs', Math.round(pvW180(paAngAt(cx, cy, x, y) / DEG - (frozen ? 0 : A.ang / DEG)))) });
+  /* rotation, names, strobe */
+  paArc(c, cx, cy, R + 20, 0.5, 1.05, withAlpha(PAC.grn, 0.9), 2.2, 8);
+  const [rx, ry] = paPt(cx, cy, R + 32, 0.78); paTagIn(c, 'rotation', rx + 4, ry, f, { align: 'left', size: fs - 1, col: PAC.grn, bg: null });
+  if (frozen) { paTag(c, 'STROBE: frozen at each pulse', f.x + f.w - 8, f.y + 11, { align: 'right', size: fs - 1, col: PAC.yel, bg: null, w: 600 }); if (lit) paFlash(c, cx, cy, R * 1.5, 0.12, '#fffbe6'); }
+  if (P.tags > 0.02 && hxy) { paTag(c, 'heavy spot (clip)', hxy[0], hxy[1] - 17, { size: fs - 0.5, col: '#ffffff', bg: 'rgba(170,26,26,0.9)', w: 600, alpha: P.tags });
+    paTag(c, 'tape', bt[0] + 22, bt[1] + 2, { size: fs - 1, col: '#111', bg: 'rgba(255,255,255,0.85)', w: 700, alpha: P.tags }); }
+  /* a tall panel (computer) has room under the fan for what the picture says, in numbers */
+  const top = cy + R + 34, bot = f.y + f.h - legH - 8;
+  if (bot - top > 86) {
+    const lines = [['One blade = 72°', PAC.mute], [hide ? 'Clip (heavy spot): ?' : `Clip (heavy spot): ${pvFmt(P.hs, P)} · ${pvBlade(P.hs)}`, '#ff8a80']];
+    if (P.hiA > 0.5 && !hide) lines.push([`High spot: ${pvFmt(m.bHi, P)} · ${Math.round(m.psi)}° behind the heavy spot`, PAC.grn]);
+    lines.push([P.sens ? `Sensor: ${Math.round(P.sens)}° round from the tacho` : 'Sensor: in line with the tacho', P.sens ? PAC.org : PAC.mute]);
+    if (m.tr !== null) lines.push([`Trial mass: ${pvFmt(m.tr, P)} · ${pvBlade(m.tr)}`, PAC.vio]);
+    let yy = top; for (const [t, col] of lines) { if (yy > bot - 14) break; yy += paText(c, t, f.x + 14, yy, f.w - 28, { size: fs - 0.5, col, w: 500 }) + 4; }
+  }
+  const items = [['#ffffff', 'tape', 'bar'], [PAC.red, 'heavy spot', 'bar']]; if (P.hiA > 0.5 && !hide) items.push([PAC.grn, 'high spot', 'line']); if (m.tr !== null) items.push([PAC.vio, 'trial mass', 'bar']);
+  paLegend(c, f.x + 10, f.y + f.h - legH + 12, items, f.w - 20, fs - 1.5);
+}
+
+/* the vibration vector on a dial frozen at the pulse: 0° = the tape at the tacho */
+function pvDialView(c, A, d, m, m0) {
+  const P = A.P, fs = paFs(A), hide = P.hideP > 0.5, wide = A.wide;
+  const Rd = Math.max(26, Math.min(d.w - 92, d.h - 62) / 2 - 4), cx = d.x + d.w / 2, cy = d.y + 24 + (d.h - 24 - 24) / 2;
+  c.strokeStyle = PAC.grid2; c.lineWidth = 1; for (const q of [1 / 3, 2 / 3, 1]) { c.beginPath(); c.arc(cx, cy, Rd * q, 0, TAU); c.stroke(); }
+  c.beginPath(); for (let s = 0; s < 360; s += 30) { const [x, y] = paPt(cx, cy, Rd, s * DEG); c.moveTo(cx, cy); c.lineTo(x, y); } c.strokeStyle = withAlpha(PAC.grid2, 0.7); c.stroke();
+  for (const s of [0, 90, 180, 270]) {
+    const v = P.conv === 'lag' ? -s : s, txt = P.rng === '360' ? Math.round(paWrap(v)) + '°' : s === 180 ? '±180°' : (pvW180(v) > 0 ? '+' : '') + String(Math.round(pvW180(v))).replace('-', '−') + '°';
+    const [x, y] = paPt(cx, cy, Rd + (s % 180 ? 6 : 13), s * DEG); paTag(c, txt, x, y, { size: fs - 1.5, col: PAC.mute, bg: null, w: 600, align: s === 90 ? 'left' : s === 270 ? 'right' : undefined, pad: s % 180 ? 2 : 5 });
+  }
+  const cw = P.conv !== 'lag'; paArc(c, cx, cy, Rd + 5, cw ? 0.2 : -0.2, cw ? 0.6 : -0.6, withAlpha(PAC.ink, 0.75), 1.8, 7);
+  const [px, py] = paPt(cx, cy, Rd + 19, cw ? 0.45 : -0.45); paTag(c, '+', px, py, { size: fs + 1, col: PAC.ink, bg: null, w: 700 });
+  paTag(c, wide ? (cw ? '0° = tape at the tacho · + counts with the rotation (Adash)' : '0° = tape at the tacho · + counts against the rotation (lag)') : (cw ? '+ with rotation (Adash)' : '+ against rotation (lag)'),
+    cx, d.y + d.h - 11, { size: fs - 1.5, col: PAC.mute, bg: null, w: 500 });
+  if (P.dial < 0.02) { paHint(c, d, 'The vibration vector appears here', 1, A); return; }
+  c.globalAlpha = clamp(P.dial, 0, 1);
+  const len = mm => Rd * (0.14 + 0.86 * pvSoft(mm.amp * mm.um)), tip = (a, L) => paPt(cx, cy, L, a * DEG);
+  /* the path of the arrow tip as the speed changes: the polar plot */
+  const tr = A.mem.trail || [];
+  if (P.trail > 0.02 && tr.length > 1) {
+    c.lineWidth = 2; c.lineJoin = 'round';
+    for (let i = 1; i < tr.length; i++) { const [x1, y1] = tip(tr[i - 1][0], Rd * tr[i - 1][1]), [x2, y2] = tip(tr[i][0], Rd * tr[i][1]); c.strokeStyle = withAlpha(PAC.cyan, 0.25 + 0.6 * i / tr.length); c.beginPath(); c.moveTo(x1, y1); c.lineTo(x2, y2); c.stroke(); }
+  }
+  /* where the clip (and the trial mass) really are */
+  if (P.hsm > 0.02 && !hide) { const [x, y] = tip(P.hs, Rd); c.globalAlpha = P.hsm * clamp(P.dial, 0, 1); paFlash(c, x, y, 16, 0.7, PAC.red); c.fillStyle = PAC.red; c.beginPath(); c.arc(x, y, 6, 0, TAU); c.fill(); c.strokeStyle = '#000'; c.lineWidth = 1.2; c.stroke(); c.globalAlpha = clamp(P.dial, 0, 1); }
+  if (m.tr !== null) { const [x, y] = tip(m.tr, Rd); c.fillStyle = PAC.vio; c.beginPath(); c.arc(x, y, 6, 0, TAU); c.fill(); c.strokeStyle = '#000'; c.lineWidth = 1.2; c.stroke(); }
+  const aD = m.bHi - P.sens, L = len(m);
+  if (m.tr !== null) {                                               // trial run: O before, O+T after, and T from tip to tip, drawn to one scale
+    const a0 = m0.bHi - P.sens, L0 = Rd * 0.84 / Math.max(1, m.um), L1 = L0 * m.um, [ox, oy] = tip(a0, L0), [nx, ny] = tip(aD, L1);
+    const tt = Math.atan2(ny - oy, nx - ox), nrm = [-Math.sin(tt), Math.cos(tt)], side = (nrm[0] * (ox - cx) + nrm[1] * (oy - cy)) > 0 ? 1 : -1;   // T's label goes on the outside of the triangle
+    paArrow(c, cx, cy, ox, oy, 'rgba(220,226,232,0.85)', 2.6, 9);
+    c.setLineDash([5, 4]); paArrow(c, ox, oy, nx, ny, PAC.vio, 2.4, 9); c.setLineDash([]);
+    paArrow(c, cx, cy, nx, ny, PAC.grn, 3.2, 10);
+    const lb = { x: d.x, y: d.y + 18, w: d.w, h: d.h - 36 };
+    const lined = Math.abs(pvW180(aD - a0)) < 20, off = (L, a, s) => { const [x, y] = paPt(cx, cy, L, a * DEG); return lined ? paPt(x, y, 15, a * DEG + s * Math.PI / 2) : paPt(cx, cy, L + 16, a * DEG); };
+    paTagIn(c, 'O (before)', ...off(L0 * (lined ? 0.6 : 1), a0, -1), lb, { size: fs - 1.5, col: PAC.ink, bg: 'rgba(4,7,6,0.8)', w: 600 });   // side by side when the two arrows line up
+    paTagIn(c, 'O+T (after)', ...off(lined ? L1 * 0.85 : L1, aD, 1), lb, { size: fs - 1.5, col: PAC.grn, bg: 'rgba(4,7,6,0.8)', w: 700 });
+    if (Math.hypot(nx - ox, ny - oy) > 8) {
+      const [qx, qy] = lined ? paPt((ox + nx) / 2, (oy + ny) / 2, 14, aD * DEG - Math.PI / 2) : [(ox + nx) / 2 + nrm[0] * 12 * side, (oy + ny) / 2 + nrm[1] * 12 * side];
+      paTagIn(c, 'T', qx, qy, lb, { size: fs - 0.5, col: PAC.vio, bg: 'rgba(4,7,6,0.8)', w: 700 });
+    }
+  } else {
+    const k = m.k, show = j => (j === k ? 1 : clamp(P.dva, 0, 1) * 0.85);
+    for (let j = 0; j < 3; j++) {
+      const al = show(j); if (al < 0.02) continue;
+      const a = aD + 90 * j - 90 * j * paSmooth(clamp(P.fix, 0, 1)), [x, y] = tip(a, j === k ? L : L * 0.92);
+      c.globalAlpha = al * clamp(P.dial, 0, 1); paArrow(c, cx, cy, x, y, PV_COL[j], j === k ? 3.4 : 2.2, j === k ? 11 : 8);
+      if (P.fix > 0.02 && j > 0) { c.setLineDash([3, 3]); paArc(c, cx, cy, Rd * (0.3 + 0.12 * j), (aD + 90 * j) * DEG, a * DEG + (j > 0 ? 0.001 : 0), withAlpha(PV_COL[j], 0.8), 1.6, 6); c.setLineDash([]); }
+      const sg = P.conv === 'lag' ? '+' : '−', done = j > 0 && P.fix > 0.6;
+      const lbl = j !== k ? PV_TAG[j] : done ? (wide ? `${PV_TAG[j]} ${pvFmt(aD + 90 * j, P)} ${sg} ${90 * j}° = ${pvFmt(aD, P)}` : `${PV_TAG[j]} → ${pvFmt(aD, P)}`) : `${PV_TAG[j]} ${pvFmt(aD + 90 * j, P)}`;
+      const [lx, ly] = tip(a, (j === k ? L : L * 0.92) + 15); paTagIn(c, lbl, lx, ly, d, { size: fs - 1, col: PV_COL[j], bg: 'rgba(4,7,6,0.8)', w: 700 });
+      c.globalAlpha = clamp(P.dial, 0, 1);
+    }
+  }
+  c.fillStyle = PAC.ink; c.beginPath(); c.arc(cx, cy, 3, 0, TAU); c.fill();
+  c.globalAlpha = 1;
+}
+
+/* the heavy spot finder: the reading, the corrections and the answer */
+function pvCardView(c, A, cd, m) {
+  const P = A.P, fs = paFs(A), hide = P.hideP > 0.5, sg = P.conv === 'lag' ? -1 : 1, k = m.k, wide = A.wide;
+  if (P.card < 0.02) { paHint(c, cd, 'The heavy spot finder fills in as the story goes', 1, A); return; }
+  c.globalAlpha = clamp(P.card, 0, 1);
+  const x0 = cd.x + 10, x1 = cd.x + cd.w - 10, rh = wide ? 21 : 18, sgn = v => (v < 0 ? '−' : '+') + Math.abs(Math.round(v)) + '°';
+  let y = cd.y + (wide ? 34 : 30);
+  const row = (label, value, col, sub) => {
+    paText(c, label, x0, y - fs * 0.62, x1 - x0 - 86, { size: fs - 1, col: PAC.mute, w: 500 });
+    paTag(c, value, x1, y, { align: 'right', size: fs, col: col || PAC.ink, bg: null, w: 600, f: 'm', pad: 0 });
+    y += rh; if (sub) { paTag(c, sub, x1, y - 6, { align: 'right', size: fs - 2, col: PAC.mute, bg: null, w: 500, pad: 0 }); y += rh * 0.7; }
+  };
+  row(`Analyser reads (${PV_NAME[k].toLowerCase()})`, pvFmt(m.readA, P), PV_COL[k]);
+  row('Sensor type', k ? sgn(-sg * 90 * k) : '0°');
+  row('Sensor off the tacho line', P.sens ? sgn(sg * P.sens) : '0°');
+  row('Speed: high spot lag', sgn(sg * m.psi), m.r > 0.7 ? PAC.org : PAC.ink, m.r < 0.7 ? 'below resonance: small' : m.r <= 1.3 ? 'near resonance: big and changing!' : 'above resonance: about 180°');
+  c.strokeStyle = PAC.dim; c.lineWidth = 1; c.beginPath(); c.moveTo(x0, y - rh * 0.55); c.lineTo(x1, y - rh * 0.55); c.stroke();
+  y += 2;
+  paTag(c, m.tr === null ? '= Heavy spot' : '= Clip + trial mass act at', x0, y, { align: 'left', size: m.tr === null ? fs + 0.5 : fs - 0.5, col: PAC.ink, bg: null, w: 700, pad: 0 });
+  paTag(c, hide ? '?' : pvFmt(m.bu, P), x1, y, { align: 'right', size: fs + 2, col: PAC.red, bg: null, w: 700, f: 'm', pad: 0 });
+  y += rh * 0.85; if (!hide) paTag(c, pvBlade(m.bu), x1, y, { align: 'right', size: fs - 1.5, col: PAC.mute, bg: null, w: 500, pad: 0 });
+  y += rh;
+  const trialTxt = m.tr === null ? `Trial mass goes opposite: ${hide ? '?' : pvFmt(m.bu + 180, P)}` : `Trial mass at ${pvFmt(m.tr, P)}: vibration ${pvPct(m.um)}`;
+  if (y < cd.y + cd.h - 4) paTag(c, trialTxt, x0, Math.min(y, cd.y + cd.h - 12), { align: 'left', size: fs - 1, col: m.tr === null ? PAC.vio : m.um < 1 ? PAC.grn : PAC.red, bg: null, w: 600, pad: 0 });
+  c.globalAlpha = 1;
+}
+
+paSceneAfter('zones', { id: 'finder', short: 'Find the heavy spot', title: 'Finding the heavy spot: phase, the vibration vector and the trial mass', pages: '5-7..5-18, 6-29..6-31',
+  intro: 'A fan with a heavy spot, a tacho and one sensor, the way Adash explains it in its "Secrets of imbalance" videos. Turn the phase reading into an arrow, correct it for the kind of sensor, where the sensor sits and the speed, and you know where the heavy spot is and where the trial mass should go.',
+  key: 'The displacement phase points at the high spot, and below the first resonance the high spot sits on the heavy spot. Adash counts + with the rotation: heavy spot = displacement phase, = velocity phase − 90°, = acceleration phase − 180°. Add the sensor\'s angle from the tacho, add about 180° above the first resonance, and put the trial mass opposite the heavy spot.',
+  terms: [['Heavy spot', 'where the extra weight (the unbalance) is: here the clip'], ['High spot', 'the side of the shaft pushed out the most, the part that passes closest to the sensor'],
+    ['Phase', 'how far the rotor turns from the tacho pulse to the peak of the vibration'], ['Vibration vector', 'the vibration drawn as an arrow: its length is the amplitude, its direction the phase'],
+    ['Trial mass', 'a known weight added for one run to see how the vibration changes'], ['First resonance', 'the lowest speed at which the rotor on its supports resonates']],
+  dragTip: 'Drag the red clip round the fan, or drag the sensor round the casing.',
+  init: { hz: 10.3, z: 0.05, hs: -70, st: '0', sens: 0, conv: 'adash', rng: 'pm', trial: 'none', tags: 1, band: 0, dial: 0, hsm: 0, hiA: 0, dva: 0, fix: 0, card: 0, frz: 0, trail: 0, hideP: 0 },
+  rpsOf: P => 0.16 + 0.42 * clamp(P.hz / 40, 0, 1),
+  size: { wide: [0.62, 480, 660], narrow: [2.5, 820, 960] },
+  setup(A) { A.mem.trail = []; },
+  onStep(A) { A.mem.trail = []; },
+  tick(A) {
+    const P = A.P, M = A.mem; if (P.trail < 0.5) { if (M.trail.length) M.trail = []; return; }
+    const m = pvModel(P), a = m.bHi - P.sens, L = 0.14 + 0.86 * pvSoft(m.amp * m.um), q = M.trail[M.trail.length - 1];
+    if (!q || Math.abs(pvW180(a - q[0])) > 0.6 || Math.abs(L - q[1]) > 0.004) { M.trail.push([a, L]); if (M.trail.length > 700) M.trail.shift(); }
+  },
+  steps: [
+    { t: 'A fan with a heavy spot', dur: 12, cap: 'This fan has a heavy spot: a small clip stuck on one blade (red). As the fan turns, the heavy side pulls the shaft outwards, so the shaft swings round in a small circle, once per turn. A sensor on the casing feels it, and the analyser draws it as a wave.' },
+    { t: 'A start mark for every turn', dur: 10, set: { tags: 0 }, cap: 'Reflective tape on the hub and a light beam (the tacho) give one pulse per turn, every time the tape passes the beam. The yellow pulses on the analyser mark the start of every turn: 0°.' },
+    { t: 'Phase: from pulse to peak', dur: 14, set: { band: 1 }, cap: 'Phase is how far the fan turns between the pulse and the moment the shaft swings closest to the sensor (the peak of the wave). Here the pulse comes first and the peak about a fifth of a turn later. The analyser shows −74°: minus, because the heavy spot passes after the tape, so it sits behind the tape, against the rotation.' },
+    { t: 'From a number to a place', dur: 14, set: { dial: 1, frz: 1, hsm: 1, card: 1 }, cap: 'Freeze the fan at every pulse with a strobe, and draw the reading as an arrow from the centre: this is the vibration vector. Plus means forward from the tape, with the rotation; minus means backward. −74° points about one blade back from the tape, at blade 5, right where the clip is.' },
+    { t: 'The arrow points at the high spot', dur: 13, set: { hiA: 1 }, cap: 'Strictly, the arrow points at the high spot (green): the side of the shaft pushed out the most, which passes closest to the sensor. On this slow fan the high spot sits almost on the heavy spot (4° behind), so the arrow finds the clip.' },
+    { t: 'An accelerometer: three readings', dur: 15, set: { st: '2', dva: 1 }, cap: 'Most balancing is done with an accelerometer, and the analyser can show acceleration, velocity or displacement. Each peaks at a different moment, so each reads a different phase: here acceleration +106°, velocity +16°, displacement −74°. Only displacement points at the high spot.' },
+    { t: 'The phase cookbook', dur: 14, set: { fix: 1 }, cap: 'So correct the reading for the kind of signal: displacement as it is, velocity minus 90°, acceleration minus 180°. Watch the velocity and acceleration arrows turn back onto the heavy spot. (An analyser that counts against the rotation needs plus 90° and plus 180° instead.)' },
+    { t: 'Sensor and tacho in line', dur: 14, set: { st: '0', dva: 0, fix: 0 }, ramp: { sens: [0, 90] }, cap: 'Move the sensor a quarter turn round the casing: the reading drops by 90°, but the clip has not moved. Keep the sensor and the tacho pointing the same way, or add the angle between them, counted with the rotation.' },
+    { t: 'Faster than the first resonance', dur: 17, set: { sens: 0, trail: 1 }, ramp: { hz: [10.3, 36] }, cap: 'Now speed the fan up past its first resonance. The arrow grows, swings round and its tip draws a loop: at the resonance the high spot is a quarter turn behind the heavy spot, and above it almost half a turn. The clip has not moved. So the cookbook works only below the first resonance; above it, add about 180°.' },
+    { t: 'Trial mass: opposite the heavy spot', dur: 15, set: { hz: 10.3, trail: 0, trial: 'opp' }, cap: 'Back at the normal speed. With the heavy spot found, clip the trial mass on the opposite side (violet). The vibration before (O) and after (O+T) are drawn as arrows: the new arrow is much shorter, so the vibration drops. T, from tip to tip, is what the trial mass did.' },
+    { t: 'The wrong side', dur: 11, set: { trial: 'same' }, cap: 'Clip the trial mass next to the heavy spot by mistake and the arrow grows instead: the vibration rises by 60 %. On a real machine that can trip it or damage it. Find the heavy spot first.' },
+    { t: 'Check yourself', dur: 1, set: { hz: 5, z: 0.05, hs: 73.5, st: '1', sens: 0, trial: 'none', dva: 0, fix: 0, frz: 1, hideP: 1 },
+      quiz: { opts: [['72', '+72°: one blade forward'], ['162', '+162°: two blades forward'], ['-108', '−108°: one and a half blades back']], ans: '72',
+        why: 'Velocity peaks a quarter turn before the shaft is closest, so subtract 90°: 162° − 90° = +72°, one blade forward of the tape in the direction of rotation (blade 2). Adding 90° instead would send the trial mass to the wrong side.', reveal: { hideP: 0 } },
+      cap: 'A slow fan, sensor in line with the tacho. The analyser (counting + with the rotation) shows velocity phase +162°. Where is the heavy spot?' }],
+  controls: [{ p: 'hs', label: 'Heavy spot (the clip), from the tape', min: -180, max: 180, step: 1, fmt: v => `${v > 0 ? '+' : ''}${v}°` },
+    { p: 'st', type: 'seg', label: 'Analyser shows', opts: [['0', 'Displacement'], ['1', 'Velocity'], ['2', 'Acceleration']] },
+    { p: 'sens', label: 'Sensor, round from the tacho (with rotation)', min: 0, max: 345, step: 15, fmt: v => v + '°' },
+    { p: 'hz', label: 'Fan speed', min: 2, max: 40, step: 0.1, fmt: v => `${v.toFixed(1)} Hz · ${(v / PV_FN).toFixed(2)} × resonance` },
+    { p: 'z', type: 'seg', label: 'Damping', opts: [[0.05, 'Low'], [0.1, 'Medium'], [0.25, 'High']] },
+    { p: 'trial', type: 'seg', label: 'Trial mass (60 % of the unbalance)', opts: [['none', 'None'], ['opp', 'Opposite'], ['same', 'On the heavy spot'], ['side', '90° forward']] },
+    { p: 'conv', type: 'seg', label: 'Phase counted', opts: [['adash', '+ with rotation (Adash)'], ['lag', '+ against rotation']] },
+    { p: 'rng', type: 'seg', label: 'Phase range', opts: [['pm', '−180 … +180'], ['360', '0 … 360']] },
+    { p: 'frz', type: 'seg', label: 'Strobe: freeze the fan at the pulse', opts: [[1, 'On'], [0, 'Off']] },
+    { p: 'trail', type: 'seg', label: 'Draw the arrow\'s path (polar plot)', opts: [[1, 'On'], [0, 'Off']] }],
+  outputs: P => { const m = pvModel(P), hide = P.hideP > 0.5;
+    return [[`Analyser: ${PV_NAME[m.k].toLowerCase()}`, `${pvAmp(m, m.k)} · ${pvFmt(m.readA, P)}`, true], ['High spot behind the heavy spot', Math.round(m.psi) + '°'],
+      ['Speed ÷ first resonance', m.r.toFixed(2)], [m.tr === null ? 'Heavy spot found at' : 'Clip + trial mass act at', hide ? '?' : `${pvFmt(m.bu, P)}`, true], ['On the fan', hide ? '?' : pvBlade(m.bu)],
+      ['Trial mass', m.tr === null ? 'none' : `vibration ${pvPct(m.um)}`]]; },
+  live: P => { const m = pvModel(P), sg = P.conv === 'lag' ? -1 : 1, w = v => (v < 0 ? 'minus ' : 'plus ') + Math.abs(Math.round(v)) + '°';
+    if (P.hideP > 0.5) return 'Work it out from the reading, then answer.';
+    const parts = [m.k ? `${w(-sg * 90 * m.k)} for ${PV_NAME[m.k].toLowerCase()}` : '', P.sens ? `${w(sg * P.sens)} for where the sensor sits` : '', m.psi >= 15 ? `${w(sg * m.psi)} because the high spot lags at this speed` : ''].filter(Boolean);
+    return `The analyser reads ${pvFmt(m.readA, P)}${parts.length ? ', ' + parts.join(', ') : ''}: the heavy spot is at ${pvFmt(m.bu, P)} (${pvBlade(m.bu)}).`; },
+  table: { title: 'Where is the heavy spot? The phase cookbook', note: 'For a rigid rotor below its first resonance, with the sensor and the tacho pointing the same way. Adash analysers count + with the rotation; many other instruments count + against it.',
+    cols: ['Measured as', 'Adash: + with rotation', 'Counted + against rotation', 'Why'],
+    rows: [{ col: PAC.grn, cells: [['Displacement', 'a proximity probe, or acceleration integrated twice'], ['heavy spot = phase', ''], ['heavy spot = phase', ''], ['the shaft swings closest to the sensor as the heavy spot passes', '']] },
+      { col: PAC.blu, cells: [['Velocity', 'mm/s'], ['heavy spot = phase − 90°', ''], ['heavy spot = phase + 90°', ''], ['speed peaks a quarter turn before the shaft is closest', '']] },
+      { col: PAC.org, cells: [['Acceleration', 'g'], ['heavy spot = phase − 180°', ''], ['heavy spot = phase + 180°', ''], ['the push peaks half a turn away, on the far side', '']] },
+      { col: PAC.mute, cells: [['Sensor not in line with the tacho', ''], ['add the sensor\'s angle from the tacho, counted with the rotation', ''], ['add the sensor\'s angle, counted against the rotation', ''], ['the peak reaches a sensor further round later', '']] },
+      { col: PAC.vio, cells: [['Above the first resonance', 'flexible rotor'], ['add about 180° after each resonance', ''], ['add about 180°', ''], ['the high spot falls about half a turn behind the heavy spot', '']] },
+      { col: PAC.red, cells: [['Trial mass', ''], ['opposite the heavy spot: heavy spot + 180°', ''], ['opposite the heavy spot', ''], ['the vibration should drop; next to the heavy spot it grows and can trip the machine', '']] }],
+    cur: P => (P.hideP > 0.5 ? -1 : Math.round(P.st)),
+    live: P => { const m = pvModel(P); return [[0, 'your analyser'], [P.conv === 'lag' ? 2 : 1, `reads ${pvFmt(m.readA, P)} → ${pvFmt(m.readA - 90 * m.k, P)}`]]; } },
+  draw(c, W, H, A) {
+    const P = A.P, m = pvModel(P), m0 = pvModel({ ...P, trial: 'none' }), L = pvLayout(A), hide = P.hideP > 0.5, wide = A.wide;
+    const f = paPanel(c, L.fan, { title: 'THE FAN, END ON' }), s = paPanel(c, L.scope, { title: wide ? 'ANALYSER · 1X AMPLITUDE AND PHASE' : 'ANALYSER', grid: 24 });
+    const d = paPanel(c, L.dial, { title: 'VIBRATION VECTOR' }), cd = paPanel(c, L.card, { title: 'HEAVY SPOT FINDER' });
+    pvFanView(c, A, f, m);
+    paScope(c, A, s, { phase: -m.readA, phaseAt: t => -pvModel({ ...A.P, hz: A.at('hz', t), z: A.at('z', t), hs: A.at('hs', t), sens: A.at('sens', t) }).readA,
+      band: P.band, turn: 0, race: 0, led: 1, ledText: pvFmt(m.readA, P, true), ledN: 4, sigLabel: `${PV_NAME[m.k]} · ${pvAmp(m, m.k)}` });
+    pvDialView(c, A, d, m, m0); pvCardView(c, A, cd, m);
+  } });
+
 /* ===== Fan balancing: single-plane field balancing of a fan with a laser tacho and an accelerometer, the AR/WR angle setting,
    the heavy, high and light spots, a trial-weight run and the correction (Saif's Fan Balancing Simulator, built into the lab) ===== */
 const FB_HTML = `<div class="fb-grid">
@@ -12366,6 +12699,781 @@ function FanBalanceLab(root) {
   window.__FB = { S, derive: () => derive(), refresh, setStage };
 }
 
+/* ===== Heavy & high spot simulator (the premium lab): one rotor with a heavy spot, shown four ways at once and in step with each
+   other: a 3D view of the rotor (it whirls towards the high spot, the shaft bends, the probe gap opens and closes), the strobe
+   view (the rotor frozen at the tach pulse, with the vibration vector and the trail its tip draws as the speed changes, which is
+   the polar plot), the probe and tach waveforms with the phase reading, and the Bode plot. Four modes: a guided tour that asks
+   you to predict before each reveal, free exploring, a trial-weight balancing run with the vector maths, and a challenge with a
+   hidden heavy spot. Built from the research on heavy spot, high spot and vibration vectors (VIBSYS, Gunter, Kelm, Adash).
+   Physics: a single-mode (Jeffcott) rotor. Speed ratio r = N / Nc, damping ratio ζ, unbalance U (g·mm) on a rotor of mass M (kg):
+   e = U / M (µm), whirl X = e·r² / √((1 − r²)² + (2ζr)²), high spot lag ψ = atan2(2ζr, 1 − r²).
+   Angles: positions on the rotor (heavy spot, weights, high spot) are body angles in degrees, + with the rotation, from the tape.
+   The shaft turns clockwise on screen. The probe sits at σ (degrees round from the tach, with the rotation). A reading counted
+   against the rotation (lag) is the delay from the tach pulse to the peak: lag = σ − (high spot), less 90° for velocity and
+   180° for acceleration. Adash counts + with the rotation: its reading is −lag. ===== */
+const SP_RMAX = 2.5, SP_M = 60, SP_WR = 100;                       // top of the speed range (× critical), rotor mass (kg), weight radius (mm)
+const SP_K = { D: 0, V: 1, A: 2 }, SP_COL = { D: PAC.grn, V: PAC.blu, A: PAC.org }, SP_NAME = { D: 'Displacement', V: 'Velocity', A: 'Acceleration' };
+const SP_SENS = { D: 'proximity probe', V: 'velocity sensor', A: 'accelerometer' };
+const spWCol = k => (k === 'trial' ? PAC.vio : k === 'naive' ? PAC.org : PAC.yel);    // trial weight, a weight in the wrong place, the correction
+const spW180 = d => paWrap(d + 180) - 180;
+const spSoft = (x, k) => 1 - Math.exp(-x / k);
+function spModel(S, extra) {                                         // extra: weights to add on top of S.weights (for "what if")
+  const nc = S.nc, r = Math.max(0, S.rpm) / nc, z = S.zeta, den = Math.hypot(1 - r * r, 2 * z * r), A = r * r / Math.max(1e-9, den);
+  const psi = Math.atan2(2 * z * r, 1 - r * r) / DEG;
+  let ux = S.U * Math.cos(S.hs * DEG), uy = S.U * Math.sin(S.hs * DEG);
+  for (const w of [...(S.weights || []), ...(extra || [])]) { ux += w.m * SP_WR * Math.cos(w.a * DEG); uy += w.m * SP_WR * Math.sin(w.a * DEG); }
+  const Um = Math.hypot(ux, uy), bu = Um > 1e-9 ? Math.atan2(uy, ux) / DEG : S.hs, e = Um / SP_M, x0 = e * A, w = TAU * S.rpm / 60, wn = TAU * nc / 60;
+  const bHi = bu - psi, k = SP_K[S.sensor] || 0, lagD = paWrap(S.sens - bHi), lag = paWrap(lagD - 90 * k);
+  return { r, z, A, psi, Um, bu, e, x0, xpp: 2 * x0, v: w * x0 / 1000 / Math.SQRT2, acc: w * w * x0 * 1e-6 / G0, w, bHi, k, lagD, lag,
+    F: Um * 1e-6 * w * w, Fb: SP_M * wn * wn * x0 * 1e-6 * Math.hypot(1, 2 * z * r), Q: 1 / (2 * z), zone: r < 0.85 ? 0 : r <= 1.15 ? 1 : 2,
+    quiet: Um < 0.004 * Math.max(1, S.U) || S.rpm < 1 };                // quiet: balanced (or stopped), so there is no phase to read
+}
+/* a lag (against rotation) shown the chosen way: 0…360 or −180…+180, counted against (lag) or with the rotation (Adash) */
+function spRead(lag, S, plain) {
+  let v = S.conv === 'adash' ? -lag : lag; v = S.rng === 'pm' ? spW180(v) : paWrap(v);
+  let n = Math.round(v); if (S.rng !== 'pm' && n === 360) n = 0; if (S.rng === 'pm' && n === 180) n = -180;
+  if (plain) return n;
+  return (S.rng === 'pm' && n > 0 ? '+' : '') + String(n).replace('-', '−') + '°';
+}
+/* a position on the rotor (body angle, + with rotation from the tape) shown in the same direction as the readings */
+function spPos(b, S) { return spRead(-b, S); }
+function spAmp(M, k) {
+  if (k === 0) return `${M.xpp < 10 ? M.xpp.toFixed(1) : Math.round(M.xpp)} µm pk-pk`;
+  if (k === 1) return `${M.v.toFixed(M.v < 10 ? 2 : 1)} mm/s RMS`;
+  return `${M.acc.toFixed(M.acc < 0.1 ? 3 : 2)} g pk`;
+}
+const SP_ZONE = ['below the critical speed', 'near the critical speed', 'above the critical speed'];
+
+/* ---------- 3D view: an overhung disc on a shaft in two pillow-block bearings, seen from the front and a little from above ---------- */
+function spCam(yaw, pitch, F, s, ox, oy) {
+  const cg = Math.cos(yaw), sg = Math.sin(yaw), ca = Math.cos(pitch), sa = Math.sin(pitch);
+  return (x, y, z) => { const x1 = x * cg + z * sg, z1 = -x * sg + z * cg, y2 = y * ca - z1 * sa, z2 = y * sa + z1 * ca, k = F / (F - z2); return [ox + s * x1 * k, oy - s * y2 * k, z2, k]; };
+}
+const SP_YAW = -0.8, SP_PITCH = 0.34;
+const spEnd = (a, R) => [R * Math.cos(a), -R * Math.sin(a)];       // end-view angle (clockwise from 12 o'clock) → world (y, z)
+const spFacing = a => Math.cos(a) * Math.sin(SP_PITCH) - Math.sin(a) * Math.cos(SP_YAW) * Math.cos(SP_PITCH);   // > 0: a curved surface at end-view angle a faces the camera
+function spPoly(c, pts) { c.beginPath(); pts.forEach(([x, y], i) => (i ? c.lineTo(x, y) : c.moveTo(x, y))); c.closePath(); }
+function spFill(c, col) { c.fillStyle = col; c.fill(); c.strokeStyle = col; c.lineWidth = 0.7; c.stroke(); }   // the hairline stroke closes the seams
+function spBox(c, P, x0, x1, y0, y1, z0, z1, top, side, front) {    // an axis-aligned box: the three faces the camera sees
+  spPoly(c, [P(x0, y1, z0), P(x1, y1, z0), P(x1, y1, z1), P(x0, y1, z1)]); spFill(c, top);
+  spPoly(c, [P(x1, y0, z0), P(x1, y1, z0), P(x1, y1, z1), P(x1, y0, z1)]); spFill(c, side);
+  spPoly(c, [P(x0, y0, z1), P(x1, y0, z1), P(x1, y1, z1), P(x0, y1, z1)]); spFill(c, front);
+}
+/* a cylinder along the shaft axis, centred on (oy, oz): the curved side the camera sees, shaded, then the end that faces it */
+function spCyl(c, P, x0, x1, r, oy, oz, rgb, face, n = 44) {
+  for (let i = 0; i < n; i++) {
+    const a0 = i / n * TAU, a1 = (i + 1) / n * TAU, nz = spFacing((a0 + a1) / 2); if (nz <= 0) continue;
+    const [y0, z0] = spEnd(a0, r), [y1, z1] = spEnd(a1, r), L = 0.42 + 0.55 * nz;
+    spPoly(c, [P(x0, oy + y0, oz + z0), P(x1, oy + y0, oz + z0), P(x1, oy + y1, oz + z1), P(x0, oy + y1, oz + z1)]);
+    spFill(c, `rgb(${rgb.map(v => Math.round(Math.min(255, v * L + 16))).join(',')})`);
+  }
+  const f = []; for (let i = 0; i < n; i++) { const [y, z] = spEnd(i / n * TAU, r); f.push(P(x1, oy + y, oz + z)); }
+  spPoly(c, f); const [cx, cy] = P(x1, oy, oz), rr = Math.hypot(f[0][0] - cx, f[0][1] - cy);
+  if (typeof face === 'string') c.fillStyle = face; else { const g = c.createRadialGradient(cx - rr * 0.35, cy - rr * 0.4, rr * 0.08, cx, cy, rr * 1.15); g.addColorStop(0, face[0]); g.addColorStop(1, face[1]); c.fillStyle = g; }
+  c.fill(); c.strokeStyle = 'rgba(15,19,22,0.55)'; c.lineWidth = 1; c.stroke();
+}
+/* labels: each one goes to the first free spot round its anchor, clear of the others and of the fixed boxes (avoid).
+   t: { p: [x, y], text, col, pill (false: coloured text on a dark tag), c: centre offsets to try, opt: may be left out } */
+function spPlace(c, tags, box, avoid, fs, memo) {                    // memo: the spot each label took last time, tried first so moving labels do not hop about
+  const placed = avoid.slice(), hh = Math.round(fs * 1.5), hit = r => placed.some(q => r.x < q.x + q.w + 2 && r.x + r.w + 2 > q.x && r.y < q.y + q.h + 2 && r.y + r.h + 2 > q.y);
+  const DEF = [[10, -12], [10, 12], [-10, -12], [-10, 12], [0, -22], [0, 22], [10, 0], [-10, 0], [16, -32], [-16, -32], [16, 32], [-16, 32], [0, -40], [0, 40]];
+  for (const t of tags) {
+    paFont(c, fs, 600); const w = c.measureText(t.text).width + 10, [ax, ay] = t.p;
+    const list = t.c ? t.c.map(([dx, dy]) => [dx - w / 2, dy]) : DEF.map(([dx, dy]) => [dx > 0 ? dx : dx < 0 ? dx - w : -w / 2, dy]);
+    let best = null; const key = t.id || t.text, last = memo ? memo[key] : undefined, order = list.map((q, i) => i); if (last !== undefined && last < list.length) { order.splice(order.indexOf(last), 1); order.unshift(last); }
+    for (const i of order) {
+      const [dx, dy] = list[i], r = { x: ax + dx, y: ay + dy - hh / 2, w, h: hh };
+      if (r.x < box.x + 3 || r.x + r.w > box.x + box.w - 3 || r.y < box.y + 20 || r.y + r.h > box.y + box.h - 3 || hit(r)) continue;
+      best = r; if (memo) memo[key] = i; break;
+    }
+    if (!best) { if (t.opt) continue; const [dx, dy] = list[0]; best = { x: clamp(ax + dx, box.x + 3, box.x + box.w - w - 3), y: clamp(ay + dy - hh / 2, box.y + 20, box.y + box.h - hh - 3), w, h: hh }; }
+    placed.push(best);
+    const pill = t.pill !== false && t.col !== PAC.ink && t.col !== PAC.mute;
+    paTag(c, t.text, best.x, best.y + hh / 2, { align: 'left', size: fs, col: pill ? '#06110b' : t.col, bg: pill ? t.col : 'rgba(4,7,6,0.85)', w: 600 });
+  }
+  return placed;
+}
+function spRotor3D(c, box, sim, M, th, avoid) {
+  const S = sim.S, fs = sim.fs, hide = sim.hideHeavy(), k = M.k;
+  const s = Math.min(box.w / 5.9, box.h / 4.4), P = spCam(SP_YAW, SP_PITCH, 12, s, box.x + box.w * 0.62, box.y + box.h * 0.47);
+  const R = 1, T = 0.26, rs = 0.1, xb1 = -3.1, xb2 = -1.45, floor = -1.6, gap0 = 0.15;
+  const wv = M.quiet ? 0 : 0.11 * spSoft(M.x0, 0.5 * sim.ampRef()), aHi = th + M.bHi * DEG, [dy, dz] = spEnd(aHi, wv);   // whirl: the disc swings towards the high spot
+  const bend = x => (x <= xb2 ? 0 : ((x - xb2) / -xb2) ** 2);
+  /* the base plate */
+  { const g = c.createLinearGradient(...P(-4.2, floor, -1.1).slice(0, 2), ...P(1.1, floor, 1.1).slice(0, 2)); g.addColorStop(0, '#11171b'); g.addColorStop(1, '#1f282e');
+    spPoly(c, [P(-4.2, floor, -1.1), P(1.1, floor, -1.1), P(1.1, floor, 1.1), P(-4.2, floor, 1.1)]); spFill(c, g);
+    spPoly(c, [P(-4.2, floor, 1.1), P(1.1, floor, 1.1), P(1.1, floor - 0.12, 1.1), P(-4.2, floor - 0.12, 1.1)]); spFill(c, '#0c1013');
+    spPoly(c, [P(1.1, floor, -1.1), P(1.1, floor, 1.1), P(1.1, floor - 0.12, 1.1), P(1.1, floor - 0.12, -1.1)]); spFill(c, '#151c20'); }
+  const shaft = (x0, x1) => {
+    const pts = []; for (let x = x0; x <= x1 + 1e-6; x += 0.05) { const b = bend(x); pts.push(P(x, dy * b, dz * b)); }
+    const lw = Math.max(3, s * rs * 2 * pts[pts.length - 1][3]); c.lineCap = 'butt'; c.lineJoin = 'round';
+    c.beginPath(); pts.forEach(([x, y], i) => (i ? c.lineTo(x, y) : c.moveTo(x, y))); c.strokeStyle = '#7a858d'; c.lineWidth = lw; c.stroke();
+    c.save(); c.translate(0, -lw * 0.22); c.strokeStyle = 'rgba(236,241,244,0.5)'; c.lineWidth = Math.max(1, lw * 0.22); c.stroke(); c.restore();
+  };
+  const pillow = xb => {                                             // a pillow-block bearing: foot, pedestal and housing round the shaft
+    spBox(c, P, xb - 0.34, xb + 0.34, floor, floor + 0.13, -0.66, 0.66, '#5b656d', '#384047', '#49525a');
+    spBox(c, P, xb - 0.2, xb + 0.2, floor + 0.13, -0.16, -0.3, 0.3, '#68737b', '#424a51', '#545e66');
+    for (const z of [-0.5, 0.5]) { const [x, y] = P(xb, floor + 0.131, z); c.fillStyle = '#23292d'; c.beginPath(); c.ellipse(x, y, s * 0.05, s * 0.025, 0, 0, TAU); c.fill(); }
+    spCyl(c, P, xb - 0.21, xb + 0.21, 0.36, 0, 0, [104, 114, 122], ['#a0aab2', '#58626a']);
+    const [hx, hy] = P(xb + 0.211, 0, 0); c.strokeStyle = 'rgba(20,25,28,0.7)'; c.lineWidth = Math.max(1, s * 0.03); c.beginPath(); c.ellipse(hx, hy, s * 0.13, s * 0.18, 0, 0, TAU); c.stroke();
+  };
+  /* a sensor on the bearing for velocity or acceleration (it feels the bearing move); the proximity probe looks at the disc */
+  const peak = Math.max(0, Math.cos(th - M.lag * DEG)) ** 8, tags = [], sa0 = S.sens * DEG;
+  const sensor = (x, r0, len, wide, ghost) => {
+    const [y0, z0] = spEnd(sa0, r0), [y1, z1] = spEnd(sa0, r0 + len), [y2, z2] = spEnd(sa0, r0 + len * 0.58), p0 = P(x, y0, z0), p1 = P(x, y1, z1), p2 = P(x, y2, z2);
+    c.lineCap = 'butt'; c.strokeStyle = '#c3cbd1'; c.lineWidth = Math.max(4, s * wide); c.beginPath(); c.moveTo(p0[0], p0[1]); c.lineTo(p1[0], p1[1]); c.stroke();
+    c.strokeStyle = '#272e33'; c.lineWidth = Math.max(5, s * wide * 1.25); c.beginPath(); c.moveTo(p2[0], p2[1]); c.lineTo(p1[0], p1[1]); c.stroke();
+    const [y3, z3] = spEnd(sa0 + 0.25, r0 + len * 1.45), p3 = P(x - 0.25, y3, z3); c.strokeStyle = '#1b2125'; c.lineWidth = Math.max(1.5, s * 0.03); c.beginPath(); c.moveTo(p1[0], p1[1]); c.quadraticCurveTo((p1[0] + p3[0]) / 2 + 6, (p1[1] + p3[1]) / 2, p3[0], p3[1]); c.stroke();
+    if (peak > 0.02 && !M.quiet) paFlash(c, p0[0], p0[1], s * 0.42, peak * 0.9, SP_COL[S.sensor]);
+    c.fillStyle = M.quiet ? PAC.dim : SP_COL[S.sensor]; c.beginPath(); c.arc(p0[0], p0[1], Math.max(2.5, s * 0.045), 0, TAU); c.fill();
+    if (!ghost) tags.push({ p: p1, text: SP_SENS[S.sensor], col: PAC.ink, pr: 1 });
+  };
+  const back = spFacing(sa0) < 0;                                    // on the far side: drawn first, so the bearing or the disc hides part of it
+  spCyl(c, P, -3.98, -3.72, 0.22, 0, 0, [70, 78, 86], ['#6c767e', '#353d43']);    // the coupling hub
+  shaft(-3.72, xb1 - 0.2); pillow(xb1); shaft(xb1 + 0.2, xb2 - 0.2);
+  if (k > 0 && back) sensor(xb2, 0.36, 0.42, 0.13);
+  pillow(xb2);
+  if (k > 0 && !back) sensor(xb2, 0.36, 0.42, 0.13);
+  shaft(xb2 + 0.2, -T / 2);
+  if (k === 0 && back) sensor(0, R + gap0, 0.5, 0.11);
+  /* where the disc would be without vibration */
+  if (wv > 0.02) { const g = []; for (let i = 0; i <= 48; i++) { const [y, z] = spEnd(i / 48 * TAU, R); g.push(P(T / 2, y, z)); } c.setLineDash([3, 4]); c.strokeStyle = 'rgba(255,255,255,0.28)'; c.lineWidth = 1; spPoly(c, g); c.stroke(); c.setLineDash([]); }
+  /* the disc: rim and face, then the features that turn with it */
+  spCyl(c, P, -T / 2, T / 2, R, dy, dz, [126, 136, 144], ['#a8b2ba', '#4d575e'], 72);
+  const on = (a, r, dx = 0.002) => { const [y, z] = spEnd(a, r); return P(T / 2 + dx, y + dy, z + dz); };
+  for (let i = 0; i < 8; i++) { const [x, y] = on(th + (i + 0.5) * TAU / 8, 0.56); c.fillStyle = 'rgba(22,27,31,0.8)'; c.beginPath(); c.ellipse(x, y, s * 0.043, s * 0.058, 0, 0, TAU); c.fill(); }
+  spCyl(c, P, T / 2, T / 2 + 0.07, 0.25, dy, dz, [96, 106, 114], ['#8d98a0', '#4e585f'], 32);
+  { const [x, y] = P(T / 2 + 0.071, dy, dz); c.fillStyle = '#39424a'; c.beginPath(); c.ellipse(x, y, s * 0.07, s * 0.095, 0, 0, TAU); c.fill(); }
+  { const tp = []; for (let i = 0; i <= 8; i++) tp.push(on(th - 0.14 + 0.28 * i / 8, 0.985)); for (let i = 8; i >= 0; i--) tp.push(on(th - 0.14 + 0.28 * i / 8, 0.88)); spPoly(c, tp); c.fillStyle = '#ffffff'; c.fill(); }   // the reflective tape
+  const weight = (b, col, sz, dashed) => {                           // a bolted weight on the face at body angle b
+    const a = th + b * DEG, w2 = 0.11 * sz, h2 = 0.075 * sz, rr = 0.76;
+    const pts = [[-w2, -h2], [w2, -h2], [w2, h2], [-w2, h2]].map(([u, v]) => { const [y1, z1] = spEnd(a, rr + v), [y2, z2] = spEnd(a + Math.PI / 2, u); return P(T / 2 + 0.05, y1 + y2 + dy, z1 + z2 + dz); });
+    spPoly(c, pts);
+    if (dashed) { c.setLineDash([3, 3]); c.strokeStyle = col; c.lineWidth = 1.6; c.stroke(); c.setLineDash([]); }
+    else { c.fillStyle = col; c.fill(); c.strokeStyle = 'rgba(0,0,0,0.65)'; c.lineWidth = 1.2; c.stroke(); const [bx, by] = on(a, rr, 0.06); c.fillStyle = 'rgba(0,0,0,0.45)'; c.beginPath(); c.arc(bx, by, Math.max(1.5, s * 0.022), 0, TAU); c.fill(); }
+    return on(a, rr, 0.05);
+  };
+  if (!hide) tags.push({ p: weight(S.hs, PAC.red, 1.15), text: 'heavy spot', col: PAC.red, pr: 2 });
+  for (const w of S.weights || []) weight(w.a, spWCol(w.kind), 0.85);
+  if (sim.ghost) weight(sim.ghost.a, sim.ghost.col || PAC.yel, 0.85, true);
+  /* the high spot: the part of the rim pushed out the most */
+  if (sim.showHigh() && !M.quiet) {
+    c.lineCap = 'round'; c.strokeStyle = PAC.grn; c.lineWidth = Math.max(3, s * 0.07); c.beginPath();
+    for (let i = 0; i <= 12; i++) { const [x, y] = on(aHi - 0.26 + 0.52 * i / 12, R * 1.005, 0); if (i) c.lineTo(x, y); else c.moveTo(x, y); } c.stroke();
+    const p = on(aHi, R, 0); paFlash(c, p[0], p[1], s * 0.45, 0.7, PAC.grn); tags.push({ p, text: 'high spot', col: PAC.grn, pr: 3 });
+  }
+  /* the proximity probe, fixed on the casing at σ a small gap from the rim: it lights up as the high spot sweeps under it */
+  if (k === 0 && !back) sensor(0, R + gap0, 0.5, 0.11);
+  /* the tach looks at the top of the rim, where the tape passes once a turn */
+  const lit = sim.lit, t0 = P(0.95, 1.2, 0), t1 = on(0, R * 0.94);
+  c.strokeStyle = withAlpha('#ff5a4a', lit ? 0.95 : 0.45); c.lineWidth = lit ? 2.6 : 1.3; c.beginPath(); c.moveTo(t0[0], t0[1]); c.lineTo(t1[0], t1[1]); c.stroke();
+  if (lit) { paFlash(c, t1[0], t1[1], s * 0.38, 0.9); paFlash(c, t0[0], t0[1], s * 0.28, 0.7, '#ff8a7a'); }
+  paTach(c, t0[0], t0[1], Math.atan2(t1[1] - t0[1], t1[0] - t0[0]) + Math.PI / 2, lit, { s: clamp(s / 70, 0.6, 1.1) });
+  tags.push({ p: t0, text: 'tach', col: PAC.mute, pr: 0 });
+  if (back) { c.globalAlpha = 0.32; if (k > 0) sensor(xb2, 0.36, 0.42, 0.13, true); else sensor(0, R + gap0, 0.5, 0.11, true); c.globalAlpha = 1; }   // seen through the metal
+  /* the way it turns */
+  const ra = []; for (let i = 0; i <= 14; i++) ra.push(on(-0.2 + 0.9 * i / 14, R * 1.15, 0.01));
+  c.strokeStyle = withAlpha(PAC.grn, 0.85); c.lineWidth = 2; c.beginPath(); ra.forEach(([x, y], i) => (i ? c.lineTo(x, y) : c.moveTo(x, y))); c.stroke();
+  const [ex, ey] = ra[ra.length - 1], [qx, qy] = ra[ra.length - 2]; paHead(c, ex, ey, Math.atan2(ey - qy, ex - qx), withAlpha(PAC.grn, 0.9), 8);
+  if (S.labels) spPlace(c, tags.sort((a, b) => a.pr - b.pr), box, avoid || [], fs - 1, sim.memo3d || (sim.memo3d = {}));
+  return { s };
+}
+
+/* ---------- the strobe view: the rotor frozen at the tach pulse, with the vibration vector and its trail (the polar plot) ---------- */
+function spDial(c, d, sim, M) {
+  const S = sim.S, fs = sim.fs, hide = sim.hideHeavy(), conv = S.conv, wide = d.w > 300;
+  const Rd = Math.max(40, Math.min(d.w - 78, d.h - 74) / 2), cx = d.x + d.w / 2, cy = d.y + 20 + (d.h - 40) / 2, Rr = Rd * 0.8;
+  const at = (b, r) => paPt(cx, cy, r, b * DEG);                    // body angle → screen (the rotor frozen with the tape at 12 o'clock)
+  /* the frozen rotor, the same disc as in 3D */
+  const g = c.createRadialGradient(cx - Rr * 0.3, cy - Rr * 0.35, Rr * 0.1, cx, cy, Rr * 1.05); g.addColorStop(0, '#5f6a72'); g.addColorStop(1, '#232a2f');
+  c.fillStyle = g; c.beginPath(); c.arc(cx, cy, Rr, 0, TAU); c.fill(); c.strokeStyle = '#8b959c'; c.lineWidth = 1.5; c.stroke();
+  for (const q of [1 / 3, 2 / 3]) { c.strokeStyle = 'rgba(255,255,255,0.07)'; c.lineWidth = 1; c.beginPath(); c.arc(cx, cy, Rr * q, 0, TAU); c.stroke(); }
+  for (let i = 0; i < 8; i++) { const [x, y] = at((i + 0.5) * 45, Rr * 0.56); c.fillStyle = 'rgba(14,18,21,0.55)'; c.beginPath(); c.arc(x, y, Math.max(2, Rr * 0.045), 0, TAU); c.fill(); }
+  c.fillStyle = 'rgba(120,132,140,0.35)'; c.beginPath(); c.arc(cx, cy, Rr * 0.22, 0, TAU); c.fill();
+  c.strokeStyle = '#ffffff'; c.lineWidth = Math.max(4, Rr * 0.07); c.beginPath(); c.arc(cx, cy, Rr * 0.94, -Math.PI / 2 - 0.13, -Math.PI / 2 + 0.13); c.stroke();
+  /* the degree ring: 0° at the probe, counting the way the instrument counts */
+  const s0 = S.sens, dir = conv === 'adash' ? 1 : -1, ring = [], labs = [], mark = (x, y, r = 9) => ring.push({ x: x - r, y: y - r, w: 2 * r, h: 2 * r });   // a reading v sits at body angle s0 + dir·v
+  c.strokeStyle = PAC.dim; c.lineWidth = 1; c.beginPath(); c.arc(cx, cy, Rd, 0, TAU); c.stroke();
+  for (let v = 0; v < 360; v += 10) { const b = s0 + dir * v, [x1, y1] = at(b, Rd), [x2, y2] = at(b, Rd - (v % 30 ? 4 : 9)); c.strokeStyle = v % 30 ? PAC.dim : PAC.mute; c.beginPath(); c.moveTo(x1, y1); c.lineTo(x2, y2); c.stroke(); }
+  for (let v = wide ? 30 : 45; v < 360; v += wide ? 30 : 45) {
+    const b = s0 + dir * v, [x, y] = at(b, Rd + 14), lv = S.rng === 'pm' ? spW180(v) : v, txt = S.rng === 'pm' && Math.abs(lv) === 180 ? '±180°' : (S.rng === 'pm' && lv > 0 ? '+' : '') + String(lv).replace('-', '−') + '°';
+    ring.push(paTag(c, txt, x, y, { size: fs - 2, col: PAC.mute, bg: null, w: 500, pad: 1 }));
+  }
+  paArc(c, cx, cy, Rd + 5, (s0 + dir * 7) * DEG, (s0 + dir * 24) * DEG, withAlpha(PAC.ink, 0.75), 1.6, 6);   // which way + counts
+  { const [x, y] = at(s0, Rd + 2); paSensor(c, x, y, s0 * DEG, { s: 0.42, ring: withAlpha(SP_COL[S.sensor], 0.9) }); }
+  { const [x, y] = at(0, Rr + 3); c.fillStyle = '#ff5a4a'; c.beginPath(); c.moveTo(x, y); c.lineTo(x - 5, y - 9); c.lineTo(x + 5, y - 9); c.closePath(); c.fill(); }   // the tach, at 12 o'clock
+  /* the polar plot: where the arrow tip has been */
+  const L = x0 => Rd * 0.94 * spSoft(x0, 0.5 * sim.ampRef()), tr = sim.trail;
+  if (S.trailOn && tr.length > 1) { c.lineWidth = 2.2; c.lineJoin = 'round'; for (let i = 1; i < tr.length; i++) { const [x1, y1] = at(tr[i - 1][0], L(tr[i - 1][1])), [x2, y2] = at(tr[i][0], L(tr[i][1])); c.strokeStyle = withAlpha(PAC.cyan, 0.25 + 0.65 * i / tr.length); c.beginPath(); c.moveTo(x1, y1); c.lineTo(x2, y2); c.stroke(); } }
+  for (const ct of sim.compare || []) {
+    c.setLineDash([4, 4]); c.lineWidth = 1.6; c.strokeStyle = ct.col; c.beginPath(); ct.pts.forEach(([b, x0], i) => { const [x, y] = at(b, L(x0)); if (i) c.lineTo(x, y); else c.moveTo(x, y); }); c.stroke(); c.setLineDash([]);
+    const p0 = at(ct.pts[0][0], L(ct.pts[0][1])), cand = [];                // try a few places along the loop, just outside or inside it
+    for (const f of [0.55, 0.4, 0.7, 0.3, 0.85]) { const q = ct.pts[Math.floor(ct.pts.length * f)], [x, y] = at(q[0], L(q[1])), u = q[0] * DEG; for (const sg of [1, -1]) cand.push([x - p0[0] + Math.sin(u) * 16 * sg, y - p0[1] - Math.cos(u) * 16 * sg]); }
+    labs.push({ p: p0, text: ct.label, col: ct.col, pill: false, c: cand });
+  }
+  /* markers on the rotor: heavy spot, weights, high spot */
+  const hs = [], block = (b, col, wd, ht) => { const [x, y] = at(b, Rr * 0.72); c.save(); c.translate(x, y); c.rotate(b * DEG); paRR(c, -wd / 2, -ht / 2, wd, ht, 2.5); c.fillStyle = col; c.fill(); c.strokeStyle = '#000'; c.lineWidth = 1.2; c.stroke(); c.restore(); return [x, y]; };
+  if (!hide) { const [x, y] = block(S.hs, PAC.red, 16, 11); hs.push(['hs', x, y]); mark(x, y); }
+  for (const w of S.weights || []) block(w.a, spWCol(w.kind), 14, 10);
+  if (sim.ghost) { const [x, y] = at(sim.ghost.a, Rr * 0.72); c.save(); c.translate(x, y); c.rotate(sim.ghost.a * DEG); c.setLineDash([3, 3]); c.strokeStyle = sim.ghost.col || PAC.yel; c.lineWidth = 1.6; c.strokeRect(-8, -6, 16, 12); c.setLineDash([]); c.restore(); hs.push(['ghost', x, y]); }
+  if (sim.showHigh() && !M.quiet) { const [x, y] = at(M.bHi, Rr * 0.97); paFlash(c, x, y, 16, 0.8, PAC.grn); c.fillStyle = PAC.grn; c.beginPath(); c.arc(x, y, 5.5, 0, TAU); c.fill(); mark(x, y, 7); }
+  { const [x, y] = at(0, Rr + 3); mark(x, y - 5, 7); } mark(cx, cy, 5);
+  /* the vectors: displacement points at the high spot; velocity and acceleration a quarter and half a turn earlier */
+  const show = sim.vectors(), nv = Object.keys(show).length;
+  if (M.quiet) paTag(c, S.rpm < 1 ? 'stopped' : 'balanced: no vibration', cx, cy + Rr * 0.32, { size: fs - 1, col: PAC.ink, bg: 'rgba(4,7,6,0.8)', w: 600 });
+  else for (const key of ['A', 'V', 'D']) {
+    if (!show[key]) continue;
+    const kk = SP_K[key], b = M.bHi + 90 * kk, sel = key === S.sensor, len = Math.max(Rd * 0.3, L(M.x0)) * (sel ? 1 : 0.86), [x, y] = at(b, len);
+    c.globalAlpha = sel ? 1 : 0.7; paArrow(c, cx, cy, x, y, SP_COL[key], sel ? 3.6 : 2.4, sel ? 12 : 9); c.globalAlpha = 1;
+    const ux = Math.sin(b * DEG), uy = -Math.cos(b * DEG), nx = -uy, ny = ux, f = (a, q) => [ux * a + nx * q, uy * a + ny * q];
+    labs.push({ p: [x, y], id: 'v' + key, text: `${key} ${spRead(paWrap(M.lagD - 90 * kk), S)}`, col: SP_COL[key], pill: false, c: [f(18, 0), f(-4, 20), f(-4, -20), f(-26, 20), f(-26, -20), f(-len * 0.45, 22), f(-len * 0.45, -22), f(34, 0)] });
+  }
+  if (sim.balance && sim.balance.view) {                             // the balancing vectors, drawn to one scale (the biggest fills the rotor)
+    const B = sim.balance.view, sc = Rd * 0.8 / Math.max(B.o.m, B.r ? B.r.m : 0, 1e-9), tip = v => at(v.a, v.m * sc), lab = (t, v, col) => {
+      const ux = Math.sin(v.a * DEG), uy = -Math.cos(v.a * DEG), f = (a, q) => [ux * a - uy * q, uy * a + ux * q];
+      labs.push({ p: tip(v), text: t, col, pill: false, c: [f(16, 0), f(2, 18), f(2, -18), f(-18, 18), f(-18, -18), f(30, 0)] }); };
+    const [ox, oy] = tip(B.o); paArrow(c, cx, cy, ox, oy, 'rgba(232,237,240,0.95)', 3, 10);
+    lab('O', B.o, PAC.ink);
+    if (B.r) {
+      const [rx, ry] = tip(B.r); paArrow(c, cx, cy, rx, ry, PAC.cyan, 3, 10); lab('O+T', B.r, PAC.cyan);
+      c.setLineDash([5, 4]); paArrow(c, ox, oy, rx, ry, PAC.vio, 2.4, 9); c.setLineDash([]);
+      const mx = (ox + rx) / 2, my = (oy + ry) / 2, tl = Math.hypot(rx - ox, ry - oy) || 1, nx = -(ry - oy) / tl, ny = (rx - ox) / tl, sg = (mx - cx) * nx + (my - cy) * ny >= 0 ? 1 : -1;
+      labs.push({ p: [mx, my], text: 'T', col: PAC.vio, pill: false, c: [[nx * 14 * sg, ny * 14 * sg], [-nx * 14 * sg, -ny * 14 * sg], [nx * 28 * sg, ny * 28 * sg]] });
+      const [nx2, ny2] = at(B.o.a + 180, B.o.m * sc * 0.9), [lx2, ly2] = at(B.o.a + 180, B.o.m * sc * 0.55); c.setLineDash([2, 4]); c.strokeStyle = 'rgba(255,255,255,0.55)'; c.lineWidth = 1.5; c.beginPath(); c.moveTo(cx, cy); c.lineTo(nx2, ny2); c.stroke(); c.setLineDash([]);
+      labs.push({ p: [lx2, ly2], text: '−O', col: PAC.mute, pill: false, c: [[Math.cos(B.o.a * DEG) * 14, Math.sin(B.o.a * DEG) * 14], [-Math.cos(B.o.a * DEG) * 14, -Math.sin(B.o.a * DEG) * 14]], opt: true });
+    }
+  }
+  if (sim.guess !== null) {                                            // the challenge marker, and the answer once checked
+    const [x, y] = at(sim.guess, Rr * 0.72); c.fillStyle = PAC.yel; c.beginPath(); c.moveTo(x, y - 9); c.lineTo(x + 8, y); c.lineTo(x, y + 9); c.lineTo(x - 8, y); c.closePath(); c.fill(); c.strokeStyle = '#000'; c.lineWidth = 1.2; c.stroke();
+    hs.push(['guess', x, y]); mark(x, y);
+    if (sim.chal && sim.chal.done) { block(S.hs, PAC.red, 16, 11); paArc(c, cx, cy, Rr * 0.5, sim.guess * DEG, (sim.guess + spW180(S.hs - sim.guess)) * DEG, PAC.yel, 2, 7); }
+  }
+  c.fillStyle = PAC.ink; c.beginPath(); c.arc(cx, cy, 3, 0, TAU); c.fill();
+  spPlace(c, labs, d, ring, fs - 1, sim.memoDial || (sim.memoDial = {}));
+  paTag(c, conv === 'adash' ? '+ with rotation' : '+ against rotation', d.x + 6, d.y + d.h - 10, { align: 'left', size: fs - 2, col: PAC.mute, bg: null, w: 600 });
+  paTag(c, '0° at the probe', d.x + d.w - 6, d.y + d.h - 10, { align: 'right', size: fs - 2, col: PAC.mute, bg: null, w: 600 });
+  const sx = at(s0, Rd + 18);
+  return { cx, cy, Rr, Rd, at, handles: [...hs, ['sens', sx[0], sx[1]]] };
+}
+
+/* ---------- the waveforms: tach pulses and the sensor's signal over 2½ turns, with the phase band ---------- */
+function spWave(c, s, sim, M, th) {
+  const S = sim.S, fs = sim.fs, k = M.k, lag = M.lag, turns = 2.5, T = 60 / Math.max(1, S.rpm) * 1000, quiet = M.quiet;   // T: ms per turn
+  const lt = { x: s.x + 12, y: s.y + 32, w: s.w - 24, h: Math.max(26, s.h * 0.17) }, lv = { x: lt.x, y: lt.y + lt.h + 6, w: lt.w, h: s.h - (lt.y - s.y) - lt.h - 30 };
+  const X = a => lv.x + a / (turns * TAU) * lv.w, amp = quiet ? 0 : lv.h * 0.42, sig = a => lv.y + lv.h / 2 - Math.cos(a - lag * DEG) * amp;
+  c.strokeStyle = PAC.grid2; c.lineWidth = 1; c.beginPath(); c.moveTo(lv.x, lv.y + lv.h / 2 + 0.5); c.lineTo(lv.x + lv.w, lv.y + lv.h / 2 + 0.5); c.stroke();
+  for (let q = 0; q <= turns * 4; q++) { const x = Math.round(X(q * Math.PI / 2)) + 0.5; c.strokeStyle = q % 4 ? 'rgba(57,226,124,0.07)' : 'rgba(57,226,124,0.18)'; c.beginPath(); c.moveTo(x, lt.y); c.lineTo(x, lv.y + lv.h); c.stroke(); }
+  /* the phase band: between each tach pulse and the signal peak, on the side the reading counts (+ before the pulse for Adash) */
+  const v = spRead(lag, S, true), dl = (S.conv === 'adash' ? -v : v) * DEG;
+  if (!quiet) { c.save(); c.beginPath(); c.rect(lv.x, lt.y, lv.w, lv.y + lv.h - lt.y); c.clip(); c.fillStyle = withAlpha(PAC.grn, 0.15);
+    for (let n = 0; n <= 3; n++) { const x1 = X(n * TAU), x2 = X(n * TAU + dl); c.fillRect(Math.min(x1, x2), lt.y, Math.abs(x2 - x1), lv.y + lv.h - lt.y); } c.restore(); }
+  c.strokeStyle = PAC.yel; c.lineWidth = 2; c.beginPath(); const base = lt.y + lt.h - 4;
+  for (let i = 0; i <= 250; i++) { const a = i / 250 * turns * TAU, u = paWrap(a / DEG), y = u < 7 ? lt.y + 5 : base; if (i) c.lineTo(X(a), y); else c.moveTo(X(a), y); } c.stroke();
+  c.strokeStyle = SP_COL[S.sensor]; c.lineWidth = 2.3; c.beginPath();
+  for (let i = 0; i <= 300; i++) { const a = i / 300 * turns * TAU; if (i) c.lineTo(X(a), sig(a)); else c.moveTo(X(a), sig(a)); } c.stroke();
+  /* a pen that follows the rotor in the 3D view */
+  const a = ((th % (turns * TAU)) + turns * TAU) % (turns * TAU), x = X(a), y = sig(a);
+  c.strokeStyle = 'rgba(255,255,255,0.22)'; c.lineWidth = 1; c.beginPath(); c.moveTo(x, lt.y); c.lineTo(x, lv.y + lv.h); c.stroke(); paFlash(c, x, y, 12, 0.6, SP_COL[S.sensor]); c.fillStyle = '#fff'; c.beginPath(); c.arc(x, y, 3.5, 0, TAU); c.fill();
+  if (!quiet) paRuler(c, X(TAU), X(TAU + dl), lv.y + lv.h - 8, PAC.grn, spRead(lag, S), { size: fs - 0.5, ticks: false, below: false });
+  paTag(c, 'tach', lt.x + 4, lt.y + 9, { align: 'left', size: fs - 1.5, col: PAC.yel, bg: null });
+  paTag(c, `${SP_NAME[S.sensor]} · ${spAmp(M, k)}`, lv.x + lv.w - 2, lv.y + 9, { align: 'right', size: fs - 1, col: SP_COL[S.sensor], bg: 'rgba(4,7,6,0.75)', w: 600 });
+  for (let q = 0; q <= turns; q += 0.5) paTag(c, `${Math.round(q * T)}${q === turns ? ' ms' : ''}`, X(q * TAU), lv.y + lv.h + 11, { size: fs - 2.5, col: PAC.mute, bg: null, w: 500 });
+  const w = s.w > 330 ? 64 : 54; paLED(c, s.x + s.w - w * 4 / 3 - 14, s.y + 4, w * 4 / 3, 22, quiet ? '---' : String(v), { label: 'PHASE', unit: '°', n: 4, ls: fs - 1.5 });
+}
+
+/* ---------- Bode: amplitude and phase lag against speed; drag along it to change the speed ---------- */
+function spBode(c, s, sim, M) {
+  const S = sim.S, fs = sim.fs, nmax = SP_RMAX * S.nc, k = M.k, hideM = sim.hideModel();
+  const pa = { x: s.x + 40, y: s.y + 26, w: s.w - 50, h: (s.h - 26 - 32) * 0.5 }, pp = { x: pa.x, y: pa.y + pa.h + 8, w: pa.w, h: s.h - 26 - 32 - pa.h - 8 };
+  const X = n => pa.x + n / nmax * pa.w, at = n => spModel({ ...S, rpm: n }), amp = m => (k === 0 ? m.xpp : k === 1 ? m.v : m.acc);
+  let top = 1e-9; for (let i = 1; i <= 120; i++) top = Math.max(top, amp(at(i / 120 * nmax))); for (const q of sim.bode) top = Math.max(top, q.a); top *= 1.12;
+  const YA = v => pa.y + pa.h - v / top * pa.h, YP = v => pp.y + pp.h - (v + 10) / 200 * pp.h;   // the phase plot shows how far the high spot is behind the heavy spot
+  for (const r of [pa, pp]) { c.strokeStyle = PAC.dim; c.lineWidth = 1; c.strokeRect(r.x + 0.5, r.y + 0.5, r.w - 1, r.h - 1); }
+  c.strokeStyle = PAC.grid2; c.beginPath(); for (let i = 1; i < 5; i++) { const x = Math.round(pa.x + i / 5 * pa.w) + 0.5; c.moveTo(x, pa.y); c.lineTo(x, pa.y + pa.h); c.moveTo(x, pp.y); c.lineTo(x, pp.y + pp.h); }
+  for (const v of [0, 90, 180]) { const y = Math.round(YP(v)) + 0.5; c.moveTo(pp.x, y); c.lineTo(pp.x + pp.w, y); } c.stroke();
+  const xc = X(S.nc); c.setLineDash([3, 3]); c.strokeStyle = withAlpha(PAC.org, 0.75); c.beginPath(); c.moveTo(xc, pa.y); c.lineTo(xc, pp.y + pp.h); c.stroke(); c.setLineDash([]);
+  const curve = (f, Y) => { c.beginPath(); for (let i = 0; i <= 200; i++) { const n = i / 200 * nmax, y = Y(f(at(n))); if (i) c.lineTo(X(n), y); else c.moveTo(X(n), y); } c.strokeStyle = withAlpha(SP_COL[S.sensor], 0.95); c.lineWidth = 2; c.stroke(); };
+  if (!hideM) { curve(amp, YA); curve(m => m.psi, YP); }
+  else paTag(c, 'hidden in the challenge', pa.x + pa.w / 2, pa.y + pa.h / 2, { size: fs - 1.5, col: PAC.mute, bg: 'rgba(4,7,6,0.75)', w: 600 });
+  c.fillStyle = PAC.cyan; for (const q of sim.bode) { c.beginPath(); c.arc(X(q.n), YA(q.a), 2.2, 0, TAU); c.fill(); c.beginPath(); c.arc(X(q.n), YP(q.p), 2.2, 0, TAU); c.fill(); }
+  const xn = X(S.rpm); c.strokeStyle = '#ffffff'; c.lineWidth = 1.5; c.beginPath(); c.moveTo(xn, pa.y); c.lineTo(xn, pp.y + pp.h); c.stroke();
+  if (!hideM) {
+    c.fillStyle = '#fff'; c.beginPath(); c.arc(xn, YA(amp(M)), 4.5, 0, TAU); c.fill(); c.beginPath(); c.arc(xn, YP(M.psi), 4.5, 0, TAU); c.fill();
+    const right = xn < pp.x + pp.w * 0.62; paTag(c, M.quiet ? '–' : `reads ${spRead(M.lag, S)}`, xn + (right ? 8 : -8), YP(M.psi) + (M.psi > 120 ? 14 : -14), { align: right ? 'left' : 'right', size: fs - 2, col: PAC.ink, bg: 'rgba(4,7,6,0.85)', w: 600 });
+  }
+  paTag(c, spUnit(k), pa.x + 4, pa.y + 9, { align: 'left', size: fs - 2, col: PAC.mute, bg: 'rgba(4,7,6,0.7)', w: 600 });
+  paTag(c, 'lag behind heavy spot', pp.x + 4, pp.y + 9, { align: 'left', size: fs - 2, col: PAC.mute, bg: 'rgba(4,7,6,0.7)', w: 600 });
+  for (const v of [0, 90, 180]) paTag(c, v + '°', pp.x - 4, YP(v), { align: 'right', size: fs - 2.5, col: PAC.mute, bg: null, w: 500, pad: 1 });
+  paTag(c, spNum(top / 1.12), pa.x - 4, YA(top / 1.12), { align: 'right', size: fs - 2.5, col: PAC.mute, bg: null, w: 500, pad: 1 });
+  paTag(c, '0', X(0), pp.y + pp.h + 11, { size: fs - 2.5, col: PAC.mute, bg: null, w: 500 });
+  paTag(c, `${S.nc} critical`, xc, pp.y + pp.h + 11, { size: fs - 2.5, col: PAC.org, bg: null, w: 600 });
+  paTag(c, `${Math.round(nmax)} RPM`, pp.x + pp.w, pp.y + pp.h + 11, { align: 'right', size: fs - 2.5, col: PAC.mute, bg: null, w: 500 });
+  return { pa, pp, X, nmax };
+}
+
+/* ---------- the hand and the ball: the everyday picture of heavy spot (the push) and high spot (the response) ---------- */
+function spAnalogy(c, r, sim, M, th) {
+  const fs = sim.fs;
+  if (sim.chalOpen()) { paTag(c, 'hidden in the challenge', r.x + r.w / 2, r.y + r.h / 2, { size: fs - 1.5, col: PAC.mute, bg: null, w: 600 }); return; }
+  const top = r.y + 22, bot = r.y + r.h - 46, cx = r.x + r.w / 2, cy = (top + bot) / 2, R = Math.max(16, Math.min(r.w * 0.4, (bot - top) * 0.47));
+  const hr = R * 0.25, br = R * (0.62 + 0.38 * spSoft(M.A, 2)), ha = th, ba = th - M.psi * DEG, [hx, hy] = paPt(cx, cy, hr, ha), [bx, by] = paPt(cx, cy, br, ba);
+  c.setLineDash([2, 3]); c.lineWidth = 1; c.strokeStyle = 'rgba(231,185,143,0.45)'; c.beginPath(); c.arc(cx, cy, hr, 0, TAU); c.stroke();
+  c.strokeStyle = withAlpha(PAC.grn, 0.35); c.beginPath(); c.arc(cx, cy, br, 0, TAU); c.stroke(); c.setLineDash([]);
+  for (let i = 0; i < 24; i++) { const a0 = ba - 1.4 * (1 - i / 24), a1 = ba - 1.4 * (1 - (i + 1) / 24); c.strokeStyle = withAlpha(PAC.grn, 0.55 * i / 24); c.lineWidth = 3; c.beginPath(); c.arc(cx, cy, br, a0 - Math.PI / 2, a1 - Math.PI / 2); c.stroke(); }
+  if (M.psi > 4) paArc(c, cx, cy, Math.max(10, br * 0.45), ha, ba, 'rgba(240,244,246,0.75)', 1.5, 6);
+  c.strokeStyle = '#d9c39b'; c.lineWidth = 1.6; c.beginPath(); c.moveTo(hx, hy); c.lineTo(bx, by); c.stroke();
+  c.fillStyle = '#e7b98f'; c.beginPath(); c.arc(hx, hy, Math.max(5, R * 0.12), 0, TAU); c.fill(); c.strokeStyle = '#8a6040'; c.lineWidth = 1.2; c.stroke();
+  const g = c.createRadialGradient(bx - 2, by - 2, 1, bx, by, Math.max(6, R * 0.13)); g.addColorStop(0, '#b6ffd2'); g.addColorStop(1, PAC.grn); c.fillStyle = g; c.beginPath(); c.arc(bx, by, Math.max(6, R * 0.13), 0, TAU); c.fill();
+  paTag(c, `ball ${Math.round(M.psi)}° behind the hand`, cx, r.y + r.h - 36, { size: fs - 1.5, col: PAC.ink, bg: null, w: 700 });
+  paTag(c, 'hand = heavy spot', cx, r.y + r.h - 21, { size: fs - 2.5, col: '#e7b98f', bg: null, w: 600 });
+  paTag(c, 'ball = high spot', cx, r.y + r.h - 8, { size: fs - 2.5, col: PAC.grn, bg: null, w: 600 });
+}
+
+/* ===== Heavy & high spot simulator: the page around the instruments (modes, guided tour, balancing, challenge, controls) ===== */
+const SP_DEF = { rpm: 1050, nc: 3000, zeta: 0.08, hs: 60, U: 600, sens: 0, sensor: 'D', strobe: false, slow: 0.7, trailOn: true, dva: false, analogy: true, labels: true };
+const SP_VIEW = ['conv', 'rng', 'slow', 'analogy', 'labels', 'strobe', 'dva', 'trailOn'];       // display choices: they never clear the records
+const SP_LOCK = ['rpm', 'nc', 'zeta', 'hs', 'U', 'sensor', 'sens'];                               // fixed while a challenge is open
+const spUnit = k => ['µm pk-pk', 'mm/s RMS', 'g pk'][k];
+const spNum = v => (v >= 100 ? String(Math.round(v)) : v >= 10 ? v.toFixed(1) : v >= 1 ? v.toFixed(2) : v.toFixed(3));
+const SP_ICON = {
+  tour: '<path d="M6 21V4M6 4.5h11l-2.2 4 2.2 4H6"/>',
+  explore: '<circle cx="12" cy="12" r="8.5"/><path d="M15.6 8.4l-2.1 5.1-5.1 2.1 2.1-5.1z"/>',
+  balance: '<path d="M12 4v15.5M7 19.5h10M5 7.5h14M7.5 7.5L4.5 14h6zM16.5 7.5L13.5 14h6z"/>',
+  challenge: '<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.6"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/>' };
+function spIcon(k) {
+  const s = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  for (const [a, v] of Object.entries({ viewBox: '0 0 24 24', width: 16, height: 16, 'aria-hidden': 'true', focusable: 'false', fill: 'none', stroke: 'currentColor', 'stroke-width': '2', 'stroke-linecap': 'round', 'stroke-linejoin': 'round' })) s.setAttribute(a, v);
+  s.innerHTML = SP_ICON[k]; return s;
+}
+const SP_MYTHS = [
+  [S => SP_K[S.sensor] > 0, 'Any sensor’s phase points at the high spot.', 'Only displacement does. Velocity peaks a quarter turn early and acceleration half a turn early, so correct by 90° or 180° first.'],
+  [(S, M) => M.zone === 2, 'The weight goes opposite the high spot.', 'Above the critical speed the high spot is nearly opposite the heavy spot, so that puts the weight on the heavy spot and makes it worse. The weight always goes opposite the heavy spot.'],
+  [S => S.sens !== 0, 'Moving the sensor changes the vibration.', 'It changes the number, not the rotor: the high spot stays where it is. Add the sensor’s angle from the tach to the reading.'],
+  [(S, M) => M.zone === 1, 'Damping only lowers the peak.', 'It also sets how quickly the phase swings: light damping, a sudden swing at the critical speed; heavy damping, a slow one that starts well below it.'],
+  [() => true, 'The heavy spot moves when the speed changes.', 'The heavy spot is fixed in the metal. Only the response, the high spot, moves round.']];
+const SP_TOUR = [
+  { t: 'Meet the parts', set: { rpm: 1050, nc: 3000, zeta: 0.08, hs: 60, U: 600, sens: 0, sensor: 'D', strobe: false, dva: false, trailOn: false, analogy: true }, clear: true,
+    text: 'A disc on a shaft with a heavy spot: the red weight, a little extra mass on one side. As it turns, the heavy spot pulls the shaft out into a small circle, so each point of the rim takes its turn at coming closest to the probe. The side pushed out the most is the high spot: it glows green, and the probe lights up each time it sweeps past. The reflective tape and the optical tach mark the start of every turn, and the strobe view freezes the rotor at that moment.' },
+  { t: 'Phase is a stopwatch', set: { rpm: 1050, hs: 60, sens: 0, sensor: 'D', strobe: false },
+    text: 'The phase reading is how far the shaft turns between the tach pulse and the moment the high spot passes the probe: the green band on the waveform. So the reading tells you where the high spot is, as an angle.',
+    q: S => ({ q: 'The heavy spot is now moved a quarter turn round, against the rotation. The reading will…', opts: [['up', 'go up by 90°'], ['down', 'go down by 90°'], ['same', 'stay the same']], ans: S.conv === 'adash' ? 'down' : 'up',
+      why: S.conv === 'adash' ? 'The high spot now reaches the probe a quarter turn later. Adash counts + with the rotation, so the reading drops by 90°.' : 'The high spot now reaches the probe a quarter turn later, so the delay, and the reading, grows by 90°.' }),
+    reveal: sim => sim.animate({ hs: [60, -30] }, 2.2) },
+  { t: 'Slowly, the high spot sits on the heavy spot', set: { rpm: 900, hs: -30, strobe: true, trailOn: false }, hide: { high: 1, vec: 1 },
+    text: 'The machine turns slowly, well below its critical speed of 3000 RPM. The high spot and the arrow are hidden for now.',
+    q: () => ({ q: 'Where is the high spot, the side pushed out the most?', opts: [['on', 'On the heavy spot'], ['q', 'A quarter turn behind it'], ['opp', 'Opposite it']], ans: 'on',
+      why: 'Turning slowly, the shaft is stiff compared with the pull of the weight, so the heavy side is the side pushed out the most. The arrow, the vibration vector, points at the weight: a slow-speed reading shows you the heavy spot.' }) },
+  { t: 'Up through the critical speed', set: { rpm: 900, strobe: true, trailOn: true }, clear: true,
+    text: 'Now the machine runs up from slow to more than twice its critical speed. Watch the arrow on the strobe view.',
+    q: () => ({ q: 'At about twice the critical speed, the arrow will point…', opts: [['at', 'at the heavy spot'], ['side', 'a quarter turn behind it'], ['opp', 'nearly opposite it']], ans: 'opp',
+      why: 'The heavy spot never moved, but the high spot slid round behind it: a quarter turn at the critical speed, nearly half a turn above it. Up there the rotor spins about its centre of mass, so the heavy side stays in and the light side swings out. The arrow’s tip drew the polar plot, and the Bode plot recorded the run.' }),
+    reveal: sim => sim.runUp(900, 6600, 9) },
+  { t: 'Damping sets the loop', set: { rpm: 6600, strobe: true, trailOn: true },
+    text: 'Damping is the machine’s shock absorber: the oil film in the bearings and anything else that soaks up motion.',
+    q: () => ({ q: 'With more damping, the loop on the strobe view becomes…', opts: [['big', 'bigger'], ['small', 'smaller'], ['same', 'the same']], ans: 'small',
+      why: 'More damping, a smaller peak (about 1 ÷ 2ζ times the offset) and a slower swing of the phase. Both loops still cross a quarter turn at the critical speed. The dashed loops are light (ζ 0.03) and heavy (ζ 0.25) damping.' }),
+    reveal: sim => sim.compareDamping() },
+  { t: 'Move the probe', set: { rpm: 1200, zeta: 0.08, sens: 0, strobe: true, trailOn: false }, clear: true,
+    text: 'The probe is now moved round the casing. On the strobe view the 0° of the ring moves with it.',
+    q: S => ({ q: 'The probe moves a quarter turn round, with the rotation. The reading…', opts: [['up', 'goes up by 90°'], ['down', 'goes down by 90°'], ['same', 'stays the same']], ans: S.conv === 'adash' ? 'down' : 'up',
+      why: 'The high spot reaches the moved probe a quarter turn later, so the number changes, but the high spot has not moved. Always add the probe’s angle from the tach to the reading.' }),
+    reveal: sim => sim.animate({ sens: [0, 90] }, 2.2) },
+  { t: 'Velocity and acceleration', set: { rpm: 1050, sens: 0, sensor: 'A', strobe: true, dva: false }, hide: { vec: 1 },
+    text: 'Most field work uses an accelerometer. Its signal peaks half a turn before the displacement does, and a velocity signal a quarter turn before.',
+    q: (S, M) => ({ q: `The accelerometer reads ${spRead(M.lag, S)}. Where would the probe see the high spot (the displacement phase)?`, opts: [['raw', spRead(M.lag, S)], ['ok', spRead(M.lag + 180, S)], ['q', spRead(M.lag + 90, S)]], ans: 'ok',
+      why: `Acceleration peaks half a turn before displacement, so move the reading back by 180°: ${spRead(M.lag, S)} → ${spRead(M.lag + 180, S)}. Velocity needs 90°. Only displacement points at the high spot: the three arrows now show all of them.` }),
+    reveal: sim => { sim.S.dva = true; sim.syncControls(); } },
+  { t: 'Your analyser’s sign', set: { sensor: 'D', dva: false, strobe: true },
+    text: 'Analysers count phase one of two ways: as a delay, + against the rotation, or + with the rotation from −180° to +180°, as Adash does. The rotor, the heavy spot and the high spot stay exactly where they are; only the numbers change. Switch here and watch the ring and the readings.', convDemo: true },
+  { t: 'Where does the weight go?', set: { rpm: 5700, zeta: 0.08, sens: 0, sensor: 'D', strobe: true, trailOn: false }, clear: true,
+    text: 'The machine now runs well above its critical speed, at 1.9 times.',
+    q: () => ({ q: 'Where should the correction weight go?', opts: [['oh', 'Opposite the high spot'], ['ohv', 'Opposite the heavy spot'], ['hi', 'On the heavy spot']], ans: 'ohv',
+      why: 'Always opposite the heavy spot. Up here the high spot is nearly opposite the heavy spot, so “opposite the high spot” lands on the heavy spot. Try both below.' }),
+    weightDemo: true },
+  { t: 'The ball on a string', set: { rpm: 900, strobe: false, analogy: true, trailOn: true }, clear: true, auto: true,
+    text: 'Swing a ball on a string while your hand moves in small circles. Slowly, the ball stays on your hand’s side. At the string’s natural rhythm it swings wide, a quarter turn behind. Faster, it sits on the opposite side. Your hand is the heavy spot, the push; the ball is the high spot, the response. That is the whole story: now explore, balance a rotor, or take the challenge.',
+    reveal: sim => sim.runUp(900, 6600, 10) }];
+
+class SpotSim {
+  constructor(root) {
+    this.root = root; const sv = store.get('spots.prefs', {}) || {};
+    this.S = { ...SP_DEF, conv: sv.conv === 'lag' ? 'lag' : 'adash', rng: sv.rng === '360' ? '360' : 'pm', slow: clamp(+sv.slow || 0.7, 0.25, 1.5), analogy: sv.analogy !== false, labels: sv.labels !== false, strobe: REDUCED, weights: [] };
+    this.trail = []; this.bode = []; this.compare = null; this.ghost = null; this.guess = null; this.balance = null; this.chal = null; this.tourHide = null; this.tq = null;
+    this.ti = 0; this.answered = null; this.auto = null; this.anim = null; this.ang = 0; this.t = 0; this.lit = false; this.inst = 'dial'; this.handles = []; this.drag = null;
+    this.onScreen = true; this.fs = 12; this.sig = ''; this.W = 0; this.H = 0; this.rps = 0.3;
+    this.build(); this.setMode(store.get('spots.toured', false) ? 'explore' : 'tour', true);
+    try { window.__SP = this; } catch (e) { /* not needed */ }
+    requestAnimationFrame(t => this.loop(t));
+  }
+  /* what the instruments may show */
+  chalOpen() { return this.mode === 'challenge' && !(this.chal && this.chal.done); }
+  hideHeavy() { return this.chalOpen() || (this.mode === 'balance' && !this.showHeavy) || (this.mode === 'tour' && !!(this.tourHide && this.tourHide.heavy)); }
+  showHigh() { return !this.chalOpen() && !(this.mode === 'tour' && this.tourHide && this.tourHide.high); }
+  hideModel() { return this.chalOpen(); }
+  vectors() {
+    if ((this.mode === 'tour' && this.tourHide && this.tourHide.vec) || (this.mode === 'balance' && this.balance && this.balance.view)) return {};
+    return this.S.dva ? { D: 1, V: 1, A: 1 } : { [this.S.sensor]: 1 };
+  }
+  ampRef() { return Math.max(1, this.S.U / SP_M * 1.6); }
+  model(extra) { return spModel(this.S, extra); }
+
+  /* ---------- the page ---------- */
+  build() {
+    const r = this.root; r.classList.add('sp');
+    const mk = (id, label) => h('button', { type: 'button', role: 'tab', class: 'sp-mode', 'data-m': id, 'aria-selected': 'false', onclick: () => this.setMode(id) }, h('span', { class: 'sp-mi' }, spIcon(id)), h('span', { text: label }));
+    this.modeBar = h('div', { class: 'sp-modes', role: 'tablist', 'aria-label': 'Simulator mode' }, mk('tour', 'Guided tour'), mk('explore', 'Explore'), mk('balance', 'Balance'), mk('challenge', 'Challenge'));
+    this.bRun = h('button', { type: 'button', class: 'btn', text: 'Run up', title: 'Speed up from slow to 2.2 × the critical speed', onclick: () => this.runUp(Math.min(this.S.rpm, 0.25 * this.S.nc), 2.2 * this.S.nc, 10) });
+    this.bCoast = h('button', { type: 'button', class: 'btn', text: 'Coast down', title: 'Slow down to 0.2 × the critical speed', onclick: () => this.runUp(Math.max(this.S.rpm, 2.2 * this.S.nc), 0.2 * this.S.nc, 10) });
+    this.bHold = h('button', { type: 'button', class: 'btn', text: 'Hold speed', onclick: () => { this.auto = null; this.syncRun(); } });
+    this.cv = h('canvas', { role: 'img', 'aria-label': 'Heavy and high spot simulator' });
+    this.stage = h('div', { class: 'sp-stage' }, this.cv);
+    this.instSeg = h('div', { class: 'sp-inst' }); seg(this.instSeg, 'sp-inst-seg', [['dial', 'Strobe'], ['wave', 'Waveform'], ['bode', 'Bode'], ['ball', 'Hand & ball']], 'dial', v => { this.inst = v; });
+    this.cv.dataset.mb = '1';                                            // its own save button, which can also record a whole run-up
+    const mb = h('button', { type: 'button', class: 'mbtn', title: 'Save as GIF, video or picture', 'aria-label': 'Save the simulator as a GIF, a video or a picture', onclick: e => { e.stopPropagation();
+      mediaSheet({ title: 'Heavy & high spot simulator', source: () => this.cv, name: () => 'heavy-high-spot-simulator', step: { label: 'A run-up', seconds: () => 10 },
+        onStart: len => { if (len === 'step' && !this.chalOpen()) this.runUp(Math.round(0.25 * this.S.nc), Math.round(2.2 * this.S.nc), 9.6); } }); } }, mediaIcon());
+    const stageP = h('div', { class: 'panel sp-stagep' }, h('h2', {}, 'Rotor and instruments', mb), this.instSeg, this.stage);
+    this.modeP = h('div', { class: 'panel sp-modep' });
+    this.insEl = h('p', { class: 'sp-ins-t', 'aria-live': 'polite' }); this.mythEl = h('div', { class: 'sp-myth' });
+    const insP = h('div', { class: 'panel rule sp-ins' }, h('h2', { text: 'What is happening' }), this.insEl, this.mythEl);
+    this.outEl = h('div', { class: 'paout' }); const outP = h('div', { class: 'panel sp-out' }, h('h2', { text: 'Readings' }), this.outEl);
+    const left = h('div', { class: 'col sp-left' }), right = h('div', { class: 'col sp-right' }, stageP, h('div', { class: 'sp-row' }, this.modeP, insP), outP);
+    r.append(h('div', { class: 'sp-top' }, this.modeBar, h('div', { class: 'sp-run', role: 'group', 'aria-label': 'Speed' }, this.bRun, this.bCoast, this.bHold)), h('div', { class: 'lab sp-lab' }, left, right));
+    this.buildControls(left);
+    /* on the canvas: drag the heavy spot, the probe, the trial weight or your guess; drag along the Bode plot to set the speed */
+    const pos = e => { const b = this.cv.getBoundingClientRect(); return [e.clientX - b.left, e.clientY - b.top]; };
+    const hit = (x, y, touch) => {
+      let best = null, bd = 1e9;
+      for (const q of this.handles) { if (q.rect) continue; const d = Math.hypot(x - q.x, y - q.y); if (d <= (q.r || 12) + (touch ? 12 : 4) && d < bd) { best = q; bd = d; } }
+      if (best) return best;
+      for (const q of this.handles) if (q.rect && x >= q.rect.x && x <= q.rect.x + q.rect.w && y >= q.rect.y && y <= q.rect.y + q.rect.h) return q;
+      return null;
+    };
+    this.cv.addEventListener('touchstart', e => { const t = e.touches[0], b = this.cv.getBoundingClientRect(), q = t && hit(t.clientX - b.left, t.clientY - b.top, true); if (q && !q.rect) e.preventDefault(); }, { passive: false });
+    this.cv.addEventListener('pointerdown', e => {
+      const [x, y] = pos(e), q = hit(x, y, e.pointerType === 'touch'); if (!q) return;
+      e.preventDefault(); this.drag = q.id; this.dragKey = q.key; try { this.cv.setPointerCapture(e.pointerId); } catch (er) { /* ignore */ } q.drag(x, y);
+    });
+    this.cv.addEventListener('pointermove', e => {
+      const [x, y] = pos(e);
+      if (this.drag) { const q = this.handles.find(k => k.id === this.drag); if (q) q.drag(x, y); return; }
+      if (e.pointerType === 'mouse') { const q = hit(x, y, false); this.cv.style.cursor = q ? (q.rect ? 'ew-resize' : 'grab') : 'default'; }
+    });
+    const up = () => { if (!this.drag) return; this.drag = null; this.afterChange(this.dragKey); };
+    this.cv.addEventListener('pointerup', up); this.cv.addEventListener('pointercancel', up);
+    new ResizeObserver(() => this.resize()).observe(this.stage);
+    try { new IntersectionObserver(es => { this.onScreen = es[es.length - 1].isIntersecting; }).observe(this.stage); } catch (e) { /* always draw */ }
+  }
+  buildControls(host) {
+    const S = this.S; this.ctls = []; this.cpanels = {};
+    const panel = (key, title, ...kids) => { const p = h('div', { class: 'panel sp-cp' }, h('h2', { text: title })); kids.forEach(k => k(p)); host.append(p); this.cpanels[key] = p; };
+    const range = (p, key, label, min, max, step, fmt, on) => {
+      const w = ctl(p, { id: 'sp-' + key, type: 'range', label, min, max, step, value: S[key], fmt, on: v => { S[key] = v; if (on) on(v); this.afterChange(key); } });
+      this.ctls.push({ key, kind: 'range', el: w.querySelector('input'), out: w.querySelector('output'), fmt });
+    };
+    const segc = (p, key, label, opts, on, vert) => {
+      const w = h('div', { class: 'ctl' }, h('label', { text: label }));
+      const sg = seg(w, 'sp-' + key, opts, String(S[key]), v => { S[key] = typeof SP_DEF[key] === 'boolean' ? v === 'true' : v; if (on) on(S[key]); this.afterChange(key); });
+      if (vert) sg.classList.add('sp-vert');
+      p.append(w); this.ctls.push({ key, kind: 'seg', el: sg });
+    };
+    panel('machine', 'Machine',
+      p => range(p, 'rpm', 'Speed', 0, SP_RMAX * S.nc, 10, v => `${Math.round(v)} RPM · ${(v / S.nc).toFixed(2)} × critical`, () => { this.auto = null; this.syncRun(); }),
+      p => range(p, 'nc', 'Critical speed', 1000, 6000, 50, v => `${v} RPM`),
+      p => range(p, 'zeta', 'Damping ratio ζ', 0.02, 0.5, 0.01, v => `${v.toFixed(2)} · peak × ${(1 / (2 * v)).toFixed(1)}`));
+    panel('unbalance', 'Unbalance',
+      p => range(p, 'hs', 'Heavy spot, from the tape', -180, 180, 1, v => `${spPos(v, S)} ${S.conv === 'adash' ? 'with' : 'against'} rotation`),
+      p => range(p, 'U', 'Unbalance (mass × radius)', 100, 2000, 10, v => `${v} g·mm`));
+    panel('measure', 'Measurement',
+      p => segc(p, 'sensor', 'Sensor signal', [['D', 'Displacement (proximity probe)'], ['V', 'Velocity (on the bearing)'], ['A', 'Acceleration (on the bearing)']], null, true),
+      p => range(p, 'sens', 'Sensor, round from the tach (with rotation)', 0, 345, 15, v => v + '°'),
+      p => segc(p, 'conv', 'Phase counted', [['adash', '+ with rotation (Adash)'], ['lag', '+ against rotation (a lag)']], () => this.savePrefs(), true),
+      p => segc(p, 'rng', 'Phase range', [['pm', '−180° … +180°'], ['360', '0° … 360°']], () => this.savePrefs()));
+    panel('display', 'Display',
+      p => segc(p, 'strobe', 'Rotor', [['false', 'Spinning'], ['true', 'Frozen by the strobe']]),
+      p => range(p, 'slow', 'Slow motion', 0.25, 1.5, 0.05, v => `${v.toFixed(2)} ×`, () => this.savePrefs()),
+      p => segc(p, 'dva', 'Vectors', [['false', 'The sensor’s'], ['true', 'D, V and A']]),
+      p => segc(p, 'trailOn', 'Polar plot trail', [['true', 'On'], ['false', 'Off']]),
+      p => segc(p, 'analogy', 'Hand and ball picture', [['true', 'On'], ['false', 'Off']], () => this.savePrefs()),
+      p => segc(p, 'labels', 'Labels on the rotor', [['true', 'On'], ['false', 'Off']], () => this.savePrefs()),
+      p => p.append(h('div', { class: 'ctl' }, h('button', { type: 'button', class: 'btn', text: 'Clear the trail and the Bode record', onclick: () => this.clearRecords(true) }))));
+  }
+  syncControls() {
+    const lock = this.chalOpen();
+    for (const q of this.ctls) {
+      const v = this.S[q.key], off = lock && SP_LOCK.includes(q.key);
+      if (q.kind === 'range') {
+        if (q.key === 'rpm') q.el.max = SP_RMAX * this.S.nc;
+        if (+q.el.value !== +v) q.el.value = v; q.el.disabled = off;
+        const t = q.fmt ? q.fmt(+q.el.value) : q.el.value; if (q.out.textContent !== t) q.out.textContent = t;
+      } else for (const b of q.el.children) { b.setAttribute('aria-pressed', String(b.dataset.v === String(v))); b.disabled = off; }
+    }
+    this.cpanels.unbalance.hidden = lock;
+  }
+  savePrefs() { const S = this.S; store.set('spots.prefs', { conv: S.conv, rng: S.rng, slow: S.slow, analogy: S.analogy, labels: S.labels }); }
+  clearRecords(all) { this.trail = []; this.compare = null; if (all) this.bode = []; }
+  afterChange(key) {
+    const S = this.S;
+    if (key === 'nc' && S.rpm > SP_RMAX * S.nc) S.rpm = SP_RMAX * S.nc;
+    if (key && key !== 'rpm' && !SP_VIEW.includes(key)) this.clearRecords(true);
+    const B = this.balance; if (this.mode === 'balance' && B && B.o && B.step < 3 && ['rpm', 'nc', 'zeta', 'sens', 'sensor'].includes(key)) B.note = 'Keep the speed and the sensor the same for every run, or the runs cannot be compared.';
+    this.syncControls(); this.renderMode();
+  }
+
+  /* ---------- modes ---------- */
+  setMode(m, first) {
+    if (this.mode === 'tour' && m !== 'tour') store.set('spots.toured', true);
+    this.mode = m; this.auto = null; this.anim = null; this.ghost = null; this.guess = null; this.compare = null; this.tourHide = null; this.answered = null; this.tq = null;
+    for (const b of this.modeBar.children) b.setAttribute('aria-selected', String(b.dataset.m === m));
+    this.S.weights = []; this.balance = null; this.clearRecords(true);
+    if (m === 'tour') this.goTour(first ? 0 : this.ti || 0);
+    if (m === 'balance') { this.showHeavy = false; this.newBalance(); if (this.S.rpm < 0.2 * this.S.nc) this.S.rpm = Math.round(0.6 * this.S.nc / 10) * 10; }
+    if (m === 'challenge') this.newChallenge();
+    this.syncControls(); this.renderMode(); this.syncRun();
+  }
+  renderMode() {
+    const P = this.modeP, M = this.model(); P.replaceChildren(); P.className = 'panel sp-modep';
+    if (this.mode === 'tour') return this.renderTour(M);
+    if (this.mode === 'explore') {
+      P.classList.add('rule');
+      P.append(h('h2', { text: 'Explore' }), h('ul', { class: 'sp-tips' }, ...['Drag the red heavy spot round the strobe view, or drag the probe round its ring.', 'Press Run up: the arrow swings round and its tip draws the polar plot, while the Bode plot records the run.',
+        'Drag along the Bode plot to go to any speed.', 'Change the sensor to velocity or acceleration, or show D, V and A together.', 'Change the damping and run up again, then compare the loops.'].map(t => h('li', { text: t }))));
+      const go = (label, f) => h('button', { type: 'button', class: 'btn', text: label, onclick: () => this.goSpeed(f * this.S.nc) });
+      P.append(h('div', { class: 'btns' }, go('Slow · 0.3 ×', 0.3), go('Critical · 1 ×', 1), go('Fast · 2 ×', 2)));
+      return;
+    }
+    if (this.mode === 'balance') return this.renderBalance(M);
+    return this.renderChallenge(M);
+  }
+
+  /* guided tour: each step sets the machine up, asks you to predict, then shows it */
+  goTour(i) {
+    const st = SP_TOUR[i]; this.ti = i; this.answered = null; this.auto = null; this.anim = null; this.ghost = null; this.compare = null; this.tq = null;
+    Object.assign(this.S, st.set || {}); if (REDUCED) this.S.strobe = true; this.S.weights = []; if (st.clear) this.clearRecords(true);
+    this.tourHide = st.q ? (st.hide || null) : null; this.syncControls(); this.syncRun(); this.renderMode();
+    if (st.auto && st.reveal) st.reveal(this);
+  }
+  renderTour(M) {
+    const P = this.modeP, st = SP_TOUR[this.ti], n = SP_TOUR.length, S = this.S;
+    P.classList.add('rule'); if (st.q) P.classList.add('sp-quiz');
+    P.append(h('h2', { text: `Guided tour · ${this.ti + 1} of ${n}` }), h('h3', { class: 'sp-tt', text: st.t }), h('p', { text: st.text }));
+    if (st.q) {
+      const Q = this.tq || (this.tq = st.q(S, M)), row = h('div', { class: 'paquiz', role: 'group', 'aria-label': 'Your answer' });
+      for (const [v, label] of Q.opts) row.append(h('button', { type: 'button', class: 'btn' + (this.answered !== null ? (v === Q.ans ? ' right' : v === this.answered ? ' wrong' : '') : ''), text: label, disabled: this.answered !== null ? true : null,
+        onclick: () => { this.answered = v; APPX.answer('spots/tour/' + this.ti, v === Q.ans); this.tourHide = null; if (st.reveal) st.reveal(this); this.renderMode(); } }));
+      P.append(h('p', { class: 'sp-qq', text: Q.q }), row);
+      if (this.answered !== null) P.append(h('p', { class: 'pafb ' + (this.answered === Q.ans ? 'ok' : 'no'), text: (this.answered === Q.ans ? 'Right. ' : 'Not quite. ') + Q.why }));
+    }
+    if (st.convDemo) { const w = h('div', { class: 'sp-demo' }); seg(w, 'sp-convdemo', [['adash', '+ with rotation (Adash)'], ['lag', '+ against rotation']], S.conv, v => { S.conv = v; this.savePrefs(); this.syncControls(); }); P.append(w); }
+    if (st.weightDemo && this.answered !== null) {
+      const M0 = spModel({ ...S, weights: [] }), m = S.U / SP_WR, w = S.weights[0], pct = Math.round(M.x0 / M0.x0 * 100);
+      P.append(h('div', { class: 'btns sp-demo' },
+        h('button', { type: 'button', class: 'btn', text: `Fit ${spNum(m)} g opposite the high spot`, 'aria-pressed': String(!!(w && w.kind === 'naive')), onclick: () => { S.weights = [{ m, a: M0.bHi + 180, kind: 'naive' }]; this.renderMode(); } }),
+        h('button', { type: 'button', class: 'btn', text: `Fit ${spNum(m)} g opposite the heavy spot`, 'aria-pressed': String(!!(w && w.kind === 'corr')), onclick: () => { S.weights = [{ m, a: S.hs + 180, kind: 'corr' }]; this.renderMode(); } }),
+        h('button', { type: 'button', class: 'btn', text: 'Take it off', disabled: w ? null : true, onclick: () => { S.weights = []; this.renderMode(); } })));
+      if (w) P.append(h('p', { class: 'pafb ' + (pct < 30 ? 'ok' : 'no'), text: w.kind === 'naive' ? `Opposite the high spot the weight lands next to the heavy spot: the vibration goes to ${pct} % of what it was.` : `Opposite the heavy spot the weight cancels it: the vibration drops to ${pct} % of what it was.` }));
+    }
+    const nav = h('div', { class: 'btns sp-nav' });
+    if (this.ti > 0) nav.append(h('button', { type: 'button', class: 'btn', text: '← Back', onclick: () => this.goTour(this.ti - 1) }));
+    if (this.ti < n - 1) nav.append(h('button', { type: 'button', class: 'btn' + (!st.q || this.answered !== null ? ' primary' : ''), text: st.q && this.answered === null ? 'Skip →' : 'Next →', onclick: () => this.goTour(this.ti + 1) }));
+    else nav.append(h('button', { type: 'button', class: 'btn primary', text: 'Explore on your own', onclick: () => { APPX.done('spots/tour'); this.setMode('explore'); } }),
+      h('button', { type: 'button', class: 'btn', text: 'Balance a rotor', onclick: () => { APPX.done('spots/tour'); this.setMode('balance'); } }),
+      h('button', { type: 'button', class: 'btn', text: 'Take the challenge', onclick: () => { APPX.done('spots/tour'); this.setMode('challenge'); } }));
+    P.append(nav);
+  }
+  animate(to, secs) { const from = {}; for (const k in to) from[k] = to[k][0]; Object.assign(this.S, from); this.anim = { to, t0: this.t, d: secs }; }
+  goSpeed(n1) { const n0 = this.S.rpm; this.auto = { n0, n1, t0: this.t, d: 1.2 + 2.4 * Math.abs(n1 - n0) / (SP_RMAX * this.S.nc) }; this.syncRun(); }   // a smooth change of speed: the trail and the Bode keep recording
+  runUp(n0, n1, secs) { this.S.rpm = n0; this.clearRecords(true); this.auto = { n0, n1, t0: this.t, d: secs }; this.syncRun(); this.syncControls(); }
+  compareDamping() {
+    const S = this.S, mk = (z, col, label) => { const pts = []; for (let i = 1; i <= 140; i++) { const m = spModel({ ...S, zeta: z, rpm: i / 140 * 2.2 * S.nc }); pts.push([m.bHi, m.x0]); } return { pts, col, label }; };
+    S.zeta = 0.25; this.syncControls(); this.runUp(900, 6600, 8);
+    this.compare = [mk(0.03, withAlpha(PAC.org, 0.9), 'ζ 0.03'), mk(0.25, withAlpha(PAC.vio, 0.95), 'ζ 0.25')];
+  }
+
+  /* balancing: run 1 as found, a trial weight, run 2, the vector maths, then the correction; trim runs repeat it from there */
+  measure(scatter) {                                                 // one reading; a balancing run reads with a little scatter, as a real instrument does
+    const M = this.model(), k = M.k, n = scatter ? [Math.random() * 2 - 1, Math.random() * 2 - 1] : [0, 0], m = (k === 0 ? M.xpp : k === 1 ? M.v : M.acc) * (1 + 0.02 * n[0]), lag = M.lag + 2 * n[1];
+    return { m, a: this.S.sens - lag, lag, k, txt: M.quiet ? `${spNum(m)} ${spUnit(k)}` : `${spNum(m)} ${spUnit(k)} at ${spRead(lag, this.S)}` };   // a: where the arrow points on the frozen rotor
+  }
+  newBalance(keep) { const B = keep || {}; this.balance = { step: 0, mt: B.mt || 3, at: B.at || 0, fixed: B.fixed || [], o0: B.o0 || null, round: (B.round || 0) + 1 }; this.S.weights = this.balance.fixed.slice(); this.ghost = null; }
+  renderBalance(M) {
+    const P = this.modeP, B = this.balance, S = this.S, row = (k, v, cls) => h('div', { class: 'paorow' + (cls ? ' ' + cls : '') }, h('span', { class: 'l', text: k }), h('span', { class: 'v', text: v }), h('span', { class: 'w' }));
+    P.append(h('h2', { text: B.round > 1 ? `Balance this rotor · trim run ${B.round - 1}` : 'Balance this rotor' }), h('p', { class: 'note', text: `Single-plane balancing with the vector method, at ${Math.round(S.rpm)} RPM (${(S.rpm / S.nc).toFixed(2)} × critical). The heavy spot is hidden, as on a real machine. Weights sit at ${SP_WR} mm radius, and each run reads with a little scatter (±2 % and ±2°), as a real instrument does.` }),
+      h('div', { class: 'ctl' }, h('label', { class: 'check' }, h('input', { type: 'checkbox', checked: this.showHeavy ? true : null, onchange: e => { this.showHeavy = e.target.checked; this.renderMode(); } }), 'Show the heavy spot')));
+    const out = h('div', { class: 'paout sp-bal' }), btns = h('div', { class: 'btns' }); P.append(out);
+    if (B.fixed.length) out.append(row('Already fitted', B.fixed.map(w => `${w.m.toFixed(2)} g at ${spPos(w.a, S)}`).join(' + ')));
+    if (B.o) out.append(row(B.round > 1 ? 'Run 1, as it is now: O' : 'Run 1, as found: O', B.o.txt));
+    if (B.step === 0) btns.append(h('button', { type: 'button', class: 'btn primary', text: 'Run 1: measure as found', onclick: () => { B.o = this.measure(true); if (!B.o0) B.o0 = B.o; B.step = 1; B.view = { o: B.o }; B.note = null; this.ghost = { a: B.at, m: B.mt, col: PAC.vio }; this.renderMode(); } }));
+    if (B.step === 1) {
+      const tw = h('div', { class: 'sp-trial' });
+      ctl(tw, { id: 'sp-tm', type: 'range', label: 'Trial weight', min: 0.5, max: 12, step: 0.5, value: B.mt, fmt: v => `${v} g`, on: v => { B.mt = v; this.ghost = { a: B.at, m: B.mt, col: PAC.vio }; } });
+      ctl(tw, { id: 'sp-ta', type: 'range', label: 'Where it goes (or drag it on the strobe view)', min: -180, max: 180, step: 5, value: B.at, fmt: v => `${spPos(v, S)} from the tape`, on: v => { B.at = v; this.ghost = { a: B.at, m: B.mt, col: PAC.vio }; } });
+      P.append(tw);
+      btns.append(h('button', { type: 'button', class: 'btn primary', text: 'Run 2: with the trial weight', onclick: () => {
+        S.weights = [...B.fixed, { m: B.mt, a: B.at, kind: 'trial' }]; B.r = this.measure(true); B.step = 2;
+        const O = [B.o.m * Math.cos(B.o.a * DEG), B.o.m * Math.sin(B.o.a * DEG)], R2 = [B.r.m * Math.cos(B.r.a * DEG), B.r.m * Math.sin(B.r.a * DEG)], T = [R2[0] - O[0], R2[1] - O[1]];
+        B.t = { m: Math.hypot(T[0], T[1]), a: Math.atan2(T[1], T[0]) / DEG }; B.cm = B.mt * B.o.m / Math.max(1e-9, B.t.m); B.ca = spW180(B.at + 180 + B.o.a - B.t.a);
+        B.view = { o: B.o, r: B.r }; this.ghost = { a: B.ca, m: B.cm, col: PAC.yel }; this.renderMode(); } }));
+    }
+    if (B.step >= 2) {
+      const dA = Math.abs(B.r.m - B.o.m) / B.o.m, dP = Math.abs(spW180(B.r.lag - B.o.lag)); B.small = dA < 0.3 && dP < 30;
+      out.append(row(`Trial weight: ${B.mt} g at ${spPos(B.at, S)}`, ''), row('Run 2, with the trial: O+T', B.r.txt), row('Trial effect: T = (O+T) − O', `${spNum(B.t.m)} ${spUnit(B.o.k)} at ${spRead(S.sens - B.t.a, S)}`),
+        row('Correction = trial × |O| ÷ |T|', `${B.cm.toFixed(2)} g`, 'chg'), row('Angle = trial + 180° + (O − T)', `${spPos(B.ca, S)} from the tape`, 'chg'));
+      if (B.small) out.append(h('p', { class: 'pafb todo', text: `The trial changed the amplitude by ${Math.round(dA * 100)} % and the phase by ${Math.round(dP)}°. A good trial run changes one of them by 30 % or 30°; with less, the scatter in the readings swamps the trial effect and the correction can be well off. Try a bigger trial weight.` }));
+      if (B.step === 2) btns.append(h('button', { type: 'button', class: 'btn primary', text: 'Take off the trial, fit the correction: Run 3', onclick: () => { S.weights = [...B.fixed, { m: +B.cm.toFixed(2), a: Math.round(B.ca), kind: 'corr' }]; B.f = this.measure(true); B.step = 3; B.view = null; this.ghost = null; this.renderMode(); } }),
+        h('button', { type: 'button', class: 'btn', text: 'What if it went opposite the high spot?', onclick: () => {
+          const W0 = { ...S, weights: B.fixed }, Mo = spModel(W0), g = { m: +B.cm.toFixed(2), a: Mo.bHi + 180 }, Mg = spModel({ ...S, weights: [...B.fixed, g] }); B.naive = { pct: Mg.x0 / Mo.x0 * 100, a: g.a }; this.ghost = { a: g.a, m: g.m, col: PAC.yel }; this.renderMode(); } }));
+      if (B.naive && B.step === 2) out.append(h('p', { class: 'pafb ' + (B.naive.pct < 30 ? 'ok' : 'no'), text: `The same weight opposite the high spot (${spPos(B.naive.a, S)}) would ${B.naive.pct >= 100 ? `make it worse: ${Math.round(B.naive.pct)} % of the vibration` : `leave ${Math.round(B.naive.pct)} % of the vibration`}. ${M.zone === 0 ? 'Below the critical speed the high spot is close to the heavy spot, so that shortcut nearly works here.' : 'Here the high spot is far from the heavy spot, so the shortcut misses: the vector method does not need to know where the high spot is.'}` }));
+    }
+    if (B.step === 3) {
+      const pct = B.f.m / B.o0.m * 100, f = v => (v < 1 ? v.toFixed(1) : String(Math.round(v)));
+      out.append(row('Run 3, corrected', B.f.txt), row(B.round > 1 ? 'Vibration left, of the first run' : 'Vibration left', `${f(pct)} %`, pct < 10 ? 'chg' : ''));
+      const txt = pct < 5 ? 'Balanced. The correction went opposite the heavy spot, and the vector method found it without ever seeing it: tick “Show the heavy spot” to check.'
+        : B.note ? 'Not balanced: the speed or the sensor changed between the runs, so they could not be compared. Start again and keep them the same.'
+          : B.small ? `Not quite: ${f(pct)} % is left, because the trial weight was too small to measure well. Do a trim run with a bigger trial weight.`
+            : `Better: ${f(pct)} % is left, from the scatter in the readings. A trim run (the same three runs again, from here) takes it lower.`;
+      out.append(h('p', { class: 'pafb ' + (pct < 5 ? 'ok' : 'todo'), text: txt }));
+      if (pct >= 2) btns.append(h('button', { type: 'button', class: 'btn primary', text: 'Trim run: balance again from here', onclick: () => { this.newBalance({ ...B, fixed: S.weights.map(w => ({ ...w, kind: 'corr' })) }); this.renderMode(); } }));
+    }
+    if (B.note && B.step > 0 && B.step < 3) out.append(h('p', { class: 'pafb todo', text: B.note }));
+    btns.append(h('button', { type: 'button', class: 'btn', text: 'Start again', onclick: () => { this.newBalance(); this.renderMode(); } }));
+    P.append(btns);
+  }
+
+  /* challenge: a machine with a hidden heavy spot; find it from the reading */
+  newChallenge() {
+    const S = this.S, rn = (a, b) => a + Math.random() * (b - a), zone = Math.floor(Math.random() * 3), keep = this.chal || { score: 0, rounds: 0 };
+    Object.assign(S, { hs: Math.round(rn(-180, 180)), U: Math.round(rn(400, 1200) / 10) * 10, zeta: +rn(0.04, 0.2).toFixed(2), nc: Math.round(rn(1500, 4500) / 50) * 50, sensor: ['D', 'V', 'A'][Math.floor(Math.random() * 3)], sens: Math.floor(Math.random() * 24) * 15, weights: [], strobe: true });
+    S.rpm = Math.round(S.nc * (zone === 0 ? rn(0.25, 0.6) : zone === 1 ? rn(0.97, 1.03) : rn(1.7, 2.3)) / 10) * 10;
+    this.clearRecords(true); this.guess = 0; this.chal = { done: false, zone, score: keep.score, rounds: keep.rounds }; this.syncControls(); this.syncRun();
+  }
+  chalSteps(M) {
+    const S = this.S, k = M.k, ad = S.conv === 'adash', ps = Math.round(M.psi);
+    return [`The reading: ${spRead(M.lag, S)}.`,
+      k ? `${SP_NAME[S.sensor]} peaks ${90 * k}° early: ${spRead(M.lag, S)} ${ad ? '−' : '+'} ${90 * k}° = ${spRead(M.lagD, S)}, the displacement phase.` : 'Displacement: no correction for the signal.',
+      S.sens ? `The sensor sits ${S.sens}° round from the tach: ${spRead(M.lagD, S)} ${ad ? '+' : '−'} ${S.sens}° = ${spPos(M.bHi, S)}, the high spot from the tape.` : `The sensor is in line with the tach, so the high spot is at ${spPos(M.bHi, S)} from the tape.`,
+      `At ${(S.rpm / S.nc).toFixed(2)} × the critical speed the high spot trails the heavy spot by ${M.zone === 0 ? 'only a little' : M.zone === 1 ? 'about 90°' : 'nearly 180°'} (here ${ps}°): ${spPos(M.bHi, S)} ${ad ? '+' : '−'} ${ps}° = ${spPos(M.bu, S)}.`,
+      `So the heavy spot is at ${spPos(M.bu, S)} from the tape.`];
+  }
+  renderChallenge(M) {
+    const P = this.modeP, C = this.chal, S = this.S, best = store.get('spots.best', 0) || 0;
+    P.classList.add('sp-quiz');
+    P.append(h('h2', { text: 'Challenge: find the heavy spot' }), h('p', { text: `This machine runs at ${Math.round(S.rpm)} RPM and its critical speed is ${S.nc} RPM (${(S.rpm / S.nc).toFixed(2)} ×). The sensor is ${S.sensor === 'A' ? 'an' : 'a'} ${SP_SENS[S.sensor]}, mounted ${S.sens}° round from the tach (with the rotation). The analyser reads ${spRead(M.lag, S)}, counting ${S.conv === 'adash' ? '+ with the rotation' : '+ against the rotation'}.` }));
+    if (!C.done) {
+      P.append(h('p', { class: 'note', text: 'Drag the yellow marker on the strobe view to where you think the heavy spot is, or use the slider, then check.' }));
+      const g = h('div', { class: 'sp-trial' }); ctl(g, { id: 'sp-guess', type: 'range', label: 'Your guess, from the tape', min: -180, max: 180, step: 1, value: this.guess || 0, fmt: v => spPos(v, S), on: v => { this.guess = v; } }); P.append(g);
+    }
+    const btns = h('div', { class: 'btns' });
+    if (!C.done) btns.append(h('button', { type: 'button', class: 'btn primary', text: 'Check', onclick: () => {
+      const err = Math.abs(spW180(this.guess - S.hs)), pts = Math.max(0, Math.round(100 - err * 1.5)); Object.assign(C, { done: true, err, pts, score: C.score + pts, rounds: C.rounds + 1 });
+      if (pts > best) store.set('spots.best', pts); APPX.challenge(err <= 20); this.syncControls(); this.syncRun(); this.renderMode(); } }),
+      h('button', { type: 'button', class: 'btn', text: C.hint ? 'Hint shown' : 'Hint', disabled: C.hint ? true : null, onclick: () => { C.hint = true; this.renderMode(); } }));
+    else btns.append(h('button', { type: 'button', class: 'btn primary', text: 'Next machine', onclick: () => { this.newChallenge(); this.renderMode(); } }));
+    P.append(btns);
+    if (C.hint && !C.done) P.append(h('ol', { class: 'sp-tips' }, ...this.chalSteps(M).slice(0, 3).map(t => h('li', { text: t })), h('li', { text: `Then allow for the speed: ${(S.rpm / S.nc).toFixed(2)} × critical.` })));
+    if (C.done) P.append(h('p', { class: 'pafb ' + (C.err <= 20 ? 'ok' : 'no'), text: `The heavy spot is at ${spPos(S.hs, S)} from the tape. You were ${Math.round(C.err)}° away: ${C.pts} points.` }), h('ol', { class: 'sp-tips' }, ...this.chalSteps(M).map(t => h('li', { text: t }))));
+    P.append(h('p', { class: 'note sp-score', text: `Score ${C.score} in ${C.rounds} round${C.rounds === 1 ? '' : 's'} · best round ${Math.max(best, C.pts || 0)}` }));
+  }
+  syncRun() { const lock = this.chalOpen(); this.bHold.disabled = !this.auto; this.bRun.disabled = !!this.auto || lock; this.bCoast.disabled = !!this.auto || lock; }
+
+  /* ---------- live text and readings ---------- */
+  insight(M) {
+    const S = this.S, ps = Math.round(M.psi), r = M.r.toFixed(2);
+    if (this.chalOpen()) return `Read the waveform and the arrow. The machine runs ${['below', 'at', 'above'][M.zone]} its critical speed, so the high spot trails the heavy spot by ${['only a little', 'about a quarter turn', 'nearly half a turn'][M.zone]}.`;
+    let t = M.zone === 0 ? `Below the critical speed (${r} ×). The high spot is only ${ps}° behind the heavy spot, so the probe practically sees the heavy spot. The pull of the heavy spot grows with the speed squared: now ${spNum(M.F)} N.`
+      : M.zone === 1 ? `Near the critical speed (${r} ×). The high spot is ${ps}° behind the heavy spot (a quarter turn right at the critical speed) and the vibration peaks, held back only by damping: up to ${M.Q.toFixed(1)} times the offset of the centre of mass.`
+        : `Above the critical speed (${r} ×). The high spot is ${ps}° behind the heavy spot, ${ps > 160 ? 'nearly opposite it' : 'heading for the opposite side'}. The rotor now spins about its centre of mass: the heavy side stays in and the light side swings out.`;
+    if (M.k) t += ` You are reading ${SP_NAME[S.sensor].toLowerCase()}: it peaks ${90 * M.k}° before the displacement, so its arrow points ${90 * M.k}° ahead of the high spot.`;
+    return t;
+  }
+  readings(M) {
+    const S = this.S, ch = this.chalOpen(), q = '?', no = M.quiet ? '–' : null;
+    return [['Speed', `${Math.round(S.rpm)} RPM · ${M.r.toFixed(2)} × critical`], ['Zone', SP_ZONE[M.zone]], ['Displacement', spAmp(M, 0)], ['Velocity', spAmp(M, 1)], ['Acceleration', spAmp(M, 2)],
+      [`Phase, ${SP_NAME[S.sensor].toLowerCase()}`, no || spRead(M.lag, S)], ['Displacement phase', ch ? q : no || spRead(M.lagD, S)], ['High spot, from the tape', ch ? q : no || spPos(M.bHi, S)],
+      ['High spot behind the heavy spot', ch ? q : Math.round(M.psi) + '°'], ['Heavy spot, from the tape', this.hideHeavy() ? q : spPos(M.bu, S)],
+      ['Unbalance force', `${spNum(M.F)} N`], ['Force on the bearings', `${spNum(M.Fb)} N`], ['Peak at the critical speed', `× ${M.Q.toFixed(1)}`]];
+  }
+  syncText() {
+    const M = this.model(), S = this.S, ins = this.insight(M);
+    if (this.insEl.textContent !== ins) this.insEl.textContent = ins;
+    const my = SP_MYTHS.find(m => m[0](S, M)), key = my[1];
+    if (this.mythEl.dataset.k !== key) { this.mythEl.dataset.k = key; this.mythEl.replaceChildren(h('div', { class: 'sp-m1' }, h('b', { text: 'Myth: ' }), my[1]), h('div', { class: 'sp-m2' }, h('b', { text: 'Fact: ' }), my[2])); }
+    const rows = this.readings(M);
+    if (!this.outRows || this.outRows.length !== rows.length) { this.outRows = rows.map(() => h('div', { class: 'paorow' }, h('span', { class: 'l' }), h('span', { class: 'v' }), h('span', { class: 'w' }))); this.outEl.replaceChildren(...this.outRows); }
+    rows.forEach(([l, v], i) => { const r = this.outRows[i]; if (r.children[0].textContent !== l) r.children[0].textContent = l; if (r.children[1].textContent !== v) r.children[1].textContent = v; });
+    this.cv.setAttribute('aria-label', `Heavy and high spot simulator. ${ins}`);
+  }
+
+  /* ---------- drawing ---------- */
+  resize() {
+    const W = Math.round(this.stage.clientWidth || 0); if (!W) return;
+    const grid = W >= 600; let H;
+    if (grid) H = Math.round(clamp(W * 0.75, 500, 720));
+    else { this.rh = Math.round(clamp(W * 0.8, 260, 400)); H = this.rh + Math.round(clamp(W * 0.86, 290, 440)) + 24; }
+    this.instSeg.hidden = grid;
+    if (W === this.W && H === this.H) return;
+    const dpr = Math.min(W < 600 ? 2 : 3, window.devicePixelRatio || 1); this.W = W; this.H = H; this.grid = grid; this.dpr = dpr; this.fs = W >= 760 ? 12.5 : 11.5;
+    this.cv.width = Math.round(W * dpr); this.cv.height = Math.round(H * dpr); this.cv.style.height = H + 'px';
+  }
+  layout() {
+    const W = this.W, H = this.H, g = 8;
+    if (this.grid) {
+      const cw = Math.round((W - 3 * g) * 0.56), rh = Math.round((H - 3 * g) * 0.58), w2 = W - 3 * g - cw, h2 = H - 3 * g - rh, y2 = 2 * g + rh;
+      const ww = Math.round((W - 4 * g) * 0.41), bw = Math.round((W - 4 * g) * 0.2), dw = W - 4 * g - ww - bw;
+      return { rotor: { x: g, y: g, w: cw, h: rh }, dial: { x: 2 * g + cw, y: g, w: w2, h: rh }, wave: { x: g, y: y2, w: ww, h: h2 }, ball: { x: 2 * g + ww, y: y2, w: bw, h: h2 }, bode: { x: 3 * g + ww + bw, y: y2, w: dw, h: h2 } };
+    }
+    const rh = this.rh, box = { x: g, y: 2 * g + rh, w: W - 2 * g, h: H - 3 * g - rh }, i = this.inst;
+    return { rotor: { x: g, y: g, w: W - 2 * g, h: rh }, wave: i === 'wave' ? box : null, dial: i === 'dial' ? box : null, bode: i === 'bode' ? box : null, ball: i === 'ball' ? box : null };
+  }
+  draw() {
+    const c = this.cv.getContext('2d'); c.setTransform(this.dpr, 0, 0, this.dpr, 0, 0); c.fillStyle = PAC.bg; c.fillRect(0, 0, this.W, this.H);
+    const L = this.layout(), M = this.model(), S = this.S, th = S.strobe ? 0 : this.ang, fs = this.fs; this.handles = [];
+    const ro = paPanel(c, L.rotor, { title: 'THE ROTOR' }), sl = (S.rpm / 60) / Math.max(0.05, this.rps);
+    const tags = [[S.strobe ? 'STROBE: frozen at each tach pulse' : S.rpm < 1 ? 'stopped' : `slow motion: the real shaft turns ${sl >= 10 ? Math.round(sl) : sl.toFixed(1)} × faster`, ro.x + ro.w - 6, ro.y + 11, { align: 'right', size: fs - 1.5, col: S.strobe ? PAC.yel : PAC.mute, bg: null, w: 600 }],
+      [SP_ZONE[M.zone], ro.x + 6, ro.y + ro.h - 34, { align: 'left', size: fs - 1, col: [PAC.grn, PAC.org, PAC.blu][M.zone], bg: 'rgba(4,7,6,0.8)', w: 700 }],
+      [`${Math.round(S.rpm)} RPM · ${M.r.toFixed(2)} × critical`, ro.x + 6, ro.y + ro.h - 13, { align: 'left', size: fs - 1, col: PAC.ink, bg: 'rgba(4,7,6,0.8)', w: 600, f: 'm' }]];
+    const boxes = tags.map(([t, x, y, o]) => { paFont(c, o.size, o.w, o.f || 'b'); const tw = c.measureText(t).width + 10, hh = Math.round(o.size * 1.5); return { x: o.align === 'right' ? x - tw : x, y: y - hh / 2, w: tw, h: hh }; });
+    c.save(); c.beginPath(); c.rect(ro.x, ro.y, ro.w, ro.h); c.clip(); spRotor3D(c, ro, this, M, th, boxes); c.restore();
+    for (const [t, x, y, o] of tags) paTag(c, t, x, y, o);
+    if (L.ball) spAnalogy(c, paPanel(c, L.ball, { title: 'HAND AND BALL' }), this, M, th);
+    if (L.dial) {
+      const d = paPanel(c, L.dial, { title: 'STROBE VIEW' }), q = spDial(c, d, this, M), angAt = (x, y) => paAngAt(q.cx, q.cy, x, y) / DEG;
+      for (const [id, x, y] of q.handles) {
+        if (id === 'hs' && (this.mode === 'explore' || this.mode === 'tour')) this.handles.push({ id, key: 'hs', x, y, r: 12, drag: (px, py) => { S.hs = Math.round(spW180(angAt(px, py))); this.auto = null; this.anim = null; this.syncControls(); } });
+        if (id === 'sens' && !this.chalOpen()) this.handles.push({ id, key: 'sens', x, y, r: 13, drag: (px, py) => { S.sens = (Math.round(paWrap(angAt(px, py)) / 15) * 15) % 360; this.anim = null; this.syncControls(); } });
+        if (id === 'ghost' && this.mode === 'balance' && this.balance && this.balance.step === 1) this.handles.push({ id, x, y, r: 12, drag: (px, py) => { const B = this.balance; B.at = Math.round(spW180(angAt(px, py)) / 5) * 5; this.ghost = { a: B.at, m: B.mt, col: PAC.vio }; } });
+        if (id === 'guess' && this.chalOpen()) this.handles.push({ id, x, y, r: 13, drag: (px, py) => { this.guess = Math.round(spW180(angAt(px, py))); } });
+      }
+    }
+    if (L.wave) spWave(c, paPanel(c, L.wave, { title: 'PROBE AND TACH SIGNALS', grid: 24 }), this, M, this.ang);
+    if (L.bode) {
+      const b = paPanel(c, L.bode, { title: 'BODE PLOT · RUN-UP RECORD' }), q = spBode(c, b, this, M);
+      if (!this.chalOpen()) this.handles.push({ id: 'bode', key: 'rpm', rect: { x: q.pa.x, y: q.pa.y, w: q.pa.w, h: q.pp.y + q.pp.h - q.pa.y },
+        drag: px => { S.rpm = Math.round(clamp((px - q.pa.x) / q.pa.w, 0, 1) * q.nmax / 10) * 10; this.auto = null; this.syncRun(); this.syncControls(); } });
+    }
+  }
+  loop(now) {
+    requestAnimationFrame(t => this.loop(t));
+    const dt = this.last ? Math.min(0.1, (now - this.last) / 1000) : 0; this.last = now;
+    if (this.root.offsetParent === null || document.hidden || !this.onScreen) return;
+    if (!this.W || Math.round(this.stage.clientWidth) !== this.W) this.resize(); if (!this.W) return;
+    this.tick(dt); this.draw();
+    if (!this.uiT || now - this.uiT > 140) { this.uiT = now; this.syncText(); if (this.auto || this.anim) this.syncControls(); }
+  }
+  tick(dt) {                                                           // move time on by dt seconds: automation, the turning rotor, the records
+    const S = this.S; this.t += dt;
+    if (this.auto) { const u = clamp((this.t - this.auto.t0) / this.auto.d, 0, 1); S.rpm = this.auto.n0 + (this.auto.n1 - this.auto.n0) * paSmooth(u); if (u >= 1) { S.rpm = Math.round(this.auto.n1); this.auto = null; this.syncRun(); this.syncControls(); } }
+    if (this.anim) { const u = clamp((this.t - this.anim.t0) / this.anim.d, 0, 1), e = paSmooth(u); for (const k in this.anim.to) { const [a, b] = this.anim.to[k]; S[k] = a + (b - a) * e; } if (u >= 1) { for (const k in this.anim.to) S[k] = this.anim.to[k][1]; this.anim = null; this.syncControls(); } }
+    this.rps = S.slow * (0.18 + 0.7 * clamp(S.rpm / (SP_RMAX * S.nc), 0, 1)) * (S.rpm > 0 ? 1 : 0);
+    const a0 = this.ang; this.ang += TAU * this.rps * dt;
+    const ta = paWrap(this.ang / DEG); this.lit = S.rpm > 0 && (ta < 10 || ta > 350 || Math.floor(a0 / TAU) !== Math.floor(this.ang / TAU));
+    const M = this.model(), sig = [S.hs, S.U, S.zeta, S.nc, JSON.stringify(S.weights || [])].join('|'), last = this.trail[this.trail.length - 1];
+    if (sig !== this.sig) { this.sig = sig; this.trail = []; }
+    if (!last || Math.abs(spW180(M.bHi - last[0])) > 0.5 || Math.abs(M.x0 - last[1]) > 0.004 * this.ampRef()) { this.trail.push([M.bHi, M.x0]); if (this.trail.length > 1500) this.trail.shift(); }
+    if (this.auto) { const a = M.k === 0 ? M.xpp : M.k === 1 ? M.v : M.acc, lb = this.bode[this.bode.length - 1]; if (!lb || Math.abs(S.rpm - lb.n) > 0.012 * SP_RMAX * S.nc) this.bode.push({ n: S.rpm, a, p: M.psi }); }
+  }
+}
+
 /* ===== Balancing lab (single plane, phase-lag instrument) and app bootstrap ===== */
 class BalanceLab {
   constructor(root) {
@@ -12503,11 +13611,12 @@ const TABS = [
   ['ch3', 'Ch 3 · Signal processing', 'Chapter 3 of the CAT III manual, section by section: from the sensor to the spectrum, with a simulation, the key points and check questions for each part.', r => new Ch3Lab(r)],
   ['ch4', 'Ch 4 · Time waveform', 'Chapter 4 of the CAT III manual, section by section: setting up, reading and recognizing time waveforms, with a simulation, the key points and check questions for each part.', r => new ChapterLab(r, { secs: CH4, pfx: 'c4', store: 'ch4', label: 'Chapter 4' })],
   ['ch5', 'Ch 5 · Phase', 'Chapter 5 of the CAT III manual, section by section: what phase is, how to measure it, and how phase readings tell unbalance, misalignment, eccentricity, a bent shaft, a cocked bearing and looseness apart, with a simulation, the key points and check questions for each part.', r => new ChapterLab(r, { secs: CH5, pfx: 'c5', store: 'ch5', label: 'Chapter 5' })],
-  ['anim', 'Phase animations', 'Chapter 5 as twelve short animated stories in plain words, plus a free-play phase simulator: what a phase angle is, how it is measured with a tach or a strobe, why the sensor type and position change it, how resonance moves the high spot away from the heavy spot, how a rotor behaves below, at and above its critical speed (rigid rotor, resonance, flexible rotor), and how phase tells unbalance from misalignment. Press play, step through, answer the quick checks, or take over the controls and see exactly what each change does.', r => new PhaseAnim(r)],
+  ['anim', 'Phase animations', 'Chapter 5 as thirteen short animated stories in plain words, plus a free-play phase simulator: what a phase angle is, how it is measured with a tach or a strobe, why the sensor type and position change it, how resonance moves the high spot away from the heavy spot, how a rotor behaves below, at and above its critical speed (rigid rotor, resonance, flexible rotor), how to find the heavy spot from a phase reading and where the trial mass goes, and how phase tells unbalance from misalignment. Press play, step through, answer the quick checks, or take over the controls and see exactly what each change does.', r => new PhaseAnim(r)],
   ['bearing', 'Bearing lab', 'Defect frequencies from geometry, the four failure stages, and why the envelope spectrum sees a defect before velocity does.', r => new BearingLab(r)],
   ['gear', 'Gear lab', 'Gear mesh, sidebands and impacts: which shaft a fault belongs to, read from the sideband spacing and the waveform.', r => new GearLab(r)],
   ['balance', 'Balancing lab', 'Single-plane balancing with a trial weight, the 30/30 rule, the vector diagram, splitting, trim runs and ISO 1940.', r => new BalanceLab(r)],
   ['fanbal', 'Fan balancing', 'Single-plane field balancing of a fan with a laser tacho and an accelerometer. Place the tacho and the accelerometer, spin the fan, and follow the reading to the high spot, the heavy spot, the trial weight and the correction. Switch the Adash angle setting between AR and WR to see what changes and what stays put.', r => FanBalanceLab(r)],
+  ['spots', 'Heavy & high spot simulator', 'One rotor with a heavy spot, seen four ways at once and all in step: in 3D, frozen by a strobe with its vibration vector, as probe and tach waveforms with the phase reading, and on a Bode plot. Take the guided tour (predict, then watch), explore freely, balance the rotor with a trial weight and the vector method, or find a hidden heavy spot from a phase reading. Count phase + with rotation (Adash) or + against rotation.', r => new SpotSim(r)],
   ['resonance', 'Resonance lab', 'Natural frequency, damping, the Bode plot and the bump test, and how far to detune.', r => new ResonanceLab(r)]];
 /* ---------- phone app shell (860 px and narrower): a Home screen and four groups on a bottom tab bar, a switcher for the sections
    of a group, the phone's back button steps back to Home, a theme choice, and bars that slide away while you scroll down ---------- */
@@ -12515,14 +13624,14 @@ const NAV_GROUPS = [
   ['diag', 'Diagnose', ['fault', 'challenge']],
   ['setup', 'Setup', ['plan', 'map']],
   ['learn', 'Learn', ['ch3', 'ch4', 'ch5', 'anim']],
-  ['labs', 'Labs', ['bearing', 'gear', 'balance', 'fanbal', 'resonance']]];
+  ['labs', 'Labs', ['bearing', 'gear', 'balance', 'fanbal', 'spots', 'resonance']]];
 const SHORT = { fault: 'Simulator', challenge: 'Challenge', plan: 'Planner', map: 'Settings map', ch3: 'Ch 3', ch4: 'Ch 4', ch5: 'Ch 5', anim: 'Animations',
-  bearing: 'Bearing', gear: 'Gear', balance: 'Balancing', fanbal: 'Fan balancing', resonance: 'Resonance' };
+  bearing: 'Bearing', gear: 'Gear', balance: 'Balancing', fanbal: 'Fan balancing', spots: 'Spot simulator', resonance: 'Resonance' };
 const BLURB = { fault: 'Pick a fault: spectrum, waveform, phase and orbit', challenge: 'A hidden fault: measure it, then name it',
   plan: 'Fmax, lines and demod settings for your machine', map: 'Follow one setting change through everything else',
   ch3: 'From the sensor to the spectrum, section by section', ch4: 'Set up, read and recognize time waveforms', ch5: 'Measure phase and tell the faults apart',
-  anim: '12 animated phase stories and a free-play simulator', bearing: 'Defect frequencies and the four failure stages', gear: 'Gear mesh, sidebands and impacts',
-  balance: 'Trial weight, vectors, trim runs and ISO 1940', fanbal: 'Tacho, accelerometer and AR/WR angles, run by run', resonance: 'Natural frequency, the Bode plot and the bump test' };
+  anim: '13 animated phase stories and a free-play simulator', bearing: 'Defect frequencies and the four failure stages', gear: 'Gear mesh, sidebands and impacts',
+  balance: 'Trial weight, vectors, trim runs and ISO 1940', fanbal: 'Tacho, accelerometer and AR/WR angles, run by run', spots: 'Heavy spot, high spot and the vibration vector, live', resonance: 'Natural frequency, the Bode plot and the bump test' };
 const ICONS = {
   home: '<path d="M3.5 10.5 12 4l8.5 6.5V20a1 1 0 0 1-1 1H15v-6H9v6H4.5a1 1 0 0 1-1-1z"/>',
   diag: '<path d="M2.5 12.5h4l2.5-7 4.5 13 3-8.5 1.5 2.5h3.5"/>',
