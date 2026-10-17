@@ -1,7 +1,7 @@
 {
   "name": "Vibration Analyst Lab",
   "short_name": "Vibration Lab",
-  "description": "CAT III vibration analysis study lab: fault simulator, setup planner, Chapter 3-5 simulations and animated phase lessons with a free-play phase simulator.",
+  "description": "CAT III vibration analysis study lab: fault simulator, setup planner, Chapter 3-5 and 12 simulations, Chapter 11 rolling bearing simulators and animated phase lessons with a free-play phase simulator.",
   "id": "./",
   "start_url": "./",
   "scope": "./",

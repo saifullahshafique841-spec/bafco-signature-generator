@@ -1,6 +1,6 @@
 # Vibration Analyst Lab
 
-An interactive study lab for vibration analysis (ISO CAT III level). Simulate faults and diagnose them, plan instrument settings, work through Chapters 3 to 5 and Chapter 12 (journal bearings) section by section, and learn phase with animated lessons and a free-play phase simulator.
+An interactive study lab for vibration analysis (ISO CAT III level). Simulate faults and diagnose them, plan instrument settings, work through Chapters 3 to 5 and Chapter 12 (journal bearings) section by section, see Chapter 11 (rolling bearings) in eight simulators, and learn phase with animated lessons and a free-play phase simulator.
 
 **Open the lab:** https://saifullahshafique841-spec.github.io/bafco-signature-generator/vibration-lab/
 
@@ -24,7 +24,7 @@ The iPhone shows the file as "Not Verified" because it is not signed with a paid
 
 Download **[VibrationAnalystLab.apk](VibrationAnalystLab.apk)** on your Android phone and tap it to install (allow installs from your browser if asked; Play Protect may warn because it is not from the Play Store: choose **Install anyway**). Or open the link in Chrome and choose **Install app** from the menu.
 
-Version 2.3 installs over the earlier app and keeps your settings.
+Version 2.4 installs over the earlier app and keeps your settings.
 
 ## On a phone
 
@@ -37,6 +37,10 @@ Every section uses the same colour code:
 - **Settings** (yellow edge, sliders badge and an *Adjust* tag): the parameters you can change. Sliders have yellow knobs, dropdowns have an arrow, and the current value sits in a pill.
 - **Results** (screen badge): charts, readouts and tables that update as soon as you change a setting.
 - **Notes and checks** (book or question badge): key points, rule cards and quick questions.
+
+## New in 2.4
+
+- **Ch 11 · Rolling bearing simulators**, a new section under Learn: Chapter 11 of the CAT III manual as eight simulators, one per topic. Each has a guided story (predict, then watch), a free explore mode, a challenge, and its own save button that can record the whole story as a highlight reel with captions. Why bearings fail and how the vibration moves down in frequency as damage grows; the four defect frequencies counted from a turning bearing (BPFO + BPFI = N, and the 22312 with one roller more); why a routine velocity spectrum misses early damage (dynamic range, sampling, mounting, position and a linear scale); the four stages with their remaining life and actions; enveloping step by step, with a playhead that runs through every screen in time with the bearing; Shock Pulse, PeakVue and Spike Energy, and a 9.5 RPM dryer bearing; the stage-three patterns of each defect; and Air washer #1 followed from its first sign to its failure, with the chapter's other cases as challenges. Where the manual's rule and the physics differ (the life lost to 10 % more load, one more rolling element), the simulators show both.
 
 ## New in 2.3
 
@@ -72,6 +76,7 @@ Every section uses the same colour code:
 | Ch 3 · Signal processing | From the sensor to the spectrum, section by section |
 | Ch 4 · Time waveform | Setting up, reading and recognising time waveforms |
 | Ch 5 · Phase | How phase separates unbalance, misalignment, bent shaft, looseness and more |
+| Ch 11 · Rolling bearing simulators | Eight simulators with a guided story, explore mode and challenge each: why bearings fail, defect frequencies, what routine spectra miss, the four stages, enveloping, Shock Pulse, PeakVue and Spike Energy, defect patterns, and case studies |
 | Ch 12 · Journal bearings | Proximity probes, the Keyphasor, orbits and the shaft centerline; unbalance, preload, oil whirl and whip, and rubs, section by section |
 | Phase animations | Thirteen animated phase lessons in plain words, including the three speed zones (rigid rotor, critical speed, flexible rotor) and finding the heavy spot from a phase reading, plus a free-play phase simulator with missions |
 | Bearing, Gear, Balancing, Resonance labs | Defect frequencies, sidebands, single-plane balancing, Bode and bump tests |
