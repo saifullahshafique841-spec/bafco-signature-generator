@@ -1106,8 +1106,12 @@ body.onb-open { overflow: hidden; }
 .sk-part:first-child { margin-top: 0; }
 .sk-plain { margin: 8px 0 0 !important; padding: 7px 10px; font-size: 14.5px !important; line-height: 1.5; background: color-mix(in srgb, var(--good) 9%, var(--surface)); border-left: 3px solid color-mix(in srgb, var(--good) 70%, var(--axis)); border-radius: 0 4px 4px 0; }
 .sk-rem { margin-top: 8px !important; }
-.sk-words { margin: 0; display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 6px 12px; font-size: 14px; line-height: 1.45; }
+.sk-words { margin: 0; display: grid; grid-template-columns: fit-content(40%) minmax(0, 1fr); gap: 6px 12px; font-size: 14px; line-height: 1.45; }
 .sk-words dt { font-weight: 600; color: var(--ink); }
+.sk-rounds { display: flex; flex-wrap: wrap; gap: 6px; margin: 2px 0 10px; }
+.sk-rd { padding: 3px 10px; border-radius: 999px; border: 1px solid var(--line); font: 600 13px/1.3 var(--font-mono); color: var(--ink-2); }
+.sk-rd.ok { color: var(--good); border-color: var(--good); } .sk-rd.part { color: var(--warn); border-color: var(--warn); } .sk-rd.no { color: var(--crit); border-color: var(--crit); }
+.sk-round { margin: -4px 0 8px; }
 .sk-words dd { margin: 0; color: var(--ink-2); }
 @media (max-width: 560px) { .sk-words { grid-template-columns: minmax(0, 1fr); gap: 2px; } .sk-words dd { margin-bottom: 6px; } }
 @media (max-width: 860px) {
@@ -2443,7 +2447,7 @@ const APPX = (() => {
     for (const [v, t] of opts) s.append(h('button', { type: 'button', 'aria-pressed': String(v === val), text: t, onclick: e => { for (const b of s.children) b.setAttribute('aria-pressed', String(b === e.currentTarget)); on(v); } }));
     return h('div', { class: 'st-row' }, h('span', { text: label }), s);
   };
-  const KEYS = ['prog', 'bm', 'notes', 'score', 'ch3.done', 'ch4.done', 'ch5.done', 'ch12.done', 'collect.done', 'machines.done', 'ch3.sec', 'ch4.sec', 'ch5.sec', 'ch12.sec', 'collect.sec', 'machines.sec', 'ch12.units', 'rebsim.sim', 'rebsim.score', 'gbxsim.sim', 'gbxsim.score', 'pa.scene',
+  const KEYS = ['prog', 'bm', 'notes', 'score', 'ch3.done', 'ch4.done', 'ch5.done', 'ch12.done', 'collect.done', 'machines.done', 'ch3.sec', 'ch4.sec', 'ch5.sec', 'ch12.sec', 'collect.sec', 'machines.sec', 'ch12.units', 'rebsim.sim', 'rebsim.score', 'gbxsim.sim', 'gbxsim.score', 'gbxsim.best', 'pa.scene',
     'vasim.dev', 'vasim.done', 'vasim.va5', 'vasim.va3', 'dds.db', 'dds.done', 'plan.v1', 'tab', 'theme', 'prefs', 'media.len', 'media.size'];
   const exportData = async () => {
     const data = {}; for (const k of KEYS) { const v = store.get(k, undefined); if (v !== undefined) data[k] = v; }
@@ -2494,7 +2498,7 @@ const APPX = (() => {
           h('div', { class: 'st-row st-col' }, h('p', { class: 'note', text: 'Your progress, saved screens, notes and settings are kept only on this device. Make a backup file to move them to another phone or browser.' }),
             h('div', { class: 'btns' }, h('button', { type: 'button', class: 'btn', text: 'Back up to a file', onclick: exportData }), h('button', { type: 'button', class: 'btn', text: 'Restore from a file', onclick: () => file.click() }), file)),
           h('div', { class: 'st-row st-col' }, h('div', { class: 'btns' },
-            h('button', { type: 'button', class: 'btn', text: 'Reset progress', onclick: async () => { if (await askConfirm('Reset your progress?', 'Lesson ticks, check-question history, challenge score and activity days go back to zero. Saved screens and notes stay.', 'Reset', true)) { prog = P0(); saveProg(); for (const k of ['ch3.done', 'ch4.done', 'ch5.done', 'ch12.done', 'collect.done', 'machines.done', 'vasim.done', 'dds.done']) store.set(k, []); store.set('rebsim.score', {}); store.set('gbxsim.score', {}); store.set('score', { right: 0, total: 0, streak: 0 }); location.reload(); } } }),
+            h('button', { type: 'button', class: 'btn', text: 'Reset progress', onclick: async () => { if (await askConfirm('Reset your progress?', 'Lesson ticks, check-question history, challenge score and activity days go back to zero. Saved screens and notes stay.', 'Reset', true)) { prog = P0(); saveProg(); for (const k of ['ch3.done', 'ch4.done', 'ch5.done', 'ch12.done', 'collect.done', 'machines.done', 'vasim.done', 'dds.done']) store.set(k, []); store.set('rebsim.score', {}); store.set('gbxsim.score', {}); store.set('gbxsim.best', {}); store.set('score', { right: 0, total: 0, streak: 0 }); location.reload(); } } }),
             h('button', { type: 'button', class: 'btn', text: 'Erase everything', onclick: async () => { if (await askConfirm('Erase everything?', 'Progress, saved screens, notes and settings are all removed from this device. This cannot be undone unless you have a backup file.', 'Erase', true)) { try { for (const k of Object.keys(localStorage)) if (k.startsWith('val.')) localStorage.removeItem(k); } catch (e) { /* ignore */ } location.reload(); } } })))),
         ...(install ? [install] : []),
         card('Help', h('button', { type: 'button', class: 'hm-row', onclick: () => welcome(true) }, h('span', { class: 'hm-ico sv-ic' }, ic('play', 19)), h('span', { class: 'hm-txt' }, h('b', { text: 'Show the welcome screens again' }), h('span', { text: 'The three-screen introduction and your goal' })), ic('next', 18))),
@@ -3122,7 +3126,8 @@ class FaultSim {
     if (al.length && this.mode === 'explore') box.append(h('div', { class: 'chips' }, h('span', { class: 'note', text: 'Compare with:' }), ...al.map(i => h('button', { class: 'chip', type: 'button', text: FAULT[i].name, onclick: () => this.pickFault(i) }))));
     const G = { 'Reference': ['machines/flow', 'Analysis workflow'], 'Unbalance and eccentricity': ['machines/diff', 'Look-alikes'], 'Misalignment and shafts': ['machines/coupling', 'Couplings and misalignment'], 'Looseness and rub': ['machines/diff', 'Look-alikes'],
       'Resonance': ['collect/tests', 'Run-up and bump test'], 'Rolling-element bearings': ['machines/reb', 'Rolling-element bearings'], 'Sleeve bearings': ['machines/journal', 'Journal bearings'], 'Electric motor': ['machines/motor', 'Electric motors'], 'Pumps and flow': ['machines/pump', 'Centrifugal pumps'] }[F.group];
-    if (G && this.mode === 'explore') box.append(h('div', { class: 'chips' }, h('span', { class: 'note', text: 'Guide:' }), h('button', { class: 'chip', type: 'button', text: G[1], onclick: () => APPX.open(G[0]) })));
+    if (G && this.mode === 'explore') box.append(h('div', { class: 'chips' }, h('span', { class: 'note', text: 'Guide:' }), h('button', { class: 'chip', type: 'button', text: G[1], onclick: () => APPX.open(G[0]) }),
+      F.id === 'A7' ? h('button', { class: 'chip', type: 'button', text: 'Ch 15: an eccentric gear', onclick: () => APPX.open('gbxsim/gbx-lookalikes') }) : null));   // the gear version of this fault
   }
 
   /* ---------- motion ---------- */
@@ -3439,7 +3444,7 @@ class GearLab {
     this.kin = h('div', { class: 'panel' }); left.append(this.kin);
     // see it step by step: the Chapter 15 simulators that tell the same story, simple idea first
     left.append(h('div', { class: 'panel' }, h('h2', { text: 'See it step by step' }), h('p', { class: 'note', text: 'The Chapter 15 simulators tell this lab\'s story one idea at a time: predict, then watch.' }),
-      h('div', { class: 'sk-links' }, ...[['gbxsim/gbx-hunt', 'Common factors and the hunting tooth'], ['gbxsim/gbx-wear', 'Tooth wear and load'], ['gbxsim/gbx-look', 'Eccentric, backlash, misaligned'], ['gbxsim/gbx-tooth', 'Cracked and broken teeth'], ['gbxsim/gbx-diag', 'Diagnose a gearbox']].map(([key, label]) => h('button', { type: 'button', class: 'btn sk-link', onclick: () => APPX.open(key) }, label, h('span', { class: 'sk-arrow', 'aria-hidden': 'true', text: ' →' }))))));
+      h('div', { class: 'sk-links' }, ...[['gbxsim/gbx-hunt', 'Common factors and the hunting tooth'], ['gbxsim/gbx-wear', 'Tooth wear and load'], ['gbxsim/gbx-lookalikes', 'Eccentric, backlash, misaligned'], ['gbxsim/gbx-tooth', 'Cracked and broken teeth'], ['gbxsim/gbx-diag', 'Diagnose a gearbox']].map(([key, label]) => h('button', { type: 'button', class: 'btn sk-link', onclick: () => APPX.open(key) }, label, h('span', { class: 'sk-arrow', 'aria-hidden': 'true', text: ' →' }))))));
     const top = h('div', { class: 'srow w11' }); right.append(top);
     const an = h('div', { class: 'panel' }, h('div', { class: 'chart' }, h('div', { class: 'cap' }, h('b', { text: 'Mesh' }), h('span', { text: 'slowed; the damaged tooth flashes as it meshes' })))); top.append(an);
     this.gcv = h('canvas', { role: 'img', 'aria-label': 'Animated pinion and gear in mesh' }); an.append(this.gcv);
@@ -3453,7 +3458,7 @@ class GearLab {
   }
   update() { if (!this.pending) { this.pending = true; requestAnimationFrame(() => { this.pending = false; this.compute(); }); } }
   compute() {
-    const G = this.G, f1 = G.rpm / 60, f2 = f1 * G.z1 / G.z2, gmf = G.z1 * f1, na = gcd(G.z1, G.z2), htf = gmf * na / (G.z1 * G.z2), gapf = gmf / na;
+    const G = this.G, f1 = G.rpm / 60, St = gbxStage(G.z1, G.z2, f1), f2 = St.sOut, gmf = St.gmf, na = St.na, htf = St.htf, gapf = St.gapf;   // the shared gear model (gbx.js)
     const fb = G.which === 'pinion' ? f1 : f2, S = G.sev, gnf = 1.45 * gmf + 150, tones = [], noise = [{ lo: 2, hi: 4 * gmf, rms: 0.01 * G0, dom: 'acc', seed: 3 }];
     const A = g => g * G0;                                    // g pk -> m/s² pk
     const mesh = (k, g, lag) => tones.push({ f: k * gmf, a: A(g), lag, dom: 'acc' });
@@ -5110,7 +5115,8 @@ function plModel(P) {
       X.event({ label: 'Belt revolutions', f: fb, kind: 'cycle', lo: 2, ref: '4-3' });
     },
     gearStage(idx, z1, z2, sIn, sOut, single, name) {
-      const gmf = z1 * sIn.f, na = gcd(z1, z2), htf = gmf * na / (z1 * z2), label = name || 'GMF' + (single ? '' : idx), slow = sIn.f <= sOut.f ? sIn : sOut;
+      const St = gbxStage(z1, z2, sIn.f), gmf = St.gmf, na = St.na, htf = St.htf, label = name || 'GMF' + (single ? '' : idx),   // the shared gear model (gbx.js)
+            slow = sIn.f <= sOut.f ? sIn : sOut;
       const sps = Math.abs(sIn.f - sOut.f) < 1e-9 ? [sIn.f] : [sIn.f, sOut.f], labs = Math.abs(sIn.f - sOut.f) < 1e-9 ? ['1X'] : ['1X ' + sIn.short, '1X ' + sOut.short];
       X.key('gear', label, gmf, { n: 3, amp: 0.7, hd: 0.65, sb: sps, sbLab: labs, sbn: 2, sr: 0.2, sbOn: 'all', sbNeed: 'detail', shaft: sIn.id, ref: '15-15, 15-22', info: `${z1} teeth × ${sIn.short} 1X = ${z2} teeth × ${sOut.short} 1X` });
       if (z1 !== z2) X.key('gear', 'HTF' + (name ? ' timing' : single ? '' : idx), htf, { need: 'detail', amp: 0.05, shaft: slow.id, ref: '15-21', info: `GMF × ${na} ÷ (${z1} × ${z2})` });
@@ -5122,7 +5128,7 @@ function plModel(P) {
     gearTrain(pp, dd) {
       const sIn = X.shaft('in', 'Motor and input shaft', 'input', dd.f1, { motor: true, main: true });
       if (pp.gtype === 'worm') {
-        const out = X.shaft('out', 'Output (wheel) shaft', 'output', dd.f1 * pp.ws / pp.wt, { nh: 5 }), mesh = pp.ws * sIn.f;   // worm mesh = starts × worm speed = teeth × wheel speed (C:15-16..15-17)
+        const W = gbxWorm(pp.ws, pp.wt, dd.f1), out = X.shaft('out', 'Output (wheel) shaft', 'output', W.sOut, { nh: 5 }), mesh = W.gm;   // worm mesh = starts × worm speed = teeth × wheel speed (C:15-16..15-17), from the gear model
         X.key('gear', 'Worm mesh', mesh, { n: 3, amp: 0.6, hd: 0.6, sb: [sIn.f, out.f], sbLab: ['1X input', '1X output'], sbn: 2, sr: 0.2, sbOn: 'all', sbNeed: 'detail', shaft: sIn.id, ref: '15-16..15-17', info: `${pp.ws} starts × worm 1X = ${pp.wt} teeth × wheel 1X` });
         M.gears.push({ idx: 1, z1: pp.ws, z2: pp.wt, gmf: mesh, htf: 0, na: gcd(pp.ws, pp.wt), sIn, sOut: out, label: 'Worm mesh', worm: true });
         X.pair('Worm mesh sidebands at 1X output', mesh, mesh + out.f, '15-38..15-40, 3-32', 'gear', 'gear', out.id);
@@ -5131,7 +5137,7 @@ function plModel(P) {
       }
       const Z = [[pp.z1, pp.z2], [pp.z3, pp.z4], [pp.z5, pp.z6]].slice(0, pp.stages); let prev = sIn;
       Z.forEach(([a, b2], i) => {
-        const last = i === Z.length - 1, s = X.shaft(last ? 'out' : 'i' + (i + 1), last ? 'Output shaft' : `Intermediate shaft ${i + 1}`, last ? 'output' : 'int ' + (i + 1), prev.f * a / b2, { nh: 5 });
+        const last = i === Z.length - 1, s = X.shaft(last ? 'out' : 'i' + (i + 1), last ? 'Output shaft' : `Intermediate shaft ${i + 1}`, last ? 'output' : 'int ' + (i + 1), gbxStage(a, b2, prev.f).sOut, { nh: 5 });
         X.gearStage(i + 1, a, b2, prev, s, Z.length === 1); prev = s;
       });
       return prev;
@@ -6313,6 +6319,7 @@ class PlannerLab {
   renderPoints() {
     const pts = PL_POINTS[this.P.view];
     this.ptsPanel.replaceChildren(h('h2', { text: 'From the manual' }), h('ul', { class: 'points' }, ...pts.map(([t, r]) => h('li', {}, t + ' ', h('span', { class: 'ref', text: `(${plRef(r)})` })))));
+    if (['gbx', 'agit'].includes(this.P.type)) this.ptsPanel.append(h('div', { class: 'btns' }, h('button', { type: 'button', class: 'btn', text: 'Ch 15 simulators: measuring a gearbox →', onclick: () => APPX.open('gbxsim/gbx-measure') }), h('button', { type: 'button', class: 'btn', text: 'A healthy gearbox: Fmax, lines and TSA →', onclick: () => APPX.open('gbxsim/gbx-normal') })));   // the gearbox rules, taught
   }
 }
 function plTimeFmt(span) { return v => v === 0 ? '0' : span < 0.02 ? +(v * 1e3).toPrecision(3) + ' ms' : span < 2 ? Math.round(v * 1e3) + ' ms' : +v.toPrecision(3) + ' s'; }
@@ -16283,7 +16290,7 @@ class SimKit {
     this.root = root; this.cfg = cfg; this.sims = SIMS[cfg.group] || [];
     this.play = !REDUCED; this.rate = 1; this.mode = 'story'; this.onScreen = true; this.W = 0; this.H = 0; this.t = 0; this.uiT = 0;
     this.handles = []; this.drag = null; this.hover = null; this.reel = null; this.cache = new Map();
-    this.scores = store.get(cfg.store + '.score', {}) || {};
+    this.scores = store.get(cfg.store + '.score', {}) || {}; this.best = cfg.rounds ? store.get(cfg.store + '.best', {}) || {} : {}; this.set = null;
     this.build();
     const saved = store.get(cfg.store + '.sim', null), i0 = Math.max(0, this.sims.findIndex(s => s.id === saved));
     this.load(i0);
@@ -16378,7 +16385,8 @@ class SimKit {
     this.goStep(o.step ? clamp(o.step, 0, D.steps.length - 1) : 0, true);
     if (APPX.ctx) APPX.ctx();
   }
-  openSub(id, rest) {   // deep links: '<tab>/<sim id>' or '<tab>/<sim id>/<step>' (the 'reb-' prefix is optional)
+  openSub(id, rest) {   // deep links: '<tab>/<sim id>' or '<tab>/<sim id>/<step>' (the 'reb-' prefix is optional; cfg.alias maps old ids)
+    const al = this.cfg.alias || {}; id = al[id] || al[this.cfg.prefix + id] || id;
     const i = this.sims.findIndex(s => s.id === id || s.id === this.cfg.prefix + id); if (i < 0) return;
     const k = rest != null && rest !== '' && isFinite(+rest) ? Math.max(0, +rest - 1) : 0;
     if (i !== this.si || k) this.load(i, { step: k }); else if (this.mode !== 'story') this.setMode('story');
@@ -16442,25 +16450,64 @@ class SimKit {
   takeOver() { if (this.mode === 'story' && !this.mine) { this.mine = true; this.renderCaption(); this.syncSteps(); } this.dirty = true; }
 
   /* ---------- the challenge ---------- */
-  newChallenge() {
+  /* With cfg.rounds (Chapter 15) a challenge is a seeded set of rounds: the same set number gives the same cases, so a set can be played
+     again; the best result per simulator is kept (store '<store>.best'). A case may add q2 { q, opts, ans, why }: a second question that
+     scores the evidence, so a round is worth 2. Without cfg.rounds every case stands alone (Chapter 11). */
+  newChallenge(o = {}) {
     const D = this.D; if (!D.chal) { this.chalP.replaceChildren(h('p', { class: 'note', text: 'No challenge here.' })); return; }
-    const seed = (Date.now() ^ Math.floor(Math.random() * 1e9)) >>> 0, rand = rng(seed);
-    this.ch = Object.assign({ seed, picked: null }, D.chal(rand, this));
+    const R = this.cfg.rounds; let seed;
+    if (R) {
+      let S = this.set;
+      if (o.seed != null || !S || S.id !== D.id || S.done) S = this.set = { id: D.id, seed: o.seed != null ? o.seed : 1000 + Math.floor(Math.random() * 90000), i: 0, pts: 0, max: 0, n: R, done: false, log: [] };
+      else if (this.ch && this.ch.round === S.i) {
+        if (this.ch.picked === null) {   // back to an unanswered round: its stage and its hidden labels again
+          if (this.ch.set) { Object.assign(this.T, this.ch.set); Object.assign(this.P, this.ch.set); }
+          this.hide = this.ch.hide || null; this.layKey = null; this.renderChallenge(); this.syncControls(); this.dirty = true; return;
+        }
+        S.i += 1;
+      }
+      if (S.i >= S.n) { this.endSet(); return; }
+      seed = (Math.imul(S.seed, 2654435761) ^ Math.imul(S.i + 1, 40503)) >>> 0;
+    } else seed = (Date.now() ^ Math.floor(Math.random() * 1e9)) >>> 0;
+    const rand = rng(seed);
+    this.ch = Object.assign({ seed, picked: null, picked2: null, used: [], round: R ? this.set.i : null }, D.chal(rand, this));
     if (this.ch.set) { Object.assign(this.T, this.ch.set); Object.assign(this.P, this.ch.set); }
-    this.hide = this.ch.hide || null; this.cache.clear(); this.renderChallenge(); this.dirty = true;
+    this.hide = this.ch.hide || null; this.cache.clear(); this.layKey = null; this.renderChallenge(); this.syncControls(); this.dirty = true;
+  }
+  endSet() {   // the summary of a set of rounds, and the best result kept
+    const S = this.set, D = this.D, best = this.best[D.id], r = S.max ? S.pts / S.max : 0;
+    S.done = true; this.hide = null; this.dirty = true;
+    if (!best || r > best[0] / best[1] || (r === best[0] / best[1] && S.max > best[1])) { this.best[D.id] = [S.pts, S.max, S.seed]; store.set(this.cfg.store + '.best', this.best); }
+    const B = this.best[D.id];
+    this.chalP.replaceChildren(h('h2', { text: 'Challenge: your score' }),
+      h('p', { class: 'sk-lead', text: `Set ${S.seed}: ${S.pts} of ${S.max} points in ${S.n} rounds.` }),
+      h('p', { class: 'sk-rounds', 'aria-label': 'Round by round' }, ...S.log.map((x, i) => h('span', { class: 'sk-rd ' + (x[0] === x[1] ? 'ok' : x[0] ? 'part' : 'no'), text: `Round ${i + 1} · ${x[0]}/${x[1]}` }))),
+      h('p', { class: 'note sp-score sk-score sk-best', text: `Best for this simulator: ${B[0]} of ${B[1]} (set ${B[2]})` }),
+      h('div', { class: 'btns' }, h('button', { type: 'button', class: 'btn', text: 'Play this set again', onclick: () => this.newChallenge({ seed: S.seed }) }), h('button', { type: 'button', class: 'btn primary', text: 'New set →', onclick: () => { this.set = null; this.newChallenge(); } })));
   }
   renderChallenge() {
-    const C = this.ch, P = this.chalP, sc = this.scores[this.D.id] || [0, 0]; if (!C) return;
-    const row = h('div', { class: 'paquiz sk-opts', role: 'group', 'aria-label': 'Your answer' });
-    for (const [v, label] of C.opts) row.append(h('button', { type: 'button', class: 'btn' + (C.picked !== null ? (String(v) === String(C.ans) ? ' right' : String(v) === String(C.picked) ? ' wrong' : '') : ''), text: label, disabled: C.picked !== null ? true : null,
-      onclick: () => { if (C.picked !== null) return; C.picked = v; const ok = String(v) === String(C.ans), s = this.scores[this.D.id] || [0, 0]; s[0] += ok ? 1 : 0; s[1] += 1; this.scores[this.D.id] = s; store.set(this.cfg.store + '.score', this.scores);
-        APPX.challenge(ok); this.hide = null; this.markDone('chal'); this.renderChallenge(); this.dirty = true; } }));
-    P.replaceChildren(h('h2', { text: 'Challenge' + (C.title ? ': ' + C.title : '') }), C.lead ? h('p', { class: 'sk-lead', text: C.lead }) : null, h('p', { class: 'sp-qq sk-q', text: C.q }), row);
+    const C = this.ch, P = this.chalP, sc = this.scores[this.D.id] || [0, 0], S = this.cfg.rounds ? this.set : null; if (!C) return;
+    const quiz = (opts, ans, picked, pick, label) => { const row = h('div', { class: 'paquiz sk-opts', role: 'group', 'aria-label': label });
+      for (const [v, t] of opts) row.append(h('button', { type: 'button', class: 'btn' + (picked !== null ? (String(v) === String(ans) ? ' right' : String(v) === String(picked) ? ' wrong' : '') : ''), text: t, disabled: picked !== null ? true : null, onclick: () => pick(v) }));
+      return row; };
+    const row = quiz(C.opts, C.ans, C.picked, v => { if (C.picked !== null) return; C.picked = v; const ok = String(v) === String(C.ans), s = this.scores[this.D.id] || [0, 0]; s[0] += ok ? 1 : 0; s[1] += 1; this.scores[this.D.id] = s; store.set(this.cfg.store + '.score', this.scores);
+      if (S) { S.pts += ok ? 1 : 0; S.max += C.q2 ? 2 : 1; S.log[S.i] = [ok ? 1 : 0, C.q2 ? 2 : 1]; }
+      APPX.challenge(ok); this.hide = null; this.markDone('chal'); this.renderChallenge(); this.dirty = true; }, 'Your answer');
+    const head = S ? h('p', { class: 'note sk-round', text: `Round ${S.i + 1} of ${S.n} · set ${S.seed} · ${S.pts} of ${S.max} so far` }) : null;
+    P.replaceChildren(h('h2', { text: 'Challenge' + (C.title ? ': ' + C.title : '') }), head, C.lead ? h('p', { class: 'sk-lead', text: C.lead }) : null, h('p', { class: 'sp-qq sk-q', text: C.q }), row);
     if (C.picked !== null) {
       const ok = String(C.picked) === String(C.ans);
-      P.append(h('p', { class: 'pafb ' + (ok ? 'ok' : 'no'), text: (ok ? 'Right. ' : 'Not quite. ') + C.why }), h('div', { class: 'btns' }, h('button', { type: 'button', class: 'btn primary', text: 'Next case →', onclick: () => this.newChallenge() })));
+      P.append(h('p', { class: 'pafb ' + (ok ? 'ok' : 'no'), text: (ok ? 'Right. ' : 'Not quite. ') + C.why }));
+      if (C.q2) {   // the evidence: which clue decides it
+        P.append(h('p', { class: 'sp-qq sk-q sk-q2', text: C.q2.q }), quiz(C.q2.opts, C.q2.ans, C.picked2, v => { if (C.picked2 !== null) return; C.picked2 = v; const ok2 = String(v) === String(C.q2.ans); if (S) { S.pts += ok2 ? 1 : 0; S.log[S.i][0] += ok2 ? 1 : 0; } this.renderChallenge(); }, 'The evidence'));
+        if (C.picked2 !== null) { const ok2 = String(C.picked2) === String(C.q2.ans); P.append(h('p', { class: 'pafb ' + (ok2 ? 'ok' : 'no'), text: (ok2 ? 'Right. ' : 'Not quite. ') + C.q2.why })); }
+        if (C.usedNote) P.append(h('p', { class: 'note sk-used', text: C.usedNote(C.used) }));
+      }
+      const last = S && S.i + 1 >= S.n;
+      if (!C.q2 || C.picked2 !== null) P.append(h('div', { class: 'btns' }, h('button', { type: 'button', class: 'btn primary', text: S ? (last ? 'See your score →' : 'Next round →') : 'Next case →', onclick: () => this.newChallenge() })));
     } else P.append(h('p', { class: 'note', text: 'Read the stage, then choose. The labels that would give the answer away are hidden until you answer.' }));
-    P.append(h('p', { class: 'note sp-score sk-score', text: `Score ${sc[0]} of ${sc[1]}` }));
+    const B = S && this.best[this.D.id];
+    P.append(h('p', { class: 'note sp-score sk-score', text: S ? (B ? `Best for this simulator: ${B[0]} of ${B[1]}` : 'Finish the set to record a best score.') : `Score ${sc[0]} of ${sc[1]}` }));
   }
 
   /* ---------- the whole story as a highlight reel (the recorder keeps at most 20 s) ---------- */
@@ -16602,7 +16649,8 @@ class SimKit {
   }
   renderControls() {
     const D = this.D; this.ctlHost.replaceChildren(); this.ctlEls = [];
-    const changed = (o, v) => { this.takeOver(); this.T[o.p] = v; if (typeof v !== 'number') this.P[o.p] = v; if (o.on) o.on(this, v); this.dirty = true; };
+    const changed = (o, v) => { this.takeOver(); this.T[o.p] = v; if (typeof v !== 'number') this.P[o.p] = v; if (o.on) o.on(this, v); this.dirty = true;
+      if (this.mode === 'chal' && this.ch && this.ch.picked === null && this.ch.used && !this.ch.used.includes(`${o.p}:${v}`)) this.ch.used.push(`${o.p}:${v}`); };   // the tools used before answering
     for (const o of D.controls || []) {
       const id = `${this.cfg.tab}-${D.id}-${o.p}`;
       if (o.type === 'seg') {
@@ -18289,7 +18337,10 @@ const gbxPlanetResidual = (ns, np, sr, ss, sc) => (2 + ns / np) * sr + ns / np *
 
 /* ---------- resolution and range (C:15-22, 15-40) ---------- */
 function gbxRes(fmax, lines) { const df = fmax / lines, peak = df * GBX.HANN; return { df, peak, sep: peak * 1.5 }; }   // 2200 / 800 → 2.75, 4.125, ≈ 6 Hz
-const gbxFmaxFor = gmfHi => GBX.FMAX.find(f => f >= 3.3 * gmfHi) || GBX.FMAX[GBX.FMAX.length - 1];   // 3 × the highest GMF and its sidebands (C:15-22, 15-40); 3.3 × leaves room for them (iV:80)
+const gbxFmaxNeed = gmfHi => 3.3 * gmfHi;                                                                                // 3 × the highest GMF and its sidebands (C:15-22, 15-40); 3.3 × leaves room for them (iV:80)
+const gbxFmaxFor = gmfHi => GBX.FMAX.find(f => f >= gbxFmaxNeed(gmfHi)) || GBX.FMAX[GBX.FMAX.length - 1];                // the lowest analyser range that covers it
+const gbxSepRes = (fmax, lines) => gbxRes(fmax, lines).sep;                                                              // two peaks closer than this merge (2.25 lines)
+const gbxLinesNeed = (fmax, spacing) => GBX.HANN * 1.5 * fmax / spacing;                                                  // the lines that separate peaks this far apart
 const gbxSecs = (lines, fmax) => lines / fmax;                                                                            // the record length of one spectrum
 const gbxTurns = (lines, fmax, f) => lines / fmax * f;                                                                    // turns of a shaft in that record
 
@@ -18784,6 +18835,20 @@ const GX1_COND = {
   dry: { name: 'Oil running short', pg: '15-2, 15-5', sig: 'The surfaces rub: the pushes become rough and uneven, and the teeth start to wear.' },
   crack: { name: 'One cracked tooth', pg: '15-5', sig: 'One push in every turn of the pinion is different: the moment the cracked tooth meshes.' },
   worn: { name: 'Worn, pitted teeth', pg: '15-5', sig: 'Every tooth pushes a little differently, so the pattern is uneven, though it still repeats each turn.' } };
+/* root causes in short scenarios: why gearboxes fail (C:15-2) and where the chapter names a cause */
+const GX1_CAUSES = {
+  lube: { name: 'Poor lubrication', s: 'A gearbox ran for years with the wrong oil and a low level. The teeth show polished, scuffed bands, and the pushes have become rough.',
+    why: 'Without a proper oil film the teeth rub and wear. The chapter cites a study that put 60 % of failures down to poor lubrication and similar practical problems (C:15-2).' },
+  overhaul: { name: 'Teeth re-oriented at an overhaul', s: 'After an overhaul the gears went back with different teeth in mesh. Within weeks a family of lines appears at the gear mesh ÷ Na.',
+    why: 'Gears put back in a different tooth position at an overhaul are one of three sources of assembly phase damage the chapter names, with faults from manufacture and dirt in the mesh (C:15-17); it shows at GMF ÷ Na (C:15-18).' },
+  handling: { name: 'Mishandling (a dropped gear)', s: 'A new gearbox growls from the first day. The gear set was dropped in the workshop, denting one tooth on each gear.',
+    why: 'A hunting tooth problem comes from damage done in manufacturing or by mishandling: the two damaged teeth meet at the hunting tooth frequency (C:15-21..15-22).' },
+  dirt: { name: 'Contamination through the mesh', s: 'A breather broke and grit got into the oil. One team of teeth that always meet each other is now damaged.',
+    why: 'Dirt carried through the mesh damages the teeth that keep meeting each other: one of the chapter\'s sources of assembly phase damage (C:15-17).' },
+  make: { name: 'A manufacturing fault', s: 'A new gearbox shows a peak that matches no tooth count, gear mesh harmonic or assembly phase. It does not change with load and fades over the months.',
+    why: 'A ghost frequency comes from flaws cut into the gear when it was made; it does not follow the load and fades as the gears wear in (C:15-22).' },
+  align: { name: 'Misalignment at installation', s: 'The gearbox was bolted down on an uneven base and the case twisted, so its gear shafts are no longer parallel. 2×GMF is now the highest peak, and the teeth are wearing at one end.',
+    why: 'When the gear shafts are not parallel the teeth bear at one end and wear skewed; the gear mesh harmonics run high, often with 2×GMF the highest (C:15-28..15-29).' } };
 const GX1_PARTS = { pitch: 'Pitch circle', add: 'Addendum circle', root: 'Root (dedendum) circle', addd: 'Addendum', ded: 'Dedendum', clear: 'Clearance',
   thick: 'Tooth thickness', space: 'Tooth space', face: 'Face of a tooth', flank: 'Flank of a tooth', back: 'Backlash' };
 const gx1Push = (cond, i, m) => cond === 'crack' ? (i === 0 ? 1.9 : 1) : cond === 'worn' ? 1 + 0.35 * j12Hash(i * 3.1 + 0.7) : cond === 'dry' ? 1 + 0.45 * j12Hash(m * 1.37 + 0.3) : 1 + 0.03 * j12Hash(i * 2.3);
@@ -18861,7 +18926,7 @@ function gx1Chart(c, f, P, mesh, L) {   // one bar per tooth push, the last two 
   }
   gxTxt(c, 'each bar: one tooth push · the last two turns of the pinion', f.x + f.w / 2, f.y + f.h - 9, { size: Math.max(GX_MIN, fs - 1.5), col: GX.mute });
 }
-simDef('gbx', { id: 'gbx-mesh', short: 'Inside a mesh', title: 'Inside a gear mesh: teeth, oil and the push of each tooth', pages: '15-1..15-5',
+simDef('gbx', { id: 'gbx-fail', short: 'Why gears fail', title: 'Why gearboxes fail, and the parts of a gear mesh', pages: '15-1..15-5',
   intro: 'A 12-tooth pinion turns a 20-tooth gear, slowed right down. See how the teeth push, why there is always a pair in contact, what the parts of a tooth are called, and why one damaged tooth changes the vibration only once per turn.',
   key: 'Every tooth contact is a push, and the pushes are the gear mesh. In a perfect mesh each push is the same and the pattern repeats every turn; wear, poor lubrication or a cracked tooth make some pushes different, and that difference is what vibration analysis finds.',
   remember: 'Same push every time = healthy. One different push every turn = one bad tooth.',
@@ -18915,8 +18980,14 @@ simDef('gbx', { id: 'gbx-mesh', short: 'Inside a mesh', title: 'Inside a gear me
       cap: 'The faults this chapter teaches: tooth wear, tooth load, eccentricity, backlash, misalignment, and broken or cracked teeth. A rise in level alone is a poor guide; the waveform and the patterns tell you which fault it is.' }],
   tips: ['Pick each condition and compare the bars: same, rough, one odd bar per turn, or uneven but repeating.', 'Stop the gears and switch the labels between Circles and Gaps: the words of Figure 15-2 are on the close-up.', 'Turn the labels to Contact: count one and two red dots as the mesh moves on.', 'Slide the backlash and watch the gap beside the driving tooth open up.'],
   presets: [['Perfect mesh', { cond: 'good', lab: 'none', spd: 0.15 }], ['Labelled, stopped', { cond: 'good', lab: 'parts', spd: 0 }], ['Gaps, stopped', { cond: 'good', lab: 'parts2', spd: 0 }], ['Path of contact', { lab: 'contact', spd: 0.08 }], ['Cracked tooth', { cond: 'crack', lab: 'none', spd: 0.15 }]],
-  chal(rand) {
-    const kind = Math.floor(rand() * 3), pick = a => a[Math.floor(rand() * a.length)];
+  chal(rand, L) {   // a set: two parts to name, two root causes, then the pushes or the pitch
+    const r = L && L.set ? L.set.i : Math.floor(rand() * 5), pick = a => a[Math.floor(rand() * a.length)], kind = r < 2 ? 0 : r < 4 ? 3 : 1 + Math.floor(rand() * 2);
+    if (kind === 3) {
+      const ids = Object.keys(GX1_CAUSES), used = L && L.set ? (L.set.causes = L.set.causes || []) : [], free = ids.filter(k => !used.includes(k)), ans = pick(free.length ? free : ids); used.push(ans);
+      const C = GX1_CAUSES[ans], opts = [ans]; while (opts.length < 4) { const k = pick(ids); if (!opts.includes(k)) opts.push(k); } opts.sort(() => rand() - 0.5);
+      return { title: 'the root cause', lead: C.s, q: 'What is the most likely root cause?', opts: opts.map(k => [k, GX1_CAUSES[k].name]), ans, why: C.why,
+        set: { lab: 'none', spd: 0.25, cond: ans === 'lube' ? 'dry' : 'good', view: 'deep' }, hide: { cond: 1, scenario: 1 } };
+    }
     if (kind === 0) {
       const keys = Object.keys(GX1_PARTS), ans = pick(keys), opts = [ans]; while (opts.length < 4) { const k = pick(keys); if (!opts.includes(k)) opts.push(k); } opts.sort(() => rand() - 0.5);
       return { title: 'name the part', lead: 'The gears are stopped and one part of the pinion\'s teeth is highlighted in yellow on the close-up.', q: 'Which part is highlighted?', opts: opts.map(k => [k, GX1_PARTS[k]]), ans,
@@ -18934,7 +19005,7 @@ simDef('gbx', { id: 'gbx-mesh', short: 'Inside a mesh', title: 'Inside a gear me
       why: `Diametral pitch = teeth ÷ pitch diameter = ${z} ÷ ${d} = ${P}. Its circular pitch is π × ${d} ÷ ${z} = ${(Math.PI * d / z).toFixed(3)} in (C:15-4).`, set: { lab: 'parts2', spd: 0, cond: 'good', view: 'deep' } };
   },
   live(P, L) {
-    if (L.hide) return L.hide.part ? 'Name the highlighted part, then choose.' : 'Read the bars: how do the pushes vary from tooth to tooth and from turn to turn?';
+    if (L.hide) return L.hide.part ? 'Name the highlighted part, then choose.' : L.hide.scenario ? 'Read the story of this gearbox, then choose its root cause.' : 'Read the bars: how do the pushes vary from tooth to tooth and from turn to turn?';
     const u = ((L.gxT || 0) * GX1.zA) % 1, pairs = u < GX1.CR - 1 ? 2 : 1, C = GX1_COND[P.cond];
     return P.view === 'simple' ? `${pairs === 2 ? 'Two pairs' : 'One pair'} of teeth touching now. ${C.name}: ${C.sig}` : `Pinion 12 teeth, gear 20 teeth · ${pairs} pair${pairs > 1 ? 's' : ''} in contact · backlash ${(0.1 + 0.5 * P.back).toFixed(2)} mm · ${C.name}: ${C.sig}`;
   },
@@ -18965,8 +19036,8 @@ simDef('gbx', { id: 'gbx-mesh', short: 'Inside a mesh', title: 'Inside a gear me
 const GX2_ORDER = ['spur', 'helical', 'herring', 'dhelical', 'sbevel', 'spbevel', 'hypoid', 'worm', 'rack', 'planet'];
 const GX2_MEAS = { spur: ['rad', 'Radially, at right angles to the shaft (C:15-23, 15-39)'], helical: ['ax', 'Axially, along the shaft (C:15-23, 15-39)'],
   herring: ['rad', 'Radially; the thrusts cancel by design (C:15-7). Page 15-39 also asks for axial: measure every axis'], dhelical: ['rad', 'Radially; the thrusts cancel (C:15-7); measure every axis anyway (C:15-39)'],
-  sbevel: ['both', 'Radially and axially: a bevel angle makes axial thrust (C:15-39)'], spbevel: ['both', 'Radially and axially (C:15-39)'], hypoid: ['both', 'Radially and axially (C:15-39)'],
-  worm: ['both', 'Axially on the worm shaft and radially on the wheel (lab advice: the chapter says to measure every location and axis, C:15-39)'], rack: ['rad', 'Across the pinion shaft'], planet: ['rad', 'Radially on the ring housing (lab advice); the internal gears and bearings are hard to reach (C:15-35)'] };
+  sbevel: ['ax', 'Axially: like a helical gear, a gear with a bevel angle makes axial thrust (C:15-39)'], spbevel: ['ax', 'Axially: a gear with a bevel angle makes axial thrust (C:15-39)'], hypoid: ['ax', 'Axially: a gear with a bevel angle makes axial thrust (C:15-39)'],
+  worm: ['both', 'Axially on the worm shaft and radially on the wheel (lab advice: the chapter says to measure every location and axis, C:15-39)'], rack: ['rad', 'Radially, across the pinion shaft: straight rack teeth push like a spur gear (lab advice; rack and pinion: C:15-12..15-13)'], planet: ['rad', 'Radially on the ring housing (lab advice); the internal gears and bearings are hard to reach (C:15-35)'] };
 function gx2Thrust(P) { const T = GX_TYPES[P.type]; return P.type === 'helical' ? Math.tan(P.helix * DEG) / Math.tan(35 * DEG) : T.thrust; }
 simDef('gbx', { id: 'gbx-types', short: 'Gear types', title: 'Gear types and the forces they make', pages: '15-5..15-15, 15-23, 15-39',
   intro: 'Spur, helical, herringbone, bevel, hypoid, worm, rack and planetary gears, each turning slowly with the force it puts on its shafts drawn on it. The force decides where the gear mesh shows most, and so where you put the sensor.',
@@ -19012,15 +19083,18 @@ simDef('gbx', { id: 'gbx-types', short: 'Gear types', title: 'Gear types and the
         why: 'Gear mesh shows most in the direction of the main force: axial for helical gears, radial for spur gears. Still take readings in every direction you can reach (C:15-23, 15-39).' } }],
   tips: ['Step through every type and read the force arrows.', 'On the helical gear, slide the helix angle from 5° to 40° and watch the axial arrow grow.', 'Compare herringbone with helical: the two axial arrows cancel.', 'Use "where to measure" for each type before the challenge.'],
   presets: [['Spur', { type: 'spur' }], ['Helical, 30°', { type: 'helical', helix: 30 }], ['Herringbone', { type: 'herring' }], ['Worm', { type: 'worm' }], ['Planetary', { type: 'planet' }]],
-  chal(rand) {
+  chal(rand, L) {
     const pick = a => a[Math.floor(rand() * a.length)];
-    if (rand() < 0.5) {
+    const r = L && L.set ? L.set.i : Math.floor(rand() * 5);   // a set: three gearboxes to place the sensor on, then two gears to name
+    if (r >= 3) {
       const ans = pick(['spur', 'helical', 'dhelical', 'sbevel', 'worm', 'rack', 'planet']), opts = [ans]; while (opts.length < 4) { const k = pick(GX2_ORDER); if (!opts.includes(k)) opts.push(k); } opts.sort(() => rand() - 0.5);
       return { title: 'name the gear', lead: 'A gear set turns on the stage; its name and its forces are hidden.', q: 'Which type of gear is it?', opts: opts.map(k => [k, GX_TYPES[k].name]), ans,
         why: `${GX_TYPES[ans].name}: ${GX_TYPES[ans].shafts}${/shaft/.test(GX_TYPES[ans].shafts) ? '' : ' shafts'}; ${GX_TYPES[ans].force} (C:${GX_TYPES[ans].pg}).`, set: { type: ans, helix: 25, view: 'deep' }, hide: { type: 1 } };
     }
-    const ans0 = pick(['spur', 'helical']), ans = GX2_MEAS[ans0][0];
-    return { title: 'place the sensor', lead: `A ${GX_TYPES[ans0].name.toLowerCase()} gearbox. You can take one reading first.`, q: 'In which direction will the gear mesh be strongest?', opts: [['rad', 'Radially'], ['ax', 'Axially']], ans,
+    // the worm is left out: the chapter gives no direction for it
+    const pool = ['spur', 'helical', 'sbevel', 'spbevel', 'hypoid', 'rack', 'planet'], seen = L && L.set ? (L.set.types = L.set.types || []) : [], left = pool.filter(k => !seen.includes(k)),
+          ans0 = pick(left.length ? left : pool), ans = GX2_MEAS[ans0][0]; seen.push(ans0);   // herringbone and double helical left out: the chapter gives two answers (C:15-7, 15-39)
+    return { title: 'place the sensor', lead: `A gearbox with ${GX_TYPES[ans0].name.toLowerCase()} gears. Its forces are hidden.`, q: 'Which way should the sensor measure to catch the main gear forces?', opts: [['rad', 'Radially (across the shaft)'], ['ax', 'Axially (along the shaft)'], ['both', 'Both ways, radially and axially']], ans,
       why: `${GX_TYPES[ans0].name} gears: ${GX2_MEAS[ans0][1]}.`, set: { type: ans0, helix: 25, view: 'deep' }, hide: { force: 1 } };
   },
   live(P, L) {
@@ -19068,12 +19142,12 @@ simDef('gbx', { id: 'gbx-types', short: 'Gear types', title: 'Gear types and the
 function gx3Kin(P) {
   const sIn = P.rpm / 60;
   if (P.mode === 'worm') { const w = gbxWorm(P.fl, P.tw, sIn); return { worm: w, shafts: [sIn, w.sOut], gm: [w.gm], sIn }; }
-  const teeth = P.mode === 'two' ? [[P.t1, P.t2], [P.t3, P.t4]] : [[P.t1, P.t2]], T = gbxTrain(teeth, sIn);
+  const teeth = P.mode === 'three' ? [[P.t1, P.t2], [P.t3, P.t4], [P.t5, P.t6]] : P.mode === 'two' ? [[P.t1, P.t2], [P.t3, P.t4]] : [[P.t1, P.t2]], T = gbxTrain(teeth, sIn);
   return { T, teeth, shafts: T.shafts, gm: T.stages.map(s => s.gmf), sIn };
 }
 function gx3Lines(K, hideLab) {   // a sketch of the spectrum: each shaft's 1X, each mesh with 2× and shaft-speed sidebands (C:15-22..15-23)
   const last = K.shafts.length - 1, colOf = i => (i === 0 ? GX.inA : i === last ? GX.inB : GX.mid), out = [];   // input green, output cyan, in between violet
-  K.shafts.forEach((f, i) => out.push({ x: f, a: [0.55, 0.35, 0.25][i] || 0.2, col: colOf(i), lab: hideLab ? '' : i === 0 ? '1X in' : i === K.shafts.length - 1 ? '1X out' : '1X mid', key: 'x' + i }));
+  K.shafts.forEach((f, i) => out.push({ x: f, a: [0.55, 0.35, 0.25][i] || 0.2, col: colOf(i), lab: hideLab ? '' : i === 0 ? '1X in' : i === K.shafts.length - 1 ? '1X out' : K.shafts.length > 3 ? `1X mid${i}` : '1X mid', key: 'x' + i }));
   K.gm.forEach((g, s) => {
     const a = s === 0 ? 1 : 0.62, fs1 = K.shafts[s], fs2 = K.shafts[s + 1];
     out.push({ x: g, a, col: GX.gmf, lab: hideLab ? '' : K.gm.length > 1 ? `GMF${s + 1}` : 'GMF', key: 'g' + s }, { x: 2 * g, a: a * 0.32, col: GX.gmf, lab: hideLab ? '' : K.gm.length > 1 ? `2×GMF${s + 1}` : '2×GMF', key: 'h' + s });
@@ -19081,24 +19155,26 @@ function gx3Lines(K, hideLab) {   // a sketch of the spectrum: each shaft's 1X, 
   });
   return out;
 }
-simDef('gbx', { id: 'gbx-freq', short: 'Speeds and mesh', title: 'Speeds and gear mesh frequency, one stage, two stages and worm drives', pages: '15-15..15-17, 15-22',
-  intro: 'Count the clicks: a card on bicycle spokes, then the teeth of a gear. Work out every shaft speed and gear mesh frequency of a one- or two-stage gearbox, see where they land in the spectrum, and learn why a worm drive counts flights instead of teeth.',
+simDef('gbx', { id: 'gbx-freq', short: 'Speeds and mesh', title: 'Speeds and gear mesh frequency, one to three stages and worm drives', pages: '15-15..15-17, 15-22',
+  intro: 'Count the clicks: a card on bicycle spokes, then the teeth of a gear. Work out every shaft speed and gear mesh frequency of a gearbox with one, two or three stages, see where they land in the spectrum, and learn why a worm drive counts flights instead of teeth.',
   key: 'Gear mesh = number of teeth × shaft speed, and output speed = input speed × input teeth ÷ output teeth. Both gears of a pair give the same gear mesh frequency. Repeat stage by stage; for a worm, use the number of flights: GM = flights × worm speed = wheel teeth × wheel speed.',
   remember: 'Mesh = teeth × turns per second. Big gear, slow shaft.',
   words: [['Gear mesh frequency (GMF)', 'how many tooth contacts happen each second'], ['Stage', 'one pair of gears; a gearbox can have several in a row'], ['Intermediate shaft', 'the shaft between two stages'], ['Flights', 'the threads (starts) of a worm; one flight moves the wheel one tooth per turn'], ['Hz', 'per second; 1 Hz = 60 per minute (RPM, CPM)']],
   links: [['gbxsim/gbx-hunt', 'Ch 15 · Assembly phase and hunting tooth'], ['plan', 'Setup planner: gearbox settings'], ['gear', 'Gear lab']],
   kw: 'gear mesh frequency gmf shaft speed output speed input teeth output teeth ratio two stage intermediate shaft worm flights fin worm wheel clicks spectrum',
-  init: { view: 'simple', mode: 'one', rpm: 1500, t1: 20, t2: 50, t3: 17, t4: 53, fl: 2, tw: 40 },
+  init: { view: 'simple', mode: 'one', rpm: 1500, t1: 20, t2: 50, t3: 17, t4: 53, t5: 15, t6: 47, fl: 2, tw: 40 },
   size: { wide: [0.56, 420, 620], narrow: [1.7, 620, 880] },
   setup(L) { L.gxT = 0; },
   tick(L, dt) { L.gxT = (L.gxT || 0) + dt; },
   controls: [
-    { p: 'mode', label: 'Gearbox', type: 'seg', opts: [['one', 'One stage'], ['two', 'Two stages'], ['worm', 'Worm']] },
+    { p: 'mode', label: 'Gearbox', type: 'seg', opts: [['one', 'One stage'], ['two', 'Two stages'], ['three', 'Three stages'], ['worm', 'Worm']] },
     { p: 'rpm', label: 'Input speed', min: 300, max: 3600, step: 30, fmt: v => `${v} RPM` },
     { p: 't1', label: 'Stage 1 driver teeth', min: 10, max: 60, step: 1, fmt: v => String(v) },
     { p: 't2', label: 'Stage 1 driven teeth', min: 10, max: 120, step: 1, fmt: v => String(v) },
     { p: 't3', label: 'Stage 2 driver teeth', min: 10, max: 60, step: 1, fmt: v => String(v) },
     { p: 't4', label: 'Stage 2 driven teeth', min: 10, max: 120, step: 1, fmt: v => String(v) },
+    { p: 't5', label: 'Stage 3 driver teeth', min: 10, max: 60, step: 1, fmt: v => String(v) },
+    { p: 't6', label: 'Stage 3 driven teeth', min: 10, max: 120, step: 1, fmt: v => String(v) },
     { p: 'fl', label: 'Worm flights', min: 1, max: 4, step: 1, fmt: v => String(v) },
     { p: 'tw', label: 'Worm wheel teeth', min: 20, max: 80, step: 1, fmt: v => String(v) },
     { p: 'view', label: 'Explain', type: 'seg', opts: [['simple', 'Simply'], ['deep', 'In detail']] }],
@@ -19120,12 +19196,16 @@ simDef('gbx', { id: 'gbx-freq', short: 'Speeds and mesh', title: 'Speeds and gea
       plain: 'Teeth times turns gives the mesh; the big gear turns slower by the ratio of the teeth.' },
     { part: 'deep', t: 'Two stages', pg: '15-15, 15-22', dur: 13, set: { mode: 'two' },
       cap: 'Add a second stage: a 17-tooth gear on the 10 Hz intermediate shaft drives a 53-tooth gear. The second mesh is 17 × 10 = 170 Hz and the output turns at 10 × 17 ÷ 53 = 3.2 Hz.' },
-    { part: 'deep', t: 'Which mesh is higher?', pg: '15-15', dur: 10,
+    { part: 'deep', t: 'Three stages', pg: '15-15', dur: 12, set: { mode: 'three' },
+      cap: 'A third stage works the same way: a 15-tooth gear on the 3.2 Hz shaft drives a 47-tooth gear. GMF3 = 15 × 3.2 = 48 Hz and the output turns at 3.2 × 15 ÷ 47 = 1.0 Hz. Each stage slows the next shaft and lowers the next mesh.' },
+    { part: 'deep', t: 'Which mesh is higher?', pg: '15-15', dur: 10, set: { mode: 'two' },
       cap: 'In a reduction gearbox each stage turns slower.',
       ask: { q: 'Which gear mesh frequency is higher here?', opts: [['1', 'The first stage (500 Hz)'], ['2', 'The second stage'], ['same', 'They are equal']], ans: '1',
         why: 'The first stage runs on the fast input shaft: 500 Hz against 170 Hz. The highest mesh sets the Fmax you need (C:15-15, 15-40).' } },
-    { part: 'deep', t: 'Where they land', pg: '15-22..15-23', dur: 12,
-      cap: 'A healthy gearbox shows low peaks at each shaft speed and each gear mesh frequency, maybe a 2× gear mesh peak, and maybe small shaft-speed sidebands around the gear mesh. Fmax must reach 3 × the highest mesh and its sidebands.' },
+    { part: 'deep', t: 'Where they land', pg: '15-15, 15-22..15-23', dur: 12,
+      cap: 'A healthy gearbox shows low peaks at each shaft speed and each gear mesh frequency, maybe a 2× gear mesh peak, and maybe small shaft-speed sidebands around the gear mesh. Fmax must reach 3 × the highest mesh and its sidebands.',
+      ask: { q: 'This two-stage box shows a low peak at 10 Hz. Which shaft does it belong to?', opts: [['in', 'The 25 Hz input shaft'], ['mid', 'The intermediate shaft'], ['out', 'The output shaft']], ans: 'mid',
+        why: '25 Hz × 20 ÷ 50 = 10 Hz: the 1X of the intermediate shaft. The output turns at 10 × 17 ÷ 53 = 3.2 Hz (C:15-15, 15-22).' } },
     { part: 'deep', t: 'Worm gears count flights', pg: '15-15..15-17', dur: 12, set: { mode: 'worm', rpm: 1200, fl: 2, tw: 40 },
       cap: 'A worm has flights, not teeth: the wheel teeth moved on in one turn of the worm. GM = flights × worm speed = wheel teeth × wheel speed. This 2-flight worm at 20 Hz turns a 40-tooth wheel at 1 Hz: GM = 40 Hz.',
       plain: 'One flight pushes the wheel on by one tooth each turn of the worm.' },
@@ -19135,8 +19215,8 @@ simDef('gbx', { id: 'gbx-freq', short: 'Speeds and mesh', title: 'Speeds and gea
         why: 'Fin = 30 × 5 ÷ 20 = 7.5, as the book prints. A real worm has a whole number of flights, so those numbers cannot all be right: round to a whole number and check the speeds again (C:15-16..15-17).' } }],
   tips: ['Change the input speed: every frequency moves in proportion.', 'Make the driven gear bigger: the output slows and its 1X moves down, but the mesh stays put.', 'In two-stage mode, watch the intermediate shaft: it carries the driven gear of stage 1 and the driver of stage 2.', 'In worm mode, step the flights from 1 to 4: the wheel speeds up and the mesh rises.'],
   presets: [['One stage 20 : 50', { mode: 'one', rpm: 1500, t1: 20, t2: 50 }], ['Two stages', { mode: 'two', rpm: 1500, t1: 20, t2: 50, t3: 17, t4: 53 }], ['Figure 15-17: 30 : 18', { mode: 'one', rpm: 1500, t1: 30, t2: 18 }], ['Worm 2 : 40', { mode: 'worm', rpm: 1200, fl: 2, tw: 40 }]],
-  chal(rand) {
-    const kind = Math.floor(rand() * 4), pick = a => a[Math.floor(rand() * a.length)], rpm = pick([900, 1200, 1500, 1800, 3000]), sIn = rpm / 60;
+  chal(rand, L) {   // a set: name the peak, the output speed, name another peak, the second mesh, a worm's flights
+    const kind = L && L.set ? [2, 0, 2, 1, 3][L.set.i % 5] : Math.floor(rand() * 4), pick = a => a[Math.floor(rand() * a.length)], rpm = pick([900, 1200, 1500, 1800, 3000]), sIn = rpm / 60;
     const opts4 = (ans, bad, f) => { const o = [ans, ...bad].map(v => +v.toPrecision(4)).filter((v, i, a) => a.indexOf(v) === i && v > 0).slice(0, 4); while (o.length < 4) o.push(+(ans * (1.5 + o.length * 0.37)).toPrecision(4)); return o.sort(() => rand() - 0.5).map(v => [String(v), f(v)]); };
     if (kind === 3) {
       const fl = 1 + Math.floor(rand() * 4), tw = 20 + Math.floor(rand() * 41), so = sIn * fl / tw;
@@ -19182,7 +19262,7 @@ simDef('gbx', { id: 'gbx-freq', short: 'Speeds and mesh', title: 'Speeds and gea
       paTagIn(c, `mesh: ${gxFmt(K.gm[0], 0)} clicks per second`, fb.x + fb.w / 2, fb.y + 30, fb, { size: fs + 1, col: GX.gmf, bg: 'rgba(4,7,6,0.88)', w: 800 });
       return;
     }
-    const fa = rbFace(c, A, P.mode === 'worm' ? 'WORM AND WHEEL' : P.mode === 'two' ? 'TWO-STAGE GEARBOX, SEEN FROM ABOVE' : 'ONE-STAGE GEARBOX, SEEN FROM ABOVE'), bx = rbInset(fa, 8);
+    const fa = rbFace(c, A, P.mode === 'worm' ? 'WORM AND WHEEL' : `${{ one: 'ONE', two: 'TWO', three: 'THREE' }[P.mode]}-STAGE GEARBOX, SEEN FROM ABOVE`), bx = rbInset(fa, 8);
     if (P.mode === 'worm') {
       const g = gxTypePic(c, { x: bx.x, y: bx.y + 10, w: bx.w, h: bx.h - 60 }, 'worm', t * Math.min(1, P.fl / 2));
       const lines = L.hide ? [`worm ${gxFmt(K.sIn, 1)} Hz`, `wheel ${P.tw} teeth, ${gxFmt(K.shafts[1], 3)} Hz`, 'flights: ?'] : [`worm: ${P.fl} flight${P.fl > 1 ? 's' : ''}, ${gxFmt(K.sIn, 1)} Hz`, `wheel: ${P.tw} teeth, ${gxFmt(K.shafts[1], 3)} Hz`, `GM = ${P.fl} × ${gxFmt(K.sIn, 1)} = ${P.tw} × ${gxFmt(K.shafts[1], 3)} = ${gxFmt(K.gm[0], 1)} Hz`];
@@ -19192,8 +19272,9 @@ simDef('gbx', { id: 'gbx-freq', short: 'Speeds and mesh', title: 'Speeds and gea
     // the spectrum sketch
     const hidePeak = L.hide && L.hide.peak, fmax = gbxFmaxFor(Math.max(...K.gm)), lines = gx3Lines(K, !!hidePeak);
     if (hidePeak) for (const q of lines) if (q.key === hidePeak) { q.lab = L.ch && L.ch.picked != null ? q.lab : '?'; q.col = GX.warn; q.a = Math.max(q.a, 0.5); }
-    rbSpec(c, B, null, lines, { title: P.mode === 'worm' ? 'WHERE THE WORM\'S FREQUENCIES LAND' : 'WHERE THEY LAND: A SKETCH OF THE SPECTRUM', unit: 'relative', xu: 'Hz', x0: 0, x1: Math.max(fmax, 10), ymax: 1.15, hideLabels: false, foot: 20,
-      key: [[GX.inA, '1X in'], [GX.mid, '1X mid'], [GX.inB, '1X out'], [GX.gmf, 'gear mesh']].filter((k, i) => P.mode === 'two' || i !== 1) });
+    const lg = P.mode === 'three';   // three stages span 1 Hz to 1 kHz: a log frequency scale keeps the slow shafts apart
+    rbSpec(c, B, null, lines, { title: P.mode === 'worm' ? 'WHERE THE WORM\'S FREQUENCIES LAND' : lg ? 'WHERE THEY LAND: A SKETCH, LOG FREQUENCY' : 'WHERE THEY LAND: A SKETCH OF THE SPECTRUM', unit: 'relative', xu: 'Hz', x0: lg ? 0.5 : 0, x1: Math.max(fmax, 10), logx: lg, xticks: lg ? [1, 10, 100, 1000] : undefined, ymax: 1.15, hideLabels: false, foot: 20,
+      key: [[GX.inA, '1X in'], [GX.mid, P.mode === 'three' ? '1X mids' : '1X mid'], [GX.inB, '1X out'], [GX.gmf, 'gear mesh']].filter((k, i) => P.mode === 'two' || P.mode === 'three' || i !== 1) });
   } });
 
 /* ===== Chapter 15 simulators 4–6: assembly phase and hunting tooth, a healthy gearbox and TSA, tooth wear and tooth load ===== */
@@ -19214,7 +19295,7 @@ function gxSpecM(c, r, sp, M, o = {}) {
   if (o.fam !== false) for (let k = 1; k <= 4; k++) { const x = k * M.gmf; if (x > x0 && x < Math.min(x1, fm)) marks.push({ x, col: GX.gmf, lab: k === 1 ? 'GMF' : k + '×GMF', dash: false, alpha: 0.5 }); }
   if (o.gnf && M.gnf > x0 && M.gnf < x1) marks.push({ x: M.gnf, col: GX.gnf, lab: 'Gnf', row: 1 });
   for (const m of o.marks || []) marks.push(m);
-  return rbSpec(c, r, s2, [], { title: o.title, unit: o.vel ? (o.inch ? 'in/s pk' : 'mm/s RMS') : 'g pk', xu: 'Hz', x0, x1, marks, log: o.log, logx: o.logx, join: o.logx, range: o.range || 60, col: o.col || GX.trace, ymax: o.ymax, bands: o.bands });
+  return rbSpec(c, r, s2, [], { title: o.title, unit: o.vel ? (o.inch ? 'in/s pk' : 'mm/s RMS') : 'g pk', xu: 'Hz', x0, x1, marks, log: o.log, logx: o.logx, join: o.logx, range: o.range || 60, col: o.col || GX.trace, ymax: o.ymax, bands: o.bands, foot: o.foot, xticks: o.xticks });
 }
 /* sideband marks round a centre, in the colour of the shaft that spaces them */
 const gxSbMarks = (fc, sp, n, col, lab) => { const out = []; for (let k = -n; k <= n; k++) if (k) out.push({ x: fc + k * sp, col, alpha: 0.5, lab: k === 1 && lab ? lab : '', row: 1 }); return out; };
@@ -19292,8 +19373,8 @@ simDef('gbx', { id: 'gbx-hunt', short: 'Phase and hunting tooth', title: 'Which 
       cap: 'HTF is low and often heard as a growl; it finds damage done in manufacturing or by mishandling. A ghost frequency cannot be related to anything in the gearbox\'s geometry: it was machined into the gear, does not change with load, and fades as the gears wear in.' }],
   tips: ['Set 31 : 19 and watch every square of the grid fill.', 'Set 30 : 18: six colours, six teams, and only 90 of the 540 squares ever fill.', 'Pick "One assembly phase damaged" and read the spectrum, then the star on the circular plot.', 'Pick "One damaged tooth on each gear": the red teeth meet once every HTF period.', 'Try 20 : 40 and 30 : 30: HTF equals the speed of the larger gear.'],
   presets: [['31 : 19, no common factor', { tA: 31, tB: 19, dmg: 'none' }], ['33 : 21, Na 3', { tA: 33, tB: 21, dmg: 'phase' }], ['30 : 18, Na 6', { tA: 30, tB: 18, dmg: 'phase' }], ['30 : 18, hunting tooth', { tA: 30, tB: 18, dmg: 'pair' }], ['20 : 40, integer ratio', { tA: 20, tB: 40, dmg: 'pair' }], ['A ghost', { tA: 21, tB: 64, dmg: 'ghost', age: 0 }]],
-  chal(rand) {
-    const kind = Math.floor(rand() * 5), pick = a => a[Math.floor(rand() * a.length)], rpm = pick([900, 1200, 1500]);
+  chal(rand, L) {   // a set: tooth counts that spread the wear, the hunting tooth, Na, the assembly phase, then the pattern
+    const kind = L && L.set ? [3, 2, 0, 1, 4][L.set.i % 5] : Math.floor(rand() * 5), pick = a => a[Math.floor(rand() * a.length)], rpm = pick([900, 1200, 1500]);
     const pairs = [[30, 18], [33, 21], [24, 36], [28, 42], [27, 45], [20, 50], [35, 49], [44, 55], [26, 39], [32, 48]];
     if (kind === 3) {
       const good = pick([[31, 19], [29, 47], [25, 36], [23, 64], [37, 53]]), bads = pairs.slice().sort(() => rand() - 0.5).slice(0, 3), lab = ([x, y]) => `${x} and ${y} teeth`, all = [good, ...bads].sort(() => rand() - 0.5);
@@ -19448,19 +19529,19 @@ simDef('gbx', { id: 'gbx-normal', short: 'A healthy gearbox', title: 'A healthy 
       cap: 'In a healthy gearbox the waveform is largely sinusoidal with limited modulation and no distinct transients. Anything sudden that comes back once per turn of a gear points to that gear.' }],
   tips: ['Drop Fmax to 1000 Hz: 2×GMF and 3×GMF are gone. At 400 Hz even the gear mesh is gone, and so are the pulses in the waveform.', 'Change the lines: the readings show the record length and the turns of each shaft.', 'Switch spur and helical with the sensor radial, then axial.', 'Raise the TSA averages and watch the averaged turn clean up; move the tach to the input shaft.'],
   presets: [['Good setup', { fmax: '2000', lines: '3200' }], ['Fmax too low', { fmax: '1000', lines: '1600' }], ['Too few lines', { fmax: '2000', lines: '800' }], ['TSA, 200 turns', { tsa: 'B', navg: 200 }]],
-  chal(rand) {
-    const kind = Math.floor(rand() * 4), pick = a => a[Math.floor(rand() * a.length)];
+  chal(rand, L) {   // a set: the shortest setup (twice), the record length, what TSA removes, the gear type
+    const kind = L && L.set ? [0, 1, 0, 2, 3][L.set.i % 5] : Math.floor(rand() * 4), pick = a => a[Math.floor(rand() * a.length)];
     if (kind === 0) {
       const tA = pick([17, 19, 21, 23, 25, 29]), tB = pick([47, 53, 59, 61, 67, 71]), rpm = pick([1200, 1500, 1800]), fA = rpm / 60, fB = fA * tA / tB, gmf = tA * fA;
       const all = []; for (const f of GBX.FMAX) for (const n of GBX.LINES) all.push([f, n]);
       const turns = ([f, n]) => gbxTurns(n, f, fB), ok = x => x[0] >= 3.3 * gmf && turns(x) >= 6, clear = x => (x[0] < 3 * gmf || x[0] >= 3.3 * gmf) && Math.abs(turns(x) - 6) > 0.6;
-      const cands = all.filter(clear), good = cands.filter(ok).sort((x, y) => x[0] - y[0] || x[1] - y[1])[0],   // the lowest Fmax that covers it, then the fewest lines
+      const cands = all.filter(clear), good = cands.filter(ok).sort((x, y) => x[1] / x[0] - y[1] / y[0] || x[0] - y[0])[0],   // the shortest record that passes both checks (then the lower Fmax)
             bad = cands.filter(x => !ok(x)).sort(() => rand() - 0.5);
       const lowF = bad.find(x => x[0] < 3 * gmf && x[0] > gmf && turns(x) >= 6), few = bad.find(x => x[0] >= 3.3 * gmf && turns(x) < 6), pickd = [good, lowF, few].filter(Boolean);
       for (const x of bad) { if (pickd.length >= 4) break; if (!pickd.includes(x)) pickd.push(x); }
       const lab = ([f, n]) => `Fmax ${f} Hz, ${n} lines`;
-      return { title: 'set it up', lead: `A ${tA} : ${tB} gearbox at ${rpm} RPM: GMF ${gxFmt(gmf, 1)} Hz, output ${gxFmt(fB, 2)} Hz.`, q: 'Which setting shows 3×GMF with its sidebands and at least 6 turns of the output shaft?', opts: pickd.sort(() => rand() - 0.5).map(x => [lab(x), lab(x)]), ans: lab(good),
-        why: `3 × ${gxFmt(gmf, 1)} = ${gxFmt(3 * gmf, 0)} Hz, plus room for its sidebands (3.3 × GMF = ${gxFmt(3.3 * gmf, 0)} Hz), needs Fmax ${good[0]} Hz; ${good[1]} lines then give ${gxFmt(good[1] / good[0], 2)} s, ${gxFmt(turns(good), 1)} turns of the ${gxFmt(fB, 2)} Hz output (C:15-22, 15-24, 15-40).`, set: { view: 'deep', navg: 1 } };
+      return { title: 'set it up', lead: `A ${tA} : ${tB} gearbox at ${rpm} RPM: GMF ${gxFmt(gmf, 1)} Hz, output ${gxFmt(fB, 2)} Hz.`, q: 'Which is the shortest setup that passes both checks: 3×GMF with its sidebands, and at least 6 turns of the output shaft?', opts: pickd.sort(() => rand() - 0.5).map(x => [lab(x), lab(x)]), ans: lab(good),
+        why: `Check 1: Fmax at least 3.3 × GMF = ${gxFmt(3.3 * gmf, 0)} Hz, so 3×GMF (${gxFmt(3 * gmf, 0)} Hz) and its sidebands are in. Check 2: lines ÷ Fmax at least 6 ÷ ${gxFmt(fB, 2)} Hz = ${gxFmt(6 / fB, 2)} s. Fmax ${good[0]} Hz with ${good[1]} lines passes both in the shortest time: ${gxFmt(good[1] / good[0], 2)} s, ${gxFmt(turns(good), 1)} turns of the output (C:15-22, 15-24, 15-40; 3.3 ×: iV:80).`, set: { view: 'deep', navg: 1 } };
     }
     if (kind === 1) {
       const f = pick([4.2, 6.5, 8.2, 12.5, 19.6]), n = pick([6, 8, 10]), O = gxOpts(rand, n / f, [n / f / 2, n * f, 2 * n / f], v => `${gxFmt(v, 2)} s`);
@@ -19490,33 +19571,36 @@ simDef('gbx', { id: 'gbx-normal', short: 'A healthy gearbox', title: 'A healthy 
   draw(c, W, H, L) {
     const P = L.P, fs = L.fs, simple = P.view === 'simple', Z = gx5Sig(L, P), M = Z.M, t = L.gxT || 0, fmax = +P.fmax, lines = +P.lines, ht = L.hide && L.hide.type;
     const B = gxBoxes(L, W, H, [[0.9, [1, 1]], [1.25, [1, 1]]], [0.75, 0.9, 0.8, 0.8]), [Gb, Ts, Sp, Wv] = L.wide ? B : [B[0], B[3], B[1], B[2]];
+    // 2–4 · the spectrum, the waveform and the TSA change only with the settings: drawn once into a layer, then copied each frame
+    c.drawImage(L.layer(`n5|${P.fmax}|${P.lines}|${P.gtype}|${P.dir}|${P.tsa}|${Math.round(P.navg)}|${P.view}|${ht ? 1 : 0}`, c => {
+      // 2 · the spectrum, with Fmax and what it cuts off
+      const x1 = Math.max(2000, fmax), m3 = 3 * M.gmf, miss = fmax < m3, bands = fmax < x1 ? [{ a: fmax, b: x1, col: GX.alarm, alpha: 0.1, lab: 'beyond Fmax' }] : [];
+      gxSpecM(c, Sp, Z.sp, M, { title: simple ? 'THE SPECTRUM: SMALL PEAKS WHERE EXPECTED' : `SPECTRUM: FMAX ${fmax} HZ, ${lines} LINES (LOG)`, x0: 0, x1, log: true, range: 60, bands, famMax: fmax,
+        marks: [].concat(fmax < M.gmf ? [{ x: M.gmf, col: GX.alarm, lab: 'GMF lost', row: 3 }] : [], fmax < 2 * M.gmf ? [{ x: 2 * M.gmf, col: GX.alarm, lab: '2×GMF lost', row: 2 }] : [], miss ? [{ x: m3, col: GX.alarm, lab: '3×GMF lost', row: 1 }] : []) });
+      // 3 · one turn of the pinion: count the pulses
+      const x = Z.s.x, fsr = Z.s.fs, n1 = Math.min(x.length, Math.round(fsr / M.fA)), spt = fsr / M.gmf, dots = [], seen = M.gmf < 1.2 * fmax;
+      let s0 = 0; if (seen) { const k0 = Math.ceil(spt); let p = k0; for (let i = k0; i < k0 + 2 * spt; i++) if (x[i] > x[p]) p = i; s0 = Math.max(0, Math.round(p - spt / 2 - spt * Math.floor((p - spt / 2) / spt))); }   // start half a tooth before a pulse, so the turn holds 21 whole pulses
+      const seg = x.subarray(s0, Math.min(x.length, s0 + n1));
+      if (seen) { let mx = 0, last = -1e9; for (let i = 0; i < seg.length; i++) mx = Math.max(mx, seg[i]);   // a dot on each tooth pulse: the local peaks, at least most of a tooth apart
+        for (let i = 1; i < seg.length - 1; i++) if (seg[i] > 0.35 * mx && seg[i] >= seg[i - 1] && seg[i] > seg[i + 1] && i - last > 0.6 * spt) { dots.push({ t: i / fsr, v: seg[i], col: GX.gmf, r: 2.4 }); last = i; } }
+      rbWave(c, Wv, seg, { title: simple ? 'ONE TURN OF THE PINION: COUNT THE PULSES' : 'WAVEFORM: ONE PINION TURN (40 ms)', fs: fsr, t0: 0, t1: n1 / fsr, col: GX.trace, unit: 'g', dots,
+        foot: seen ? (simple ? '21 pulses: one for each tooth' : '21 pulses, one per tooth; no transients') : 'Fmax is below the gear mesh: no tooth pulses', footCol: seen ? GX.ink : GX.alarm });
+      // 4 · TSA: the averaged turn of the chosen shaft
+      const ts = gx5TSA(L, P), avg = ts.T.y.subarray(0, ts.nW), ttl = `TSA: ${ts.T.n} TURN${ts.T.n > 1 ? 'S' : ''} OF THE ${P.tsa === 'A' ? 'INPUT' : 'OUTPUT'} SHAFT AVERAGED`;
+      if (simple) {
+        const ft = rbFace(c, Ts, ttl), bx = { x: ft.x + ft.w * 0.44, y: ft.y + 24, w: ft.w * 0.54, h: ft.h - 50 };
+        gxStack(c, { x: ft.x, y: ft.y + 14, w: ft.w * 0.42, h: ft.h - 18 }, ts.T.n); gxTrace(c, bx, ts.raw, { col: withAlpha(GX.mute, 0.55), ymax: ts.ym, lw: 1 }); gxTrace(c, bx, avg, { col: GX.inB, ymax: ts.ym, lw: 1.8 });
+        gxTxt(c, rbFit(c, `grey: one turn · blue: the average · ${ts.teeth} teeth shown`, bx.w, Math.max(GX_MIN, fs - 1), 600), bx.x + bx.w / 2, ft.y + ft.h - 12, { size: Math.max(GX_MIN, fs - 1), col: GX.ink, w: 600 });
+      } else {
+        const w = rbWave(c, Ts, ts.raw, { title: ttl, fs: 512, t0: 0, t1: ts.nW / 512, col: withAlpha(GX.mute, 0.55), ymax: ts.ym, lw: 1, foot: `grey: 1 turn · blue: average · bearing left ${Math.round(100 * ts.bear)} %, noise ${Math.round(100 * ts.noise)} %`, footCol: GX.ink });
+        c.save(); c.beginPath(); c.rect(w.L, w.top - 4, w.R - w.L, w.bot - w.top + 8); c.clip(); c.strokeStyle = GX.inB; c.lineWidth = 1.8; c.beginPath(); for (let i = 0; i < avg.length; i++) { const px = w.X(i / 512), py = w.Y(avg[i]); i ? c.lineTo(px, py) : c.moveTo(px, py); } c.stroke(); c.restore();
+      }
+    }), 0, 0, W, H);
     // 1 · the gears, and which way they push
     const fg = rbFace(c, Gb, simple ? 'THE GEARBOX, HUMMING' : `21 : 64 AT 1500 RPM · ${ht ? '? GEARS' : P.gtype === 'spur' ? 'SPUR' : 'HELICAL'} · SENSOR ${P.dir === 'rad' ? 'RADIAL' : 'AXIAL'}`);
     gxPair(c, { x: fg.x + 4, y: fg.y + 18, w: fg.w - 8, h: fg.h - 20 }, 21, 64, t * 0.06, { fs, foot: 20, maxM: 7, a: { label: '21 teeth', fs }, b: { label: '64 teeth', fs } });
     if (!simple && !ht) gxNote(c, fg, P.gtype === 'spur' ? 'spur: pushes across the shaft, strongest radially' : 'helical: pushes along the shaft too, strongest axially', P.gtype === 'spur' ? GX.rad : GX.ax, fs);
     else gxNote(c, fg, 'pinion 25 Hz (1500 RPM) · gear 8.2 Hz', GX.mute, fs);
-    // 2 · the spectrum, with Fmax and what it cuts off
-    const x1 = Math.max(2000, fmax), m3 = 3 * M.gmf, miss = fmax < m3, bands = fmax < x1 ? [{ a: fmax, b: x1, col: GX.alarm, alpha: 0.1, lab: 'beyond Fmax' }] : [];
-    gxSpecM(c, Sp, Z.sp, M, { title: simple ? 'THE SPECTRUM: SMALL PEAKS WHERE EXPECTED' : `SPECTRUM: FMAX ${fmax} HZ, ${lines} LINES (LOG)`, x0: 0, x1, log: true, range: 60, bands, famMax: fmax,
-      marks: [].concat(fmax < M.gmf ? [{ x: M.gmf, col: GX.alarm, lab: 'GMF lost', row: 3 }] : [], fmax < 2 * M.gmf ? [{ x: 2 * M.gmf, col: GX.alarm, lab: '2×GMF lost', row: 2 }] : [], miss ? [{ x: m3, col: GX.alarm, lab: '3×GMF lost', row: 1 }] : []) });
-    // 3 · one turn of the pinion: count the pulses
-    const x = Z.s.x, fsr = Z.s.fs, n1 = Math.min(x.length, Math.round(fsr / M.fA)), spt = fsr / M.gmf, dots = [], seen = M.gmf < 1.2 * fmax;
-    let s0 = 0; if (seen) { const k0 = Math.ceil(spt); let p = k0; for (let i = k0; i < k0 + 2 * spt; i++) if (x[i] > x[p]) p = i; s0 = Math.max(0, Math.round(p - spt / 2 - spt * Math.floor((p - spt / 2) / spt))); }   // start half a tooth before a pulse, so the turn holds 21 whole pulses
-    const seg = x.subarray(s0, Math.min(x.length, s0 + n1));
-    if (seen) { let mx = 0, last = -1e9; for (let i = 0; i < seg.length; i++) mx = Math.max(mx, seg[i]);   // a dot on each tooth pulse: the local peaks, at least most of a tooth apart
-      for (let i = 1; i < seg.length - 1; i++) if (seg[i] > 0.35 * mx && seg[i] >= seg[i - 1] && seg[i] > seg[i + 1] && i - last > 0.6 * spt) { dots.push({ t: i / fsr, v: seg[i], col: GX.gmf, r: 2.4 }); last = i; } }
-    rbWave(c, Wv, seg, { title: simple ? 'ONE TURN OF THE PINION: COUNT THE PULSES' : 'WAVEFORM: ONE PINION TURN (40 ms)', fs: fsr, t0: 0, t1: n1 / fsr, col: GX.trace, unit: 'g', dots,
-      foot: seen ? (simple ? '21 pulses: one for each tooth' : '21 pulses, one per tooth; no transients') : 'Fmax is below the gear mesh: no tooth pulses', footCol: seen ? GX.ink : GX.alarm });
-    // 4 · TSA: the averaged turn of the chosen shaft
-    const ts = gx5TSA(L, P), avg = ts.T.y.subarray(0, ts.nW), ttl = `TSA: ${ts.T.n} TURN${ts.T.n > 1 ? 'S' : ''} OF THE ${P.tsa === 'A' ? 'INPUT' : 'OUTPUT'} SHAFT AVERAGED`;
-    if (simple) {
-      const ft = rbFace(c, Ts, ttl), bx = { x: ft.x + ft.w * 0.44, y: ft.y + 24, w: ft.w * 0.54, h: ft.h - 50 };
-      gxStack(c, { x: ft.x, y: ft.y + 14, w: ft.w * 0.42, h: ft.h - 18 }, ts.T.n); gxTrace(c, bx, ts.raw, { col: withAlpha(GX.mute, 0.55), ymax: ts.ym, lw: 1 }); gxTrace(c, bx, avg, { col: GX.inB, ymax: ts.ym, lw: 1.8 });
-      gxTxt(c, rbFit(c, `grey: one turn · blue: the average · ${ts.teeth} teeth shown`, bx.w, Math.max(GX_MIN, fs - 1), 600), bx.x + bx.w / 2, ft.y + ft.h - 12, { size: Math.max(GX_MIN, fs - 1), col: GX.ink, w: 600 });
-    } else {
-      const w = rbWave(c, Ts, ts.raw, { title: ttl, fs: 512, t0: 0, t1: ts.nW / 512, col: withAlpha(GX.mute, 0.55), ymax: ts.ym, lw: 1, foot: `grey: 1 turn · blue: average · bearing left ${Math.round(100 * ts.bear)} %, noise ${Math.round(100 * ts.noise)} %`, footCol: GX.ink });
-      c.save(); c.beginPath(); c.rect(w.L, w.top - 4, w.R - w.L, w.bot - w.top + 8); c.clip(); c.strokeStyle = GX.inB; c.lineWidth = 1.8; c.beginPath(); for (let i = 0; i < avg.length; i++) { const px = w.X(i / 512), py = w.Y(avg[i]); i ? c.lineTo(px, py) : c.moveTo(px, py); } c.stroke(); c.restore();
-    }
   } });
 
 /* ---------- 6 · Tooth wear and tooth load (C:15-24..15-27) ---------- */
@@ -19530,7 +19614,7 @@ simDef('gbx', { id: 'gbx-wear', short: 'Wear and load', title: 'Tooth wear and t
   key: 'Tooth wear: the gear mesh sidebands grow, spaced at the speed of the worn gear; the gear natural frequency (Gnf) is excited, with a broad base and sidebands at the speed of the gear with the damage; and 3×GMF rises with many sidebands. Tooth load raises the gear mesh with the load and the alignment, but a high gear mesh alone is not a fault.',
   remember: 'Load lifts the mesh; wear adds sidebands, a ringing bell and a taller 3×.',
   words: [['Sidebands', 'small peaks either side of a big one, spaced at the speed of whatever is changing it'], ['Modulation', 'a signal getting louder and softer, or faster and slower, over and over'], ['Gnf', 'the gear\'s natural frequency: the note it rings at when knocked'], ['Load', 'how hard the gears are working']],
-  links: [['gbxsim/gbx-look', 'Ch 15 · Look-alike gear faults'], ['gear', 'Gear lab: tooth wear'], ['machines/gear', 'Machine guide: gearboxes']],
+  links: [['gbxsim/gbx-lookalikes', 'Ch 15 · Look-alike gear faults'], ['gear', 'Gear lab: tooth wear'], ['machines/gear', 'Machine guide: gearboxes']],
   kw: 'tooth wear sidebands worn gear speed amplitude modulation frequency modulation gear natural frequency gnf bell hump broad base ringing 3x gmf tooth load gear mesh load alignment',
   init: { view: 'simple', wear: 0, gear: 'B', load: 1, zoom: 'gmf' },
   size: { wide: [0.62, 460, 660], narrow: [2.2, 820, 1180] },
@@ -19625,7 +19709,7 @@ const GX7_F = {
   backlash: { name: 'Backlash', pg: '15-28' },
   mis: { name: 'Misaligned gears', pg: '15-28..15-30' },
   spokes: { name: 'A gear with spokes', pg: '15-30..15-31' } };
-const GX7_D = { auto: 'Fits the fault', zoom: 'Zoom: gear mesh', zoom2: 'Zoom: 2×GMF', load: 'Load test', circle: 'Circular plot' };
+const GX7_D = { auto: 'Fits the fault', zoom: 'Zoom: gear mesh', zoom2: 'Zoom: 2×GMF', load: 'Load test', circle: 'Circular plot', compare: 'All four, side by side' };
 const GX7_LOADS = [0.5, 0.75, 1, 1.25, 1.5];
 function gx7Sig(L, P) {
   const sev = Math.round(P.sev * 20) / 20, ld = Math.round(P.load * 20) / 20, sk = Math.round(P.spk);
@@ -19657,6 +19741,34 @@ function gx7Chart(c, r, T, load, simple) {
   paTag(c, 'now', xl, y0 - 10, { size: 10, col: GX.ink, bg: 'rgba(4,7,6,0.85)', w: 700 });
   rbKey(c, x0, y1 + 30, [[GX.gmf, 'gear mesh'], [GX.gnf, 'Gnf'], [GX.mute, 'a healthy gearbox', true]], x1 - x0, 10);
 }
+/* the four look-alikes side by side, each in the view that shows it best, with the load test that tells the first two apart (C:15-26..15-31) */
+function gx7Compare(c, r, L, P, fs) {
+  const f = rbFace(c, r, 'THE FOUR LOOK-ALIKES, SIDE BY SIDE'), pad = 6, top = f.y + 22, cw = (f.w - 3 * pad) / 2, ch = (f.h - (top - f.y) - 2 * pad) / 2, FT = 15;
+  const cell = i => ({ x: f.x + pad + (i % 2) * (cw + pad), y: top + Math.floor(i / 2) * (ch + pad), w: cw, h: ch }), sev = Math.max(0.6, P.sev);
+  const foot = (i, t, col) => { const b = cell(i); gxTxt(c, rbFit(c, t, b.w - 10, GX_MIN, 600), b.x + b.w / 2, b.y + b.h - 10, { size: GX_MIN, col: col || GX.ink, w: 600 }); };
+  const sig = (k, g) => gx7Sig(L, Object.assign({}, P, { fault: k, gear: g, sev, load: 1, spk: 6 })), test = (k, g) => gx7Test(L, Object.assign({}, P, { fault: k, gear: g, sev, spk: 6 })).me;
+  const trend = T => (T[4].gmf < T[0].gmf ? 'falls' : 'rises'), g = P.gear, narrow = cw < 220;
+  // 1 · eccentric: one sideband pair round the gear mesh, and a gear mesh that follows the load
+  const Ze = sig('ecc', g), Me = Ze.M, fe = g === 'B' ? Me.fB : Me.fA, wide = Math.max(40, 4.6 * fe);
+  gxSpecM(c, cell(0), Ze.sp, Me, { title: 'ECCENTRIC', x0: Me.gmf - wide, x1: Me.gmf + wide, fam: false, log: true, range: 50, foot: FT, marks: gxSbMarks(Me.gmf, fe, 2, g === 'B' ? GX.inB : GX.inA, '').concat([{ x: Me.gmf, col: GX.gmf, lab: 'GMF', dash: false }]) });
+  foot(0, narrow ? `one pair; ${trend(test('ecc', g))} with load` : `one pair · GMF ${trend(test('ecc', g))} with load`, GX.gmf);
+  // 2 · backlash: the load test, against a healthy gearbox
+  const b = cell(1), fb = rbFace(c, b, 'BACKLASH'), Tb = test('backlash', g), ref = gx7Test(L, P).ref, x0 = fb.x + 10, x1 = fb.x + fb.w - 10, y0 = fb.y + 26, y1 = fb.y + fb.h - 20 - FT;
+  let ym = 0; for (const q of Tb.concat(ref)) ym = Math.max(ym, q.gmf); ym = (ym || 1) * 1.15;
+  const X = ld => x0 + (ld - 0.5) * (x1 - x0), Y = v => y1 - v / ym * (y1 - y0), poly = (pts, col, dash, lw) => { c.strokeStyle = col; c.lineWidth = lw; c.setLineDash(dash ? [5, 4] : []); c.beginPath(); pts.forEach((q, i) => (i ? c.lineTo(X(q.ld), Y(q.gmf)) : c.moveTo(X(q.ld), Y(q.gmf)))); c.stroke(); c.setLineDash([]); };
+  c.strokeStyle = J12K.axis; c.lineWidth = 1; c.beginPath(); c.moveTo(x0, y1 + 0.5); c.lineTo(x1, y1 + 0.5); c.stroke();
+  poly(ref, GX.mute, true, 1.4); poly(Tb, GX.gmf, false, 2.2);
+  gxTxt(c, 'healthy', X(1.5) - 2, Y(ref[4].gmf) - 9, { size: GX_MIN, col: GX.mute, align: 'right' });
+  gxTxt(c, 'load 50 → 150 %', (x0 + x1) / 2, y1 + 10, { size: GX_MIN, col: J12K.mute });
+  foot(1, narrow ? `GMF ${trend(Tb)} as load rises` : `the load test: GMF ${trend(Tb)} as load rises`, GX.gmf);
+  // 3 · misaligned: 2×GMF the highest
+  const Zm = sig('mis', g); gxSpecM(c, cell(2), Zm.sp, Zm.M, { title: 'MISALIGNED', x0: 0, x1: 2000, foot: FT, xticks: narrow ? [0, 1000, 2000] : undefined });
+  foot(2, narrow ? '2×GMF on top' : '2×GMF on top, sidebands at 2× speed', GX.gmf);
+  // 4 · spokes: six pulsations in one turn of the gear
+  const Zs = sig('spokes', 'B'), star = L.memo(`g7Cc|${Math.round(sev * 20)}`, () => gx4Star(gbxTSA(Zs.s, Zs.M.fB, 12, 360).y, 64)), fsp = rbFace(c, cell(3), 'SPOKES');
+  gxCirc(c, { x: fsp.x + 4, y: fsp.y + 16, w: fsp.w - 8, h: fsp.h - 20 - FT }, star, { col: GX.gapf, ticks: 6, hot: () => true });
+  foot(3, '6 spokes: 6 pulses a turn', GX.gapf);
+}
 /* the pair seen from above: the driven gear's shaft turned by tilt (radians), so the teeth bear at one end (C:15-29) */
 function gx7Side(c, box, tilt, fs) {
   const f = { x: box.x, y: box.y, w: box.w, h: box.h }, cx = f.x + f.w / 2, cy = f.y + f.h * 0.56, gw = f.w * 0.62, gh = Math.min(f.h * 0.2, 24);
@@ -19668,12 +19780,12 @@ function gx7Side(c, box, tilt, fs) {
   gxTxt(c, rbFit(c, 'they bear at one end', f.w - 8, Math.max(GX_MIN, fs - 1), 600), cx, f.y + f.h - 10, { size: Math.max(GX_MIN, fs - 1), col: GX.alarm, w: 600 });
   c.restore();
 }
-simDef('gbx', { id: 'gbx-look', short: 'Look-alike faults', title: 'Look-alike faults: an eccentric gear, backlash, misaligned gears and spokes', pages: '15-26..15-31',
+simDef('gbx', { id: 'gbx-lookalikes', short: 'Look-alike faults', title: 'Look-alike faults: an eccentric gear, backlash, misaligned gears and spokes', pages: '15-26..15-31',
   intro: 'Four faults that all make the gear mesh push unevenly, and how to tell them apart: an eccentric gear or bent shaft, backlash, misaligned gears and a gear with spokes. Read the sidebands, the gear mesh harmonics, the waveform, and what happens when the load changes.',
   key: 'Eccentric gear or bent shaft: the load varies once a turn, so sidebands at that gear\'s speed, often just one, and strong 1× and 3×GMF. Backlash: shaft-speed sidebands too, but the gear mesh and Gnf fall as the load rises. Misaligned gears: harmonics with 2×GMF the highest, sidebands that may be at 2× speed and lower below 2×GMF than above. Spokes: one pulse per spoke per turn.',
   remember: 'Off-centre: once a turn. Crooked: 2× the mesh. Loose: quieter under load. Spokes: one bump per spoke.',
   words: [['Eccentric', 'off-centre: the gear turns about a point that is not its middle'], ['Backlash', 'play between the teeth: the gap that lets one gear move a little before the other follows'], ['Misaligned', 'the two shafts are not quite parallel, so the teeth bear at one end'], ['Spoke', 'an arm joining the hub of a big gear to its rim'], ['Load test', 'measuring at light and heavy load to see which way the peaks move']],
-  links: [['gbxsim/gbx-wear', 'Ch 15 · Wear and load'], ['gear', 'Gear lab: eccentric gear, backlash, misalignment'], ['machines/gear', 'Machine guide: gearboxes']],
+  links: [['gbxsim/gbx-wear', 'Ch 15 · Wear and load'], ['gear', 'Gear lab: eccentric gear, backlash, misalignment'], ['machines/gear', 'Machine guide: gearboxes'], ['fault', 'Fault simulator: eccentricity (A7)']],
   kw: 'eccentric gear bent shaft amplitude modulation single sideband non-linear 1x 3x gear mesh backlash load test gear mesh decreases with load misaligned gears misalignment 2x gmf highest sidebands 2x rpm lower below axial log scale spokes pulsations per rotation look-alike',
   init: { view: 'simple', fault: 'ecc', gear: 'B', sev: 0.8, load: 1, spk: 6, detail: 'auto' },
   size: { wide: [0.62, 460, 660], narrow: [2.3, 860, 1220] },
@@ -19719,14 +19831,19 @@ simDef('gbx', { id: 'gbx-look', short: 'Look-alike faults', title: 'Look-alike f
     { part: 'deep', t: 'The waveform shows it', pg: '15-30', dur: 11, set: { detail: 'zoom2' },
       cap: 'The time waveform shows the modulation very clearly: here the pulses swell and fade twice in each turn of the misaligned gear.' },
     { part: 'deep', t: 'Gears with spokes', pg: '15-30..15-31', dur: 13, set: { fault: 'spokes', gear: 'B', sev: 0.8, spk: 6, detail: 'circle' },
-      cap: 'A spoked gear may have high spots where the spokes are. As each one goes into mesh the vibration rises for a moment: six spokes give six pulsations per turn. Wrap one turn round a circle and count them.' }],
+      cap: 'A spoked gear may have high spots where the spokes are. As each one goes into mesh the vibration rises for a moment: six spokes give six pulsations per turn. Wrap one turn round a circle and count them.' },
+    { part: 'deep', t: 'All four side by side', pg: '15-26..15-31', dur: 13, set: { fault: 'ecc', gear: 'B', sev: 0.8, load: 1, detail: 'compare' },
+      cap: 'The four look-alikes side by side: an eccentric gear often shows just one sideband pair; backlash looks similar, but in the load test its gear mesh often falls while the eccentric gear\'s rises; misalignment puts 2×GMF on top; spokes give one pulsation per spoke in each turn.',
+      plain: 'Same family of peaks, four different fingerprints: count the pairs, run the load test, compare the harmonics, count the pulses.' }],
   tips: ['Pick each fault in turn and count the swells per turn in the waveform: 1, then 2 for misalignment, then one per spoke.', 'Choose backlash and move the load: the gear mesh falls as the load rises. Try the same with an eccentric gear.', 'Zoom on 2×GMF with misaligned gears: the side-peaks are 2× the shaft speed apart, lower on the left.', 'Move the fault to the pinion: the sidebands spread to 25 Hz.'],
-  presets: [['Eccentric output gear', { fault: 'ecc', gear: 'B', detail: 'zoom' }], ['Backlash, load test', { fault: 'backlash', gear: 'B', detail: 'load' }], ['Misaligned', { fault: 'mis', gear: 'B', detail: 'zoom2' }], ['6 spokes', { fault: 'spokes', gear: 'B', spk: 6, detail: 'circle' }], ['Healthy', { fault: 'none', detail: 'zoom' }]],
-  chal(rand) {
-    const r = rand(), pick = a => a[Math.floor(rand() * a.length)], sev = 0.6 + 0.3 * rand();
+  presets: [['All four side by side', { fault: 'ecc', gear: 'B', detail: 'compare' }], ['Eccentric output gear', { fault: 'ecc', gear: 'B', detail: 'zoom' }], ['Backlash, load test', { fault: 'backlash', gear: 'B', detail: 'load' }], ['Misaligned', { fault: 'mis', gear: 'B', detail: 'zoom2' }], ['6 spokes', { fault: 'spokes', gear: 'B', spk: 6, detail: 'circle' }], ['Healthy', { fault: 'none', detail: 'zoom' }]],
+  chal(rand, L) {   // a set: four mystery spectra, one of each look-alike in a shuffled order, then which gear or how many spokes
+    const S = L && L.set, i = S ? S.i : Math.floor(rand() * 5), pick = a => a[Math.floor(rand() * a.length)], sev = 0.6 + 0.3 * rand();
+    if (S && !S.order) { const q = rng((S.seed * 2246822519) >>> 0); S.order = ['ecc', 'backlash', 'mis', 'spokes'].map(k => [q(), k]).sort((a, b) => a[0] - b[0]).map(x => x[1]); }
+    const r = i < 4 ? 0 : 0.6 + 0.4 * rand();
     if (r < 0.6) {
-      const ans = pick(['ecc', 'backlash', 'mis', 'spokes']), gear = ans === 'spokes' ? 'B' : pick(['A', 'B']), sk = 6;
-      return { title: 'which fault?', lead: 'The lab\'s gearbox (a 21-tooth pinion at 25 Hz, a 64-tooth gear at 8.2 Hz). The fault is hidden; the top-left panel shows a load test instead of the gears.', q: 'Which fault is it?', opts: ['ecc', 'backlash', 'mis', 'spokes'].map(k => [k, GX7_F[k].name]), ans,
+      const ans = S ? S.order[i] : pick(['ecc', 'backlash', 'mis', 'spokes']), gear = ans === 'spokes' ? 'B' : pick(['A', 'B']), sk = 6;
+      return { title: `mystery spectrum ${S ? i + 1 : ''}`.trim(), lead: 'The lab\'s gearbox (a 21-tooth pinion at 25 Hz, a 64-tooth gear at 8.2 Hz). The fault is hidden; the top-left panel shows a load test instead of the gears.', q: 'Which fault is it?', opts: ['ecc', 'backlash', 'mis', 'spokes'].map(k => [k, GX7_F[k].name]), ans,
         why: { ecc: 'Sidebands at one gear\'s speed, often a single pair, strong 1× and 3×GMF, and the gear mesh follows the load: an eccentric gear or bent shaft (C:15-26..15-27).', backlash: 'Shaft-speed sidebands, and the gear mesh and Gnf fall as the load rises: backlash (C:15-28).', mis: '2×GMF is the highest, with sidebands: misaligned gears (C:15-28..15-30).', spokes: 'Even pulses in the waveform, six per turn of the big gear, and sidebands 6 × 8.2 Hz apart: a gear with spokes (C:15-30).' }[ans],
         set: { view: 'deep', fault: ans, gear, sev, load: 1, spk: sk, detail: 'zoom' }, hide: { fault: 1 } };
     }
@@ -19779,9 +19896,9 @@ simDef('gbx', { id: 'gbx-look', short: 'Look-alike faults', title: 'Look-alike f
     if (!hG) { marks.push({ t: 1 / fG, col: onB ? GX.inB : GX.inA, alpha: 0.85 }); if (fault === 'spokes' && !hS) for (let s = 1; s < 2 * S; s++) if (s % S) marks.push({ t: s / (S * fG), col: GX.gapf, alpha: 0.35 }); }
     rbWave(c, Wv, Z.s.x.subarray(0, n), { title: hG ? 'WAVEFORM (0.3 s)' : `WAVEFORM: 2 TURNS OF THE ${onB ? 'OUTPUT GEAR' : 'PINION'}`, fs: fsr, t0: 0, t1: n / fsr, col: GX.trace, unit: 'g', marks,
       foot: hG || hS ? '' : { none: 'even pulses', ecc: 'the pulses swell once a turn', backlash: 'a swell once a turn, louder at light load', mis: 'the pulses swell twice a turn', spokes: `a pulse at each spoke: ${S} a turn` }[fault], footCol: GX.ink });
-    // 3 · the whole spectrum
+    // 3 and 4 · all four look-alikes side by side (in the space of both right-hand panels), or the whole spectrum and a zoom, the load test or the circular plot
+    if (det === 'compare') { gx7Compare(c, { x: Sp.x, y: Sp.y, w: Sp.w, h: Dt.y + Dt.h - Sp.y }, L, P, fs); return; }
     gxSpecM(c, Sp, Z.sp, M, { title: simple ? 'THE SPECTRUM (ACCELERATION)' : 'SPECTRUM 0–2000 Hz, LINEAR', x0: 0, x1: 2000, gnf: !hF });
-    // 4 · the bottom-right panel: a zoom, the load test or the circular plot
     if (det === 'load') gx7Chart(c, Dt, gx7Test(L, P), P.load, simple);
     else if (det === 'circle') {
       const star = L.memo(`g7C|${fault}|${P.gear}|${Math.round(P.sev * 20)}|${Math.round(P.load * 20)}|${S}`, () => gx4Star(gbxTSA(Z.s, fG, 12, 360).y, onB ? 64 : 21));
@@ -19830,7 +19947,7 @@ simDef('gbx', { id: 'gbx-tooth', short: 'Broken and spalled teeth', title: 'Crac
   words: [['Crack', 'a split in a tooth, often at its root'], ['Spall', 'a flake of metal broken out of the tooth surface, leaving a pit'], ['Impact', 'a short, sharp knock'], ['1X of a gear', 'the speed of that gear, once per turn'], ['Ferrography', 'wear particle analysis: looking at the metal crumbs in the oil']],
   links: [['gbxsim/gbx-measure', 'Ch 15 · Measuring a gearbox'], ['ch4/gear', 'Ch 4 · Gearbox waveforms'], ['gear', 'Gear lab: a cracked or broken tooth']],
   kw: 'cracked tooth broken tooth missing tooth 1x of the gear gear natural frequency gnf sidebands waveform one pulse different period of the gear spalling spall impacts rpm in/s 0.006 no alarm time waveform importance wear particle analysis ferrography oil analysis spectroscopy microns',
-  init: { view: 'simple', fault: 'broken', gear: 'B', sev: 0.8, unit: 'mm', detail: 'zoom' },
+  init: { view: 'simple', fault: 'broken', gear: 'B', sev: 0.8, unit: 'mm', detail: 'zoom', c1: 20, c2: 80 },
   size: { wide: [0.62, 460, 660], narrow: [2.3, 860, 1220] },
   setup(L) { L.gxT = 0; },
   tick(L, dt) { L.gxT = (L.gxT || 0) + dt; },
@@ -19840,6 +19957,8 @@ simDef('gbx', { id: 'gbx-tooth', short: 'Broken and spalled teeth', title: 'Crac
     { p: 'sev', label: 'How bad', min: 0.1, max: 1, step: 0.05, fmt: v => `${Math.round(v * 100)} %` },
     { p: 'unit', label: 'Spectrum unit', type: 'seg', opts: [['mm', 'mm/s RMS'], ['in', 'in/s peak']] },
     { p: 'detail', label: 'Bottom-right panel', type: 'select', opts: Object.entries(GX8_D) },
+    { p: 'c1', label: 'Waveform cursor A', min: 0, max: 300, step: 1, fmt: v => `${Math.round(v)} ms`, free: true },
+    { p: 'c2', label: 'Waveform cursor B', min: 0, max: 300, step: 1, fmt: v => `${Math.round(v)} ms`, free: true },
     { p: 'view', label: 'Explain', type: 'seg', opts: [['simple', 'Simply'], ['deep', 'In detail']] }],
   steps: [
     { part: 'simple', t: 'A bump on the wheel', pg: '15-31', dur: 12, set: { view: 'simple', fault: 'broken', gear: 'B', sev: 0.8, unit: 'mm', detail: 'zoom' },
@@ -19871,13 +19990,13 @@ simDef('gbx', { id: 'gbx-tooth', short: 'Broken and spalled teeth', title: 'Crac
       cap: 'Wear particle analysis often warns of gear damage well before vibration analysis does. It is separate from routine oil analysis, which misses the abnormal particles: spectroscopy sees only up to about 6–10 µm, while cutting, abrasive and sliding wear make bigger ones. WPA sees particles from 1 to 350 µm.' }],
   tips: ['Move a broken tooth between the pinion and the gear: the gap between the odd pulses changes from 40 ms to 122 ms, and the high 1X moves with it.', 'Compare a crack and a broken tooth on the same gear.', 'Pick spalled teeth with the unit in in/s: the spectrum stays tiny while the waveform shows the knocks.', 'Pick tooth wear to compare: the knocks come at every tooth, not once a turn.'],
   presets: [['Broken tooth, output gear', { fault: 'broken', gear: 'B', detail: 'zoom' }], ['Cracked tooth, pinion', { fault: 'crack', gear: 'A', detail: 'zoom' }], ['Spalled teeth', { fault: 'spall', gear: 'B', unit: 'in', detail: 'alarm' }], ['Tooth wear', { fault: 'wear', gear: 'B', detail: 'zoom' }], ['Wear particles', { detail: 'wpa' }]],
-  chal(rand) {
-    const pick = a => a[Math.floor(rand() * a.length)];
-    if (rand() < 0.5) {
+  chal(rand, L) {   // a set: three bad teeth to find with the cursors, then two gearboxes to read
+    const pick = a => a[Math.floor(rand() * a.length)], i = L && L.set ? L.set.i : Math.floor(rand() * 5);
+    if (i < 3) {
       const gear = pick(['A', 'B']), fault = pick(['crack', 'broken']);
-      return { title: 'which gear?', lead: `A ${fault === 'crack' ? 'cracked' : 'broken'} tooth, on one of the two gears. Which one is hidden.`, q: 'Which gear has the damaged tooth?', opts: [['A', 'The 21-tooth pinion (25 Hz)'], ['B', 'The 64-tooth gear (8.2 Hz)']], ans: gear,
+      return { title: 'which gear?', lead: `A ${fault === 'crack' ? 'cracked' : 'broken'} tooth, on one of the two gears; which one is hidden. Drag cursors A and B onto two knocks in a row in the waveform (or use their sliders) and read the gap.`, q: 'Which gear has the damaged tooth?', opts: [['A', 'The 21-tooth pinion (25 Hz)'], ['B', 'The 64-tooth gear (8.2 Hz)']], ans: gear,
         why: gear === 'A' ? 'The odd pulses come every 40 ms (25 times a second) and the pinion\'s 1X at 25 Hz is high: the pinion (C:15-31).' : 'The odd pulses come every 122 ms (8.2 times a second) and the gear\'s 1X at 8.2 Hz is high: the output gear (C:15-31).',
-        set: { view: 'deep', fault, gear, sev: 0.75, unit: 'mm', detail: 'zoom' }, hide: { gear: 1 } };
+        set: { view: 'deep', fault, gear, sev: 0.75, unit: 'mm', detail: 'zoom', c1: 15, c2: 70 }, hide: { gear: 1 } };
     }
     const ans = pick(['broken', 'spall', 'wear', 'none']);
     return { title: 'what is it?', lead: 'The lab\'s gearbox, 21 teeth at 25 Hz driving 64 at 8.2 Hz. The damage is hidden. The spectrum is in in/s peak.', q: 'What do you see?', opts: [['broken', 'A cracked or broken tooth'], ['spall', 'Spalled teeth'], ['wear', 'Tooth wear'], ['none', 'A healthy gearbox']], ans,
@@ -19895,7 +20014,8 @@ simDef('gbx', { id: 'gbx-tooth', short: 'Broken and spalled teeth', title: 'Crac
     const Z = gx8Sig(L, P), M = Z.M, h = L.hide || {}, hid = h.fault || h.gear, R = gx8Read(Z), v1 = f => gbxA2V(gbxPeak(Z.sp, f, 1).a, f), dt = 1000 / (P.gear === 'B' ? M.fB : M.fA);
     return [['Damage', h.fault ? '?' : GX8_F[P.fault]], ['On', hid || P.fault === 'none' ? '–' : P.gear === 'B' ? 'the output gear (8.2 Hz)' : 'the pinion (25 Hz)'], ['1X of each shaft', `pinion ${gxFmt(v1(M.fA), 2)} · gear ${gxFmt(v1(M.fB), 2)} mm/s RMS`],
       ['Gear mesh, Gnf band', `${gxFmt(gbxPeak(Z.sp, M.gmf).a, 3)} g · ${gxFmt(gbxBand(Z.sp, M.gnf - 45, M.gnf + 45), 3)} g RMS`], ['Highest spectrum peak', `${gxFmt(R.v, 4)} in/s pk at ${gxFmt(R.vf, 1)} Hz`], ['Waveform peak', `${gxFmt(R.g, 2)} g`],
-      ['Knocks', hid || P.fault === 'none' || P.fault === 'wear' ? '–' : `one every ${gxFmt(dt, 0)} ms = once a turn of the ${P.gear === 'B' ? 'gear' : 'pinion'}`]];
+      ['Knocks', hid || P.fault === 'none' || P.fault === 'wear' ? '–' : `one every ${gxFmt(dt, 0)} ms = once a turn of the ${P.gear === 'B' ? 'gear' : 'pinion'}`],
+      ['Cursors A–B', (() => { const d = Math.abs(P.c2 - P.c1); return d > 1 ? `${gxFmt(d, 0)} ms → ${gxFmt(1000 / d, 2)} Hz (pinion 25 Hz = 40 ms, gear 8.2 Hz = 122 ms)` : 'put A and B on two knocks in a row'; })()]];
   },
   draw(c, W, H, L) {
     const P = L.P, fs = L.fs, simple = P.view === 'simple', hid = L.hide || {}, Z = gx8Sig(L, P), M = Z.M, t = L.gxT || 0, onB = P.gear === 'B', fG = onB ? M.fB : M.fA;
@@ -19923,6 +20043,15 @@ simDef('gbx', { id: 'gbx-tooth', short: 'Broken and spalled teeth', title: 'Crac
       const xa = w.X(ev[0]), xb = w.X(ev[1]), y = w.top + 12, dtm = (ev[1] - ev[0]) * 1000;
       paArrow(c, (xa + xb) / 2, y, xa + 2, y, GX.ink, 1.5, 6); paArrow(c, (xa + xb) / 2, y, xb - 2, y, GX.ink, 1.5, 6);
       paTagIn(c, `${gxFmt(dtm, 0)} ms → ${gxFmt(1000 / dtm, 1)} Hz`, (xa + xb) / 2, y + 14, w.f, { size: Math.max(GX_MIN, fs - 1), col: GX.ink, bg: 'rgba(4,7,6,0.85)', w: 700 });
+    }
+    if (!simple) {   // two time cursors to measure the gap between knocks: drag them on the waveform, or use their sliders
+      const T1 = n / fsr, ta = clamp(P.c1 / 1000, 0, T1), tb = clamp(P.c2 / 1000, 0, T1), dms = Math.abs(tb - ta) * 1000;
+      for (const [id, tt, lab] of [['c1', ta, 'A'], ['c2', tb, 'B']]) {
+        const x = w.X(tt); c.strokeStyle = withAlpha(GX.ink, 0.85); c.lineWidth = 1; c.setLineDash([4, 3]); c.beginPath(); c.moveTo(x, w.top); c.lineTo(x, w.bot); c.stroke(); c.setLineDash([]);
+        c.fillStyle = GX.ink; c.beginPath(); c.arc(x, w.top + 7, 6, 0, TAU); c.fill(); gxTxt(c, lab, x, w.top + 7, { size: 10, col: '#05100c', w: 800 });
+        L.handle(c, { id, x, y: w.top + 7, r: 10, drag: xx => { L.T[id] = L.P[id] = Math.round(clamp((xx - w.L) / (w.R - w.L), 0, 1) * T1 * 1000); L.syncControls(); } });
+      }
+      paTagIn(c, `A–B ${gxFmt(dms, 0)} ms${dms > 1 ? ` → ${gxFmt(1000 / dms, 1)} Hz` : ''}`, w.R - 4, w.bot - 10, w.f, { align: 'right', size: Math.max(GX_MIN, fs - 1), col: GX.ink, bg: 'rgba(4,7,6,0.88)', w: 700 });
     }
     // 3 · the spectrum in velocity on a log frequency scale, so the shaft speeds and the gear mesh both show; a fixed scale, so a quiet gearbox looks quiet
     const inch = P.unit === 'in', marks = [{ x: M.fA, col: GX.inA, lab: '1X pinion', dash: false, alpha: 0.5 }, { x: M.fB, col: GX.inB, lab: '1X gear', row: 1, dash: false, alpha: 0.5 }];
@@ -20034,8 +20163,8 @@ simDef('gbx', { id: 'gbx-planet', short: 'Planetary gearboxes', title: 'Planetar
       cap: 'There are other configurations, and trains of planetary sets. Learn how yours is built and check that it follows the same rules before you calculate.' }],
   tips: ['Change what is held and what is the input: the output\'s speed and direction follow.', 'Set the ring to 64 with a 24-tooth sun and 16-tooth planets: a gap opens between the planets and the ring.', 'Count the planets: the map adds n × GMF and the planet pass sidebands move.', 'Watch the numbers panel: the three gear mesh products always agree.'],
   presets: [['Ring held, sun in', { cfg: 'planetary', inp: 'sun', ns: 18, np: 15, ring: 'fit' }], ['Ring held, carrier in', { cfg: 'planetary', inp: 'carrier', ns: 18, np: 15, ring: 'fit' }], ['Carrier held (star)', { cfg: 'star', inp: 'sun', ns: 18, np: 15, ring: 'fit' }], ['Sun held (solar)', { cfg: 'solar', inp: 'carrier', ns: 18, np: 15, ring: 'fit' }], ['The manual\'s 24/16/64', { cfg: 'star', inp: 'sun', ns: 24, np: 16, ring: 'book' }]],
-  chal(rand) {
-    const pick = a => a[Math.floor(rand() * a.length)], [ns, np, nr] = pick(GX9_SETS), kind = Math.floor(rand() * 4), rpm = pick([900, 1200, 1500, 1800]);
+  chal(rand, L) {   // a set: the output speed and the gear mesh, twice each, then a fit or a name
+    const pick = a => a[Math.floor(rand() * a.length)], [ns, np, nr] = pick(GX9_SETS), kind = L && L.set ? [0, 1, 0, 1, 2 + (L.set.seed % 2)][L.set.i % 5] : Math.floor(rand() * 4), rpm = pick([900, 1200, 1500, 1800]);
     const cfg = pick(Object.keys(GX9_CFG)), held = GX9_CFG[cfg].held, inp = pick(['sun', 'carrier', 'ring'].filter(m => m !== held)), S = gbxPlanet({ ns, np, nr, n: 3, held, input: inp, sIn: rpm / 60 });
     const set = { view: 'deep', cfg, inp, ns, np, ring: 'fit', n: 3, rpm }, out = S.out;
     if (kind === 0) { const O = gxOpts(rand, Math.abs(S[out]) * 60, [rpm * ns / nr, rpm * nr / ns, rpm * (1 + nr / ns), rpm / (1 + nr / ns), rpm * np / ns].filter(v => Math.abs(v - Math.abs(S[out]) * 60) > 1), v => `${gxFmt(v, 0)} RPM`);
@@ -20106,7 +20235,23 @@ const GX10_SPOT = {   // how well each place passes the gear vibration, and the 
   wall: { g: 0.4, res: [640, 0.06], note: 'a thin wall resonates and adds its own peak' } };
 const GX10_MOUNT = { stud: { n: 'Stud on a smooth, flat face', fn: 14000, z: 0.04, k: 'stud' }, glue: { n: 'Adhesive pad', fn: 9000, z: 0.06, k: 'glue' }, mag: { n: 'Two-pole magnet, flat face', fn: 5000, z: 0.08, k: 'pole' },
   paint: { n: 'Two-pole magnet on paint', fn: 2000, z: 0.12, k: 'pole' }, hand: { n: 'Hand-held probe', fn: 800, z: 0.25, k: 'hand' } };   // the Data collection guide's values (the stud: C:11-29; the rest lab values)
+/* three-stage gearboxes for the setup round, chosen so every check passes or fails by a clear margin */
+const GX10_3ST = [[1780, [23, 67, 19, 72, 17, 61]], [1780, [25, 71, 19, 67, 16, 49]], [1480, [23, 67, 19, 72, 17, 61]], [1480, [27, 79, 21, 68, 17, 55]], [1480, [29, 83, 19, 64, 17, 59]], [1780, [27, 79, 21, 68, 17, 55]], [1180, [27, 79, 21, 68, 17, 55]]];
+function gx10Three(rpm, z) {   // the speeds, the meshes, and the two spectra a three-stage box needs (C:15-15, 15-40)
+  const f1 = rpm / 60, f2 = f1 * z[0] / z[1], f3 = f2 * z[2] / z[3], f4 = f3 * z[4] / z[5], g1 = z[0] * f1, g2 = z[2] * f2, g3 = z[4] * f3;
+  const sep = (F, Ln) => 2.25 * F / Ln, linesFor = (F, sp) => GBX.LINES.find(Ln => sep(F, Ln) <= sp) || GBX.LINES[GBX.LINES.length - 1];
+  const Fh = gbxFmaxFor(g1), Fl = gbxFmaxFor(g2), Lh = linesFor(Fh, f2), Ll = linesFor(Fl, f4);
+  const pass = set => set.some(([F, Ln]) => F >= 3.3 * g1 && sep(F, Ln) <= f2) && set.some(([F, Ln]) => F >= 3.3 * g2 && sep(F, Ln) <= f4);   // mesh 1, then meshes 2 and 3
+  return { f1, f2, f3, f4, g1, g2, g3, Fh, Fl, Lh, Ll, sep, pass };
+}
 const gx10Next = k => { const ks = Object.keys(GX10_MOUNT); return ks[Math.min(ks.length - 1, ks.indexOf(k) + 1)]; };   // the next simpler mount
+/* the same setup in the field names of the VA5 Pro and of Adash DDS: the spectrum, and a waveform of 8 turns of the slow output (C:15-24) */
+function gx10Fields(fmax, lines, fOut) {
+  const len = 8 / fOut, rV = VA_RANGE.find(r => r >= fmax) || fmax, bV = VA_FMAX.find(r => r >= fmax) || fmax, fsV = vaBandFs(bV), N = Math.pow(2, Math.ceil(Math.log2(fsV * len))), n = v => Math.round(v).toLocaleString('en-US');   // the VA5 samples time readings at a power of two
+  const nt = r => (r !== fmax ? ` (${n(fmax)} is not a VA5 choice)` : '');
+  return [['VA5 Pro: Spectrum', `Unit g · Range ${n(rV)}${nt(rV)} · Lines ${n(lines)} · FFT Window Hanning (VA5:53, 63)`], ['VA5 Pro: Time', `Band fmax[Hz] ${n(bV)} · Samples ${n(N)} = ${gxFmt(N / fsV, 2)} s at ${n(fsV)} samples a second (VA5:53)`],
+    ['DDS: Spectrum', `Quantity Acceleration [g] · Range[Hz] ${n(fmax)} · Lines ${n(lines)} · Window Type Hanning (DDS:101-102)`], ['DDS: Time', `Length[s] ${gxFmt(len, 2)} (8 turns of the output) · Fmax[Hz] ${n(fmax)} · FS[Hz] By Band Fmax (DDS:101-102)`]];
+}
 function gx10H(f, spot, mount) {   // the path and the mount at f, as a complex gain [re, im]
   const S = GX10_SPOT[spot], m = GX10_MOUNT[mount]; let re = S.g, im = 0;
   const mul = (fn, z) => { const r = f / fn, dr = 1 - r * r, di = 2 * z * r, d = dr * dr + di * di, hr = dr / d, hi = -di / d, nr = re * hr - im * hi; im = re * hi + im * hr; re = nr; };
@@ -20189,8 +20334,17 @@ simDef('gbx', { id: 'gbx-measure', short: 'Measuring a gearbox', title: 'Measuri
       cap: 'The waveform is an essential tool, and it helps to listen to it. It shows each mesh, so uneven meshing from eccentricity, misalignment or damaged teeth shows up. It must have high enough resolution to show the detail and last long enough to catch every event: 6–10 turns of each shaft.' }],
   tips: ['Move the sensor round the case: the gear mesh drops on the foot, and the cover adds a resonance peak of its own.', 'Try each mount with the response panel open: watch where 3×GMF falls on the curve.', 'Use 2200 Hz and 800 lines with the 150-tooth output: the 3.5 Hz sidebands merge. Then try 3200 lines.', 'Choose the 150-tooth output, Fmax 2000 Hz and 400 lines: the waveform holds less than one turn of the slow output.'],
   presets: [['A good setup', { spot: 'web', dir: 'rad', mount: 'stud', gtype: 'spur', fmax: '2000', lines: '3200', tB: '64' }], ['On the cover', { spot: 'cover' }], ['Hand-held', { mount: 'hand', detail: 'mount' }], ['The manual\'s 2200 / 800', { fmax: '2200', lines: '800', tB: '150', detail: 'zoom' }]],
-  chal(rand) {
-    const kind = Math.floor(rand() * 4), pick = a => a[Math.floor(rand() * a.length)];
+  chal(rand, L) {   // a set: where, which way, how mounted, how many lines, then a whole setup for a three-stage gearbox
+    const kind = L && L.set ? L.set.i % 5 : Math.floor(rand() * 5), pick = a => a[Math.floor(rand() * a.length)];
+    if (kind === 4) {
+      const [rpm, z] = pick(GX10_3ST), X = gx10Three(rpm, z), lab = set => set.map(([F, Ln]) => `${F} Hz × ${Ln} lines`).join(', then '), below = F => GBX.FMAX[Math.max(0, GBX.FMAX.indexOf(F) - 1)];
+      const good = [[X.Fh, X.Lh], [X.Fl, X.Ll]], bads = [[[X.Fh, 6400]], [[X.Fh, X.Lh], [X.Fl, X.Ll / 2]], [[below(X.Fh), X.Lh], [X.Fl, X.Ll]], [[X.Fh, X.Lh], [below(X.Fl), X.Ll]]].filter(b => b.every(([F, Ln]) => GBX.LINES.includes(Ln) && F > 0) && !X.pass(b) && !b.some(([F]) => (F >= 3 * X.g1 && F < 3.3 * X.g1) || (F >= 3 * X.g2 && F < 3.3 * X.g2)));   // never a set that covers 3×GMF but not the 3.3× margin: it could be argued either way
+      const opts = [good, ...bads.slice(0, 3)].sort(() => rand() - 0.5).map(b => [lab(b), lab(b)]), r = v => gxFmt(v, v < 10 ? 2 : 0);
+      return { title: 'a three-stage gearbox', lead: `A three-stage reduction gearbox at ${rpm} RPM, teeth ${z[0]} : ${z[1]}, ${z[2]} : ${z[3]} and ${z[4]} : ${z[5]}. Gear meshes ${r(X.g1)}, ${r(X.g2)} and ${r(X.g3)} Hz; shafts ${r(X.f1)}, ${r(X.f2)}, ${r(X.f3)} and ${r(X.f4)} Hz. (The stage still shows the lab\'s two-gear box: work this one from the numbers.)`,
+        q: 'Which set of spectra passes every check: Fmax for 3 × each gear mesh and its sidebands, and lines to separate the sidebands of the slower shaft at each mesh?', opts, ans: lab(good),
+        why: `Mesh 1 (${r(X.g1)} Hz) needs Fmax at least 3.3 × GMF = ${r(3.3 * X.g1)} Hz, so ${X.Fh} Hz, and its sidebands ${r(X.f2)} Hz apart need 2.25 × Fmax ÷ lines ≤ ${r(X.f2)} Hz: ${X.Lh} lines give ${r(X.sep(X.Fh, X.Lh))} Hz. Meshes 2 and 3 (${r(X.g2)} and ${r(X.g3)} Hz) need at least ${r(3.3 * X.g2)} Hz, so ${X.Fl} Hz, and the output\'s sidebands ${r(X.f4)} Hz apart need ${X.Ll} lines (${r(X.sep(X.Fl, X.Ll))} Hz). With at most 6400 lines, one spectrum cannot do both. The slow output also needs its own long waveform: 6–10 turns is ${r(6 / X.f4)}–${r(10 / X.f4)} s (C:15-24, 15-40).`,
+        set: { view: 'deep', detail: 'zoom' } };
+    }
     if (kind === 0) { const all = ['web', 'cover', 'wall', 'foot'], name = id => GX_SPOTS.find(s => s.id === id).name;
       return { title: 'where?', lead: 'You are about to measure a gearbox. The sensor\'s place is hidden on the stage.', q: 'Which place gives the best path for the gear vibration?', opts: all.map(id => [id, name(id)[0].toUpperCase() + name(id).slice(1)]), ans: 'web',
         why: 'Where the internal webbing meets the case: a good mechanical path. Covers and walls resonate (C:15-38..15-39); the foot is far from the gears.', set: { view: 'deep', spot: 'web', mount: 'stud', detail: 'zoom' }, hide: { spot: 1 } }; }
@@ -20215,7 +20369,8 @@ simDef('gbx', { id: 'gbx-measure', short: 'Measuring a gearbox', title: 'Measuri
     const Z = gx10Sig(L, P), M = Z.M, fmax = +P.fmax, lines = +P.lines, R = gbxRes(fmax, lines), T = lines / fmax, h = L.hide || {}, m = GX10_MOUNT[P.mount], r3 = 3 * M.gmf / m.fn, g3 = 20 * Math.log10(1 / Math.hypot(1 - r3 * r3, 2 * m.z * r3));
     return [['Sensor', h.spot ? '?' : GX_SPOTS.find(s => s.id === P.spot).name], ['Direction · gears', `${h.dir ? '?' : P.dir === 'rad' ? 'radial' : 'axial'} · ${P.gtype}`], ['Mount', h.mount ? '?' : `${m.n}: resonance ≈ ${m.fn} Hz, ${g3 >= 0 ? '+' : ''}${gxFmt(g3, 1)} dB at 3×GMF`],
       ['Gear mesh peak', `${gxFmt(gbxPeak(Z.sp, M.gmf).a, 3)} g`], ['Fmax', `${fmax} Hz: ${gx5Reach(fmax, M.gmf)}`], ['Resolution', `${gxFmt(R.df, 3)} Hz per line · a peak ${gxFmt(R.peak, 2)} Hz · to separate ≈ ${gxFmt(R.sep, 2)} Hz`],
-      ['Sidebands at the output speed', `${gxFmt(M.fB, 2)} Hz apart: ${M.fB >= R.sep ? 'resolved' : 'merged'}`], ['Record', `${gxFmt(T, 2)} s: ${gxFmt(T * M.fA, 1)} turns of the input, ${gxFmt(T * M.fB, 1)} of the output`]];
+      ['Sidebands at the output speed', `${gxFmt(M.fB, 2)} Hz apart: ${M.fB >= R.sep ? 'resolved' : 'merged'}`], ['Record', `${gxFmt(T, 2)} s: ${gxFmt(T * M.fA, 1)} turns of the input, ${gxFmt(T * M.fB, 1)} of the output`],
+      ...gx10Fields(fmax, lines, M.fB)];
   },
   draw(c, W, H, L) {
     const P = L.P, fs = L.fs, simple = P.view === 'simple', Z = gx10Sig(L, P), M = Z.M, fmax = +P.fmax, lines = +P.lines, h = L.hide || {}, R = gbxRes(fmax, lines);
@@ -20250,7 +20405,7 @@ simDef('gbx', { id: 'gbx-measure', short: 'Measuring a gearbox', title: 'Measuri
 /* ---------- 11 · Diagnose a gearbox: the whole chapter as a workflow and a case book (C:15-15..15-40) ---------- */
 const GX11_CASES = {
   ok: { name: 'A healthy gearbox', o: { fault: 'none' }, alt: ['load', 'wearB', 'ghost'] },
-  load: { name: 'Healthy, but heavily loaded', o: { fault: 'none', load: 1.45 }, alt: ['ok', 'wearB', 'back'] },
+  load: { name: 'Healthy, but heavily loaded', o: { fault: 'none', load: 1.45 }, alt: ['eccB', 'wearB', 'back'] },
   wearB: { name: 'Tooth wear on the output gear', o: { fault: 'wear', gear: 'B', sev: 0.75 }, alt: ['wearA', 'eccB', 'load'] },
   wearA: { name: 'Tooth wear on the pinion', o: { fault: 'wear', gear: 'A', sev: 0.75 }, alt: ['wearB', 'eccA', 'crackA'] },
   eccA: { name: 'An eccentric pinion or bent shaft', o: { fault: 'ecc', gear: 'A', sev: 0.8 }, alt: ['eccB', 'back', 'wearA'] },
@@ -20263,30 +20418,52 @@ const GX11_CASES = {
   spall: { name: 'Spalled teeth', o: { fault: 'spall', gear: 'B', sev: 0.6 }, alt: ['brokenB', 'ok', 'wearB'] },
   gapf: { name: 'Assembly phase damage', o: { fault: 'gapf', tA: 30, tB: 18, sev: 0.8 }, alt: ['hunt', 'ghost', 'wearA'] },
   hunt: { name: 'A hunting tooth defect', o: { fault: 'hunt', tA: 30, tB: 18, sev: 0.8 }, alt: ['gapf', 'ghost', 'brokenB'] },
-  ghost: { name: 'A ghost frequency', o: { fault: 'ghost', age: 0 }, alt: ['gapf', 'ok', 'hunt'] } };
-const GX11_WHY = {
-  ok: 'Low peaks at the gear mesh and its harmonics, no sidebands to speak of, no Gnf hump, even pulses in the waveform (C:15-22..15-24).',
-  load: 'The whole gear mesh family is up, but there are no sidebands, no Gnf and no knocks: load, not a fault (C:15-26).',
-  wearB: 'Sidebands round the gear mesh 8.2 Hz apart, a Gnf hump with the same spacing, and a tall 3×GMF: wear on the output gear (C:15-24..15-25).',
-  wearA: 'Sidebands round the gear mesh 25 Hz apart, a Gnf hump with the same spacing, and a tall 3×GMF: wear on the pinion (C:15-24..15-25).',
-  eccA: 'One sideband pair 25 Hz from the gear mesh, a strong 3×GMF, a waveform that swells once per pinion turn, and a gear mesh that follows the load: an eccentric pinion or bent shaft (C:15-26..15-27).',
-  eccB: 'One sideband pair 8.2 Hz from the gear mesh, a strong 3×GMF, a waveform that swells once per gear turn, and a gear mesh that follows the load: an eccentric output gear or bent shaft (C:15-26..15-27).',
-  back: 'Shaft-speed sidebands, and in the load test the gear mesh and Gnf fall as the load rises: backlash (C:15-28).',
-  mis: '2×GMF higher than the gear mesh, with sidebands at 2× the gear speed, lower below 2×GMF than above: misaligned gears (C:15-28..15-30).',
-  spokes: 'Six pulsations per turn of the output gear in the waveform and the circular plot: a gear with six spokes (C:15-30).',
-  brokenB: 'A high 1X of the output gear, Gnf rung, sidebands 8.2 Hz apart, and one big knock every 122 ms: a broken tooth on the output gear (C:15-31).',
-  crackA: 'A high 1X of the pinion, Gnf rung, sidebands 25 Hz apart, and one odd pulse every 40 ms: a cracked tooth on the pinion (C:15-31).',
-  spall: 'A quiet spectrum but impacts in the waveform once a turn of the output gear: spalled teeth (C:15-32..15-33).',
-  gapf: 'A family of lines 125 Hz apart (750 ÷ 6): one assembly phase of the 30 : 18 pair is damaged (C:15-17..15-20).',
-  hunt: 'A low peak at 8.33 Hz = GMF × Na ÷ (Tin × Tout), with its harmonic, and Gnf rung at that rate: a hunting tooth defect (C:15-21..15-22, 15-25).',
-  ghost: 'One peak at 775 Hz (31 × the input speed) that matches no tooth count, gear mesh harmonic or assembly phase: a ghost frequency (C:15-22).' };
-const GX11_TOOL = { zoom: 'Zoom', low: 'The low end', circle: 'Circular plot', load: 'Load test' };
-function gx11Base(id) {   // Fmax covers 3 × the gear mesh and its sidebands: 2000 Hz for the 21 : 64 pair, 3200 Hz for the 30 : 18 pair (750 Hz)
-  const o = Object.assign({ tA: 21, tB: 64, rpm: 1500, lines: 3200, seed: 23 }, GX11_CASES[id].o); o.fmax = gbxFmaxFor(o.tA * o.rpm / 60); return o;
+  ghost: { name: 'A ghost frequency', o: { fault: 'ghost', age: 0 }, alt: ['gapf', 'hunt', 'spokes'] } };
+const GX11_WHY = {   // why each answer is right, with this gearbox's numbers
+  ok: () => 'Low peaks at the gear mesh and its harmonics, no sidebands to speak of, no Gnf hump, even pulses in the waveform (C:15-22..15-24).',
+  load: () => 'The whole gear mesh family is up, but there are no sidebands, no Gnf and no knocks: load, not a fault (C:15-26).',
+  wearB: M => `Sidebands round the gear mesh ${gxFmt(M.fB, 2)} Hz apart, a Gnf hump with the same spacing, and a tall 3×GMF: wear on the output gear (C:15-24..15-25).`,
+  wearA: M => `Sidebands round the gear mesh ${gxFmt(M.fA, 1)} Hz apart, a Gnf hump with the same spacing, and a tall 3×GMF: wear on the pinion (C:15-24..15-25).`,
+  eccA: M => `One sideband pair ${gxFmt(M.fA, 1)} Hz from the gear mesh, a strong 3×GMF, a waveform that swells once per pinion turn, and a gear mesh that follows the load: an eccentric pinion or bent shaft (C:15-26..15-27).`,
+  eccB: M => `One sideband pair ${gxFmt(M.fB, 2)} Hz from the gear mesh, a strong 3×GMF, a waveform that swells once per gear turn, and a gear mesh that follows the load: an eccentric output gear or bent shaft (C:15-26..15-27).`,
+  back: () => 'Shaft-speed sidebands, and in the load test the gear mesh and Gnf fall as the load rises: backlash (C:15-28).',
+  mis: () => '2×GMF higher than the gear mesh, with sidebands at 2× the gear speed, lower below 2×GMF than above: misaligned gears (C:15-28..15-30).',
+  spokes: () => 'Six pulsations per turn of the output gear in the waveform and the circular plot: a gear with six spokes (C:15-30).',
+  brokenB: M => `A high 1X of the output gear, Gnf rung, sidebands ${gxFmt(M.fB, 2)} Hz apart, and one big knock every ${gxFmt(1000 / M.fB, 0)} ms: a broken tooth on the output gear (C:15-31).`,
+  crackA: M => `A high 1X of the pinion, Gnf rung, sidebands ${gxFmt(M.fA, 1)} Hz apart, and one odd pulse every ${gxFmt(1000 / M.fA, 0)} ms: a cracked tooth on the pinion (C:15-31).`,
+  spall: () => 'A quiet spectrum but impacts in the waveform once a turn of the output gear: spalled teeth (C:15-32..15-33).',
+  gapf: (M, S) => `A family of lines ${gxFmt(S.gapf, 1)} Hz apart (GMF ${gxFmt(M.gmf, 1)} ÷ Na ${S.na}): one assembly phase of the ${M.tA} : ${M.tB} pair is damaged (C:15-17..15-20).`,
+  hunt: (M, S) => `A low peak at ${gxFmt(S.htf, 2)} Hz = GMF × Na ÷ (Tin × Tout) = ${gxFmt(M.gmf, 1)} × ${S.na} ÷ (${M.tA} × ${M.tB}), with its harmonic, and Gnf rung at that rate: a hunting tooth defect (C:15-21..15-22, 15-25).`,
+  ghost: M => `One peak at ${gxFmt(M.gO * M.fA, 0)} Hz (${M.gO} × the input speed) that matches no tooth count, gear mesh harmonic or assembly phase: a ghost frequency (C:15-22).` };
+/* the evidence: the clue that decides each case (the second question of a round), the clues that would also be fair for it (never offered
+   as wrong answers), and the tool that shows it best */
+const GX11_CLUE = { quiet: 'Low peaks only, and even pulses', all: 'The whole gear mesh family up, with no sidebands', family: 'Sidebands at one gear\'s speed and a Gnf hump',
+  pair: 'A single sideband pair, and a gear mesh that follows the load', load: 'The load test: the gear mesh falls as the load rises', two: '2×GMF higher than the gear mesh',
+  pulses: 'One pulsation per spoke in each turn', knock: 'One big knock per turn of one gear in the waveform', quietknock: 'A quiet spectrum, but impacts in the waveform',
+  gapf: 'A family of lines at GMF ÷ Na', htf: 'A low peak at the hunting tooth frequency', ghost: 'A peak that matches nothing in the gearbox\'s geometry' };
+const GX11_EV = { ok: ['quiet', [], 'zc:gmf'], load: ['all', ['load'], 'tool:load'], wearB: ['family', ['knock'], 'zc:gnf'], wearA: ['family', ['knock'], 'zc:gnf'], eccA: ['pair', [], 'tool:load'], eccB: ['pair', [], 'tool:load'],
+  back: ['load', ['pair', 'family'], 'tool:load'], mis: ['two', ['family'], 'zc:2x'], spokes: ['pulses', [], 'tool:circle'], brokenB: ['knock', ['family'], 'shaft:B'], crackA: ['knock', ['family'], 'shaft:A'],
+  spall: ['quietknock', ['knock'], 'shaft:B'], gapf: ['gapf', [], 'tool:low'], hunt: ['htf', [], 'tool:low'], ghost: ['ghost', [], 'scale:lin'] };
+const GX11_USE = { 'tool:zoom': 'the zoom', 'tool:low': 'the low end', 'tool:circle': 'the circular plot', 'tool:load': 'the load test', 'zc:gmf': 'zoom round GMF', 'zc:2x': 'zoom round 2×GMF', 'zc:3x': 'zoom round 3×GMF',
+  'zc:gnf': 'zoom round Gnf', 'shaft:A': 'the input waveform', 'shaft:B': 'the output waveform', 'scale:lin': 'the linear spectrum', 'scale:log': 'the log spectrum' };
+/* gearboxes for the challenge: any pair for most faults, a pair with common factors for the assembly phase and hunting tooth cases;
+   none puts a gear mesh harmonic or the ghost near the gear's natural frequency (890 Hz) */
+function gx11Box(rand, id) {
+  const pick = a => a[Math.floor(rand() * a.length)], cf = id === 'gapf' || id === 'hunt', ok = (tA, tB, rpm) => { const fA = rpm / 60, g = tA * fA, gO = tA + Math.round(tA / 2) - 1;
+    return [1, 2, 3].every(k => Math.abs(k * g - GBX.PAIR.gnf) > 80) && Math.abs(gO * fA - GBX.PAIR.gnf) > 80 && (!cf || gcd(tA, tB) > 1); };
+  const all = cf ? [[30, 18, 1500], [18, 30, 1200], [24, 40, 1500], [28, 42, 1500], [27, 45, 1200], [20, 36, 1780]]
+    : [17, 19, 21, 23, 25].flatMap(tA => [53, 59, 61, 64, 67, 71].flatMap(tB => [1200, 1500, 1780].map(rpm => [tA, tB, rpm])));
+  const [tA, tB, rpm] = pick(all.filter(x => ok(...x))); return `${tA}:${tB}:${rpm}`;
 }
-function gx11Sig(L, P) { return L.memo(`g11|${P.cs}`, () => { const s = gbxSignal(gx11Base(P.cs)); return { s, sp: gbxSpec(s), M: s.M }; }); }
+const GX11_TOOL = { zoom: 'Zoom', low: 'The low end', circle: 'Circular plot', load: 'Load test' };
+function gx11Base(id, gb) {   // Fmax covers 3 × the gear mesh and its sidebands: 2000 Hz for the 21 : 64 pair, 3200 Hz for the 30 : 18 pair (750 Hz); gb 'tA:tB:rpm' sets another gearbox
+  const o = Object.assign({ tA: 21, tB: 64, rpm: 1500, lines: 3200, seed: 23 }, GX11_CASES[id].o);
+  if (gb) { const [tA, tB, rpm] = gb.split(':').map(Number); Object.assign(o, { tA, tB, rpm }); }
+  o.fmax = gbxFmaxFor(o.tA * o.rpm / 60); return o;
+}
+function gx11Sig(L, P) { return L.memo(`g11|${P.cs}|${P.gb}`, () => { const s = gbxSignal(gx11Base(P.cs, P.gb)); return { s, sp: gbxSpec(s), M: s.M }; }); }
 function gx11Test(L, P) {
-  return L.memo(`g11T|${P.cs}`, () => GX7_LOADS.map(ld => { const s = gbxSignal(Object.assign(gx11Base(P.cs), { load: ld })), sp = gbxSpec(s); return { ld, gmf: gbxPeak(sp, s.M.gmf).a, gnf: gbxBand(sp, s.M.gnf - 45, s.M.gnf + 45) }; }));
+  return L.memo(`g11T|${P.cs}|${P.gb}`, () => GX7_LOADS.map(ld => { const s = gbxSignal(Object.assign(gx11Base(P.cs, P.gb), { load: ld })), sp = gbxSpec(s); return { ld, gmf: gbxPeak(sp, s.M.gmf).a, gnf: gbxBand(sp, s.M.gnf - 45, s.M.gnf + 45) }; }));
 }
 simDef('gbx', { id: 'gbx-diag', short: 'Diagnose a gearbox', title: 'Diagnose a gearbox: the whole chapter as one workflow', pages: '15-15..15-40',
   intro: 'Put the chapter together. Work through one mystery gearbox step by step, the way an analyst does: know its frequencies, check the measurement, read the gear mesh family, the sidebands, Gnf and the waveform, run the special checks, then decide. Then solve cases on your own with the same tools.',
@@ -20295,12 +20472,12 @@ simDef('gbx', { id: 'gbx-diag', short: 'Diagnose a gearbox', title: 'Diagnose a 
   words: [['Workflow', 'the same steps, in the same order, every time'], ['Clue', 'one thing the data shows, like a sideband spacing'], ['Case', 'one gearbox with one problem to find']],
   links: [['gbxsim/gbx-measure', 'Ch 15 · Measuring a gearbox'], ['dds', 'DDS practice'], ['machines/gear', 'Machine guide: gearboxes']],
   kw: 'diagnose gearbox case workflow checklist gear mesh family sidebands gnf waveform load test hunting tooth assembly phase ghost broken tooth wear eccentric backlash misalignment spokes spall',
-  init: { view: 'simple', cs: 'brokenB', tool: 'zoom', zc: 'gmf', shaft: 'B', scale: 'log', reveal: 0 },
+  init: { view: 'simple', cs: 'brokenB', tool: 'zoom', zc: 'gmf', shaft: 'B', scale: 'log', reveal: 0, gb: '' },
   size: { wide: [0.62, 460, 660], narrow: [2.3, 860, 1220] },
   setup(L) { L.gxT = 0; },
   tick(L, dt) { L.gxT = (L.gxT || 0) + dt; },
   controls: [
-    { p: 'cs', label: 'Case (explore)', type: 'select', opts: Object.entries(GX11_CASES).map(([k, v]) => [k, v.name]) },
+    { p: 'cs', label: 'Case (explore)', type: 'select', opts: Object.entries(GX11_CASES).map(([k, v]) => [k, v.name]), on: L => { L.T.gb = L.P.gb = ''; } },
     { p: 'tool', label: 'Tool', type: 'seg', opts: Object.entries(GX11_TOOL), free: true },
     { p: 'zc', label: 'Zoom round', type: 'seg', opts: [['gmf', 'GMF'], ['2x', '2×GMF'], ['3x', '3×GMF'], ['gnf', 'Gnf']], free: true },
     { p: 'shaft', label: 'Waveform and circle: which shaft', type: 'seg', opts: [['A', 'Input'], ['B', 'Output']], free: true },
@@ -20308,7 +20485,7 @@ simDef('gbx', { id: 'gbx-diag', short: 'Diagnose a gearbox', title: 'Diagnose a 
     { p: 'reveal', label: 'Show the answer', type: 'seg', opts: [[0, 'No'], [1, 'Yes']] },
     { p: 'view', label: 'Explain', type: 'seg', opts: [['simple', 'Simply'], ['deep', 'In detail']] }],
   steps: [
-    { part: 'simple', t: 'Be a gear detective', pg: '15-22..15-34', dur: 12, set: { view: 'simple', cs: 'brokenB', tool: 'zoom', zc: 'gmf', shaft: 'B', scale: 'log', reveal: 0 },
+    { part: 'simple', t: 'Be a gear detective', pg: '15-22..15-34', dur: 12, set: { view: 'simple', cs: 'brokenB', tool: 'zoom', zc: 'gmf', shaft: 'B', scale: 'log', reveal: 0, gb: '' },
       cap: 'A detective gathers clues before naming the culprit. A gearbox leaves clues: which peaks stand up, how far apart they are, and what the waveform does. Here is a mystery gearbox; let\'s solve it.' },
     { part: 'simple', t: 'Know the suspects', pg: '15-15', dur: 12,
       cap: 'First the numbers: the pinion turns 25 times a second, the gear 8.2, and the teeth meet 525 times a second. Most clues will be one of these numbers, a multiple of one, or the mesh plus or minus a shaft speed. A few are special, like the gear\'s own ringing note.',
@@ -20339,10 +20516,16 @@ simDef('gbx', { id: 'gbx-diag', short: 'Diagnose a gearbox', title: 'Diagnose a 
       cap: 'All the clues agree: a high 1X of the output gear, a Gnf hump with 8.2 Hz sidebands, sidebands at 8.2 Hz round the gear mesh, and a knock every 122 ms. A broken tooth on the output gear. Now solve the challenge cases with the same tools.' }],
   tips: ['Pick any case and follow the workflow: family, sidebands, Gnf, waveform, then the special checks.', 'For backlash, open the load test: the gear mesh falls as the load rises.', 'For the hunting tooth and the assembly phase cases, look at the low end and the circular plot.', 'Switch "Show the answer" to check yourself.'],
   presets: [['Broken tooth', { cs: 'brokenB', reveal: 0 }], ['Misaligned', { cs: 'mis', reveal: 0, tool: 'zoom', zc: '2x' }], ['Backlash, load test', { cs: 'back', reveal: 0, tool: 'load' }], ['Hunting tooth', { cs: 'hunt', reveal: 0, tool: 'low' }]],
-  chal(rand) {
-    const ids = Object.keys(GX11_CASES), ans = ids[Math.floor(rand() * ids.length)], opts = [ans, ...GX11_CASES[ans].alt].sort(() => rand() - 0.5);
-    return { title: 'what is wrong?', lead: `A gearbox comes in for diagnosis. Use the tools below the stage: zoom, the low end, the circular plot, the load test, the waveform of either shaft.`, q: 'What is your diagnosis?', opts: opts.map(k => [k, GX11_CASES[k].name]), ans,
-      why: GX11_WHY[ans], set: { view: 'deep', cs: ans, tool: 'zoom', zc: 'gmf', shaft: 'B', scale: 'log', reveal: 0 }, hide: { cs: 1 } };
+  chal(rand, L) {   // a random gearbox with a random fault; a round scores the diagnosis and the clue that decides it
+    const ids = Object.keys(GX11_CASES), seen = L && L.set ? (L.set.cases = L.set.cases || []) : [], left = ids.filter(k => !seen.includes(k)), pick = a => a[Math.floor(rand() * a.length)];
+    const ans = pick(left.length ? left : ids), gb = gx11Box(rand, ans), M = gbxModel(gx11Base(ans, gb)), S = gbxStage(M.tA, M.tB, M.fA), opts = [ans, ...GX11_CASES[ans].alt].sort(() => rand() - 0.5); seen.push(ans);
+    const book = gb === '30:18:1500' && (ans === 'gapf' || ans === 'hunt'), [ev, fair, tool] = GX11_EV[ans], clues = Object.keys(GX11_CLUE).filter(k => k !== ev && !fair.includes(k));
+    const q2o = [ev]; while (q2o.length < 4) { const k = pick(clues); if (!q2o.includes(k)) q2o.push(k); } q2o.sort(() => rand() - 0.5);
+    return { title: 'what is wrong?', lead: `${book ? 'From the chapter: the 30 : 18 pair of Figure 15-17' : 'A teaching scenario'}: a ${M.tA} : ${M.tB} gearbox at ${Math.round(M.fA * 60)} RPM (input ${gxFmt(M.fA, 2)} Hz, output ${gxFmt(M.fB, 2)} Hz, gear mesh ${gxFmt(M.gmf, 1)} Hz). Use the tools below the stage: zoom, the low end, the circular plot, the load test, the waveform of either shaft.`,
+      q: 'What is your diagnosis?', opts: opts.map(k => [k, GX11_CASES[k].name]), ans, why: GX11_WHY[ans](M, S),
+      q2: { q: 'The evidence: which clue decides it?', opts: q2o.map(k => [k, GX11_CLUE[k]]), ans: ev, why: `The deciding clue for ${GX11_CASES[ans].name.toLowerCase()}: ${GX11_CLUE[ev].toLowerCase()}. ${GX11_WHY[ans](M, S)}` },
+      usedNote: used => `${used.length ? 'You used: ' + used.map(u => GX11_USE[u] || u).filter((x, i, a) => a.indexOf(x) === i).join(', ') + '.' : 'You answered without changing the tools.'} The tool that shows this clue best: ${GX11_USE[tool]}.`,
+      set: { view: 'deep', cs: ans, gb, tool: 'zoom', zc: 'gmf', shaft: 'B', scale: 'log', reveal: 0 }, hide: { cs: 1 } };
   },
   live(P, L) {
     const Z = gx11Sig(L, P), M = Z.M, pk = f => gxFmt(gbxPeak(Z.sp, f).a, 3), h = L.hide || {};
@@ -20363,17 +20546,17 @@ simDef('gbx', { id: 'gbx-diag', short: 'Diagnose a gearbox', title: 'Diagnose a 
     const P = L.P, fs = L.fs, simple = P.view === 'simple', Z = gx11Sig(L, P), M = Z.M, t = L.gxT || 0, h = L.hide || {}, show = !h.cs && P.reveal, o = GX11_CASES[P.cs].o, onB = P.shaft === 'B', fS = onB ? M.fB : M.fA;
     const [Fa, Wv, Sp, Tl] = gxBoxes(L, W, H, [[0.95, [1, 0.85]], [1.2, [1, 1]]], [0.85, 0.75, 0.85, 0.9]);
     // 2–4 · the waveform, the spectrum and the tool change only with the settings: drawn once into a layer, then copied each frame
-    c.drawImage(L.layer(`dg|${P.cs}|${P.tool}|${P.zc}|${P.shaft}|${P.scale}|${P.view}|${show ? 1 : 0}`, c => {
+    c.drawImage(L.layer(`dg|${P.cs}|${P.gb}|${P.tool}|${P.zc}|${P.shaft}|${P.scale}|${P.view}|${show ? 1 : 0}`, c => {
       // 2 · the waveform: two turns of the chosen shaft, a knock marked only when the answer is shown
       const fsr = Z.s.fs, n = Math.min(Z.s.N, Math.round(2.2 / fS * fsr)), ev = show ? Z.s.ev.filter(x => x < n / fsr) : [];
       rbWave(c, Wv, Z.s.x.subarray(0, n), { title: `WAVEFORM: 2 TURNS OF THE ${onB ? 'OUTPUT' : 'INPUT'} (${gxFmt(2000 / fS, 0)} ms)`, fs: fsr, t0: 0, t1: n / fsr, col: GX.trace, unit: 'g', marks: [{ t: 1 / fS, col: onB ? GX.inB : GX.inA, alpha: 0.8 }].concat(o.fault !== 'wear' ? ev.map(x => ({ t: x, col: GX.alarm, alpha: 0.6 })) : []) });
       // 3 · the spectrum
-      const fm = gx11Base(P.cs).fmax;
+      const fm = gx11Base(P.cs, P.gb).fmax;
       gxSpecM(c, Sp, Z.sp, M, { title: `SPECTRUM 0–${fm} Hz (${P.scale === 'log' ? 'LOG' : 'LINEAR'})`, x0: 0, x1: fm, log: P.scale === 'log', range: 60, gnf: true });
       // 4 · the tool
       if (P.tool === 'load') gx7Chart(c, Tl, { me: gx11Test(L, P), ref: L.memo('g7T|ref', () => GX7_LOADS.map(ld => gx7Run('none', 'B', 0, ld, 6))) }, 1, simple);
       else if (P.tool === 'circle') {
-        const star = L.memo(`g11C|${P.cs}|${P.shaft}`, () => gx4Star(gbxTSA(Z.s, fS, 12, 360).y, onB ? M.tB : M.tA)), fc = rbFace(c, Tl, `ONE TURN OF THE ${onB ? 'OUTPUT' : 'INPUT'}, ROUND A CIRCLE (TSA)`);
+        const star = L.memo(`g11C|${P.cs}|${P.gb}|${P.shaft}`, () => gx4Star(gbxTSA(Z.s, fS, 12, 360).y, onB ? M.tB : M.tA)), fc = rbFace(c, Tl, `ONE TURN OF THE ${onB ? 'OUTPUT' : 'INPUT'}, ROUND A CIRCLE (TSA)`);
         gxCirc(c, { x: fc.x + 4, y: fc.y + 16, w: fc.w - 8, h: fc.h - 36 }, star, { col: GX.gapf }); gxNote(c, fc, 'count the points: one per tooth team, spoke or knock', GX.gapf, fs, false);
       } else if (P.tool === 'low') {
         const x1 = Math.min(260, 6 * Math.max(M.fA, M.fB)), marks = [{ x: M.fA, col: GX.inA, lab: '1X in', dash: false, alpha: 0.5 }, { x: M.fB, col: GX.inB, lab: '1X out', row: 1, dash: false, alpha: 0.5 }];
@@ -25034,7 +25217,6 @@ secM({ id: 'comp', short: 'Compressors', title: 'Compressors: lobes, screws, pis
    7 · Gearboxes
    ========================================================================================================= */
 const M_GEAR_F = { ok: 'Healthy', wear: 'Tooth wear', load: 'Tooth load', ecc: 'Eccentric gear or bent shaft', back: 'Backlash', mis: 'Misaligned gears', crack: 'Cracked or broken tooth' };
-const gGcd = (a, b) => b ? gGcd(b, a % b) : a;
 secM({ id: 'gear', short: 'Gearboxes', title: 'Gearboxes: gear mesh, sidebands and the waveform', pages: 'C:15-15..15-40, 4-13, 4-30',
   intro: 'Every tooth that meshes makes a pulse: gear mesh = teeth × shaft speed. Faults modulate it, and the spacing of the sidebands names the gear. Tooth damage happens once per turn, so the waveform often shows it before the spectrum does.',
   points: [
@@ -25074,8 +25256,8 @@ secM({ id: 'gear', short: 'Gearboxes', title: 'Gearboxes: gear mesh, sidebands a
     const tw = gPlot(A, 'Waveform', '6 turns of the output shaft', { height: 200 });
     const plan = gPlan(A);
     A.drawFn = () => {
-      const fi = P.rpm / 60, fo = fi * P.tin / P.tout, g = P.tin * fi, Na = gGcd(P.tin, P.tout), gapf = g / Na, htf = g * Na / (P.tin * P.tout), fz = P.on === 'in' ? fi : fo, S0 = P.sev;
-      const fmax = Math.ceil(3.3 * g / 100) * 100, gnf = 2.45 * g + 37, hiLoad = P.load === 'high', T = [];
+      const St = gbxStage(P.tin, P.tout, P.rpm / 60), fi = St.sIn, fo = St.sOut, g = St.gmf, Na = St.na, gapf = St.gapf, htf = St.htf, fz = P.on === 'in' ? fi : fo, S0 = P.sev;   // the shared gear model (gbx.js)
+      const fmax = Math.ceil(gbxFmaxNeed(g) / 100) * 100, gnf = 2.45 * g + 37, hiLoad = P.load === 'high', T = [];
       let a1 = 1, a2 = 0.35, a3 = 0.15, sb = 0.05, sbN = 2, sbSp = fz;
       if (P.f === 'load') { const k = 1 + 2 * S0 * (hiLoad ? 1 : 0.4); a1 *= k; a2 *= 1 + S0; a3 *= 1 + S0; }
       if (P.f === 'wear') { sb = 0.08 + 0.45 * S0; sbN = 4; a3 *= 1 + 3 * S0; }
@@ -25087,8 +25269,8 @@ secM({ id: 'gear', short: 'Gearboxes', title: 'Gearboxes: gear mesh, sidebands a
       T.push({ f: fi, a: 0.08 }, { f: fo, a: 0.06 }, { f: 2 * fi, a: 0.03 });
       if (P.f === 'crack') T.push({ f: fz, a: 0.1 + 0.5 * S0 });
       if (P.f === 'wear' || P.f === 'crack' || (P.f === 'back' && !hiLoad)) { const ga = (P.f === 'back' ? 0.15 : 0.12 + 0.4 * S0); T.push({ f: gnf, a: ga }); for (let j = 1; j <= 4; j++) T.push({ f: gnf - j * fz, a: ga * 0.5 / j }, { f: gnf + j * fz, a: ga * 0.5 / j }); }
-      const S = gLines(fmax, P.lines, T, { floor: 0.004, seed: 33 }), bw = 1.5 * fmax / P.lines, need = Math.ceil(2.25 * fmax / fo);
-      plan([[`Every bearing, ${P.type === 'spur' ? 'radial (spur gears)' : 'axial (helical gears)'}, where the webbing meets the case`, 'Spectrum', `g · Range ${gRange(3 * g)} Hz (3 × GMF) · Lines ${gLinesFor(2.25 * gRange(3 * g) / fo)}`, 'GMF harmonics and the slow shaft\'s sidebands (C:15-39..15-40)'],
+      const S = gLines(fmax, P.lines, T, { floor: 0.004, seed: 33 }), bw = GBX.HANN * fmax / P.lines, need = Math.ceil(gbxLinesNeed(fmax, fo));
+      plan([[`Every bearing, ${P.type === 'spur' ? 'radial (spur gears)' : 'axial (helical gears)'}, where the webbing meets the case`, 'Spectrum', `g · Range ${gRange(3 * g)} Hz (3 × GMF) · Lines ${gLinesFor(gbxLinesNeed(gRange(3 * g), fo))}`, 'GMF harmonics and the slow shaft\'s sidebands (C:15-39..15-40)'],
         ['Same points', 'Waveform', `g · ${fmt(8 / fo, 2)} s (8 turns of the output) · Band fmax ${gRange(10 * g / 2.56)} Hz`, 'about 10 samples per mesh, 6–10 turns of each shaft (C:4-13, C:15-24)'],
         ['Same points', 'Envelope', `G-demod · DEMOD above ${fmt(3 * g, 0)} Hz`, 'bearings, with the gear mesh kept out (C:11-37)'],
         ['A tacho on the shaft of the gear of interest', 'Time synchronous average', 'Trigger control on, a number of turns (VA5:61-65)', 'only that gear stays (C:15-24)'],
@@ -25109,9 +25291,9 @@ secM({ id: 'gear', short: 'Gearboxes', title: 'Gearboxes: gear mesh, sidebands a
       tw.capSub.textContent = `${fmt(N / fs * 1000, 0)} ms: 6 turns of the output shaft · ${fmt(fs / g, 1)} samples per mesh`;
       gSetWave(tw, x, fs, { ylabel: 'g', marks: Array.from({ length: Math.floor(N / fs * fz) }, (_, i) => ({ x: (i + 0.21) / fz * 1000, color: cssv('--crit'), dash: true })).filter(() => P.f === 'crack') });
       A.setKV(info, [['Input speed', fmt(fi, 2) + ' Hz'], ['Output speed', fmt(fo, 2) + ' Hz'], ['GMF', fmt(g, 1) + ' Hz'], ['Common factor Na', String(Na)], ['GAPF', fmt(gapf, 1) + ' Hz'], ['Hunting tooth', fmt(htf, 3) + ' Hz'], ['Fmax ≥ 3 × GMF', fmt(3 * g, 0) + ' Hz'], ['Lines to resolve the output', '≥ ' + need]]);
-      const merged = sbSp < 2.25 * fmax / P.lines;
+      const merged = sbSp < gbxSepRes(fmax, P.lines);
       sp.cap(`GMF = ${P.tin} × ${fmt(fi, 2)} Hz = ${fmt(g, 1)} Hz; Fmax covers three times it (C:15-40). ${{ ok: 'A healthy mesh: GMF, a little 2 × GMF and small sidebands (C:15-22..15-24).', wear: 'Tooth wear: sideband families at the worn gear\'s speed, a raised 3 × GMF and the gear natural frequency excited (C:15-24..15-25).', load: `Tooth load: GMF ${hiLoad ? 'rises with the high load' : 'is modest at low load'}, with little sideband growth. A high GMF alone is not necessarily a problem (C:15-26).`, ecc: 'Eccentric gear or bent shaft: the load varies once per turn, often giving a single sideband at that gear\'s speed (C:15-27).', back: `Backlash: shaft-speed sidebands; ${hiLoad ? 'at high load GMF and Gnf fall' : 'switch to high load and GMF and Gnf fall'} (C:15-28).`, mis: 'Misaligned gears: 2 × GMF is higher than GMF, with many sidebands, here at twice the gear\'s speed (C:15-28..15-30).', crack: 'Cracked tooth: a high 1X of that gear and the gear natural frequency with sidebands; the waveform shows it best (C:15-31..15-32).' }[P.f]}`);
-      zm.cap(merged ? `With ${P.lines} lines the ${fmt(sbSp, 2)} Hz sideband spacing is narrower than about 2.25 × the line spacing (${fmt(2.25 * fmax / P.lines, 2)} Hz): the sidebands merge and blur into the GMF peak (C:15-40). Use at least ${need} lines.` : `Sidebands every ${fmt(sbSp, 2)} Hz: ${P.f === 'mis' ? 'twice' : ''} the speed of the ${P.on === 'in' ? 'input pinion' : 'output gear'}, which is where the problem is (C:15-24).`);
+      zm.cap(merged ? `With ${P.lines} lines the ${fmt(sbSp, 2)} Hz sideband spacing is narrower than about 2.25 × the line spacing (${fmt(gbxSepRes(fmax, P.lines), 2)} Hz): the sidebands merge and blur into the GMF peak (C:15-40). Use at least ${need} lines.` : `Sidebands every ${fmt(sbSp, 2)} Hz: ${P.f === 'mis' ? 'twice' : ''} the speed of the ${P.on === 'in' ? 'input pinion' : 'output gear'}, which is where the problem is (C:15-24).`);
       tw.cap(P.f === 'crack' ? `One impact per turn of the ${P.on === 'in' ? 'pinion' : 'gear'} (every ${fmt(1000 / fz, 1)} ms), ringing at the gear natural frequency: the cracked tooth. Time waveform analysis is the key to success with gearboxes (C:15-31..15-32).` : P.f === 'ecc' ? 'The mesh rises and falls once per turn of the eccentric gear: amplitude modulation (C:15-5, 15-27).' : P.f === 'wear' ? 'The mesh swells and shrinks once per turn of the worn gear: the modulation behind the sidebands. Worn teeth show in the waveform (C:15-24..15-25).' : P.f === 'mis' ? 'The mesh rises and falls twice per turn: the modulation behind the 2X sidebands (C:15-28..15-30).' : 'One pulse per tooth mesh, fairly even: no single tooth stands out (C:15-23..15-24).');
     };
   } });
@@ -25518,7 +25700,7 @@ const TABS = [
   ['ch5', 'Ch 5 · Phase', 'Chapter 5 of the CAT III manual, section by section: what phase is, how to measure it, and how phase readings tell unbalance, misalignment, eccentricity, a bent shaft, a cocked bearing and looseness apart, with a simulation, the key points and check questions for each part.', r => new ChapterLab(r, { secs: CH5, pfx: 'c5', store: 'ch5', label: 'Chapter 5' })],
   ['rebsim', 'Ch 11 · Rolling bearing simulators', 'Chapter 11 of the CAT III manual as eight simulators, one per topic: why bearings fail and how the vibration changes, the defect frequencies from the geometry, why a routine spectrum misses early damage, the four stages with their life and actions, enveloping step by step, Shock Pulse, PeakVue and Spike Energy side by side, the stage three patterns, and a bearing followed to failure. Each has a guided story (predict, then watch), a free explore mode and a challenge.', r => new SimKit(r, { group: 'reb', tab: 'rebsim', store: 'rebsim', prefix: 'reb-', name: 'Ch 11 · Rolling bearing simulators' })],
   ['ch12', 'Ch 12 · Journal bearings', 'Chapter 12 of the CAT III manual, section by section: journal bearings, eddy-current probes and the Keyphasor, orbits and the shaft centerline, and how they show unbalance, preload and misalignment, oil whirl and whip, and rubs, with a simulation, the key points and check questions for each part.', r => new ChapterLab(r, { secs: CH12, pfx: 'c12', store: 'ch12', label: 'Chapter 12' })],
-  ['gbxsim', 'Ch 15 · Gearbox simulators', 'Chapter 15 of the CAT III manual as eleven simulators, simple idea first and then the analyst\'s view: how gears mesh, the gear types and their forces, speeds and gear mesh frequencies, assembly phase and hunting tooth, a healthy gearbox and time synchronous averaging, tooth wear and load, the look-alike faults, broken and spalled teeth, planetary gearboxes, how to measure a gearbox, and a whole-chapter diagnosis. Each has a guided story (predict, then watch), a free explore mode and a challenge.', r => new SimKit(r, { group: 'gbx', tab: 'gbxsim', store: 'gbxsim', prefix: 'gbx-', name: 'Ch 15 · Gearbox simulators' })],
+  ['gbxsim', 'Ch 15 · Gearbox simulators', 'Chapter 15 of the CAT III manual as eleven simulators, simple idea first and then the analyst\'s view: how gears mesh, the gear types and their forces, speeds and gear mesh frequencies, assembly phase and hunting tooth, a healthy gearbox and time synchronous averaging, tooth wear and load, the look-alike faults, broken and spalled teeth, planetary gearboxes, how to measure a gearbox, and a whole-chapter diagnosis. Each has a guided story (predict, then watch), a free explore mode and a challenge.', r => new SimKit(r, { group: 'gbx', tab: 'gbxsim', store: 'gbxsim', prefix: 'gbx-', name: 'Ch 15 · Gearbox simulators', rounds: 5, alias: { 'gbx-mesh': 'gbx-fail', 'gbx-look': 'gbx-lookalikes' } })],
   ['anim', 'Phase animations', 'Chapter 5 as thirteen short animated stories in plain words, plus a free-play phase simulator: what a phase angle is, how it is measured with a tach or a strobe, why the sensor type and position change it, how resonance moves the high spot away from the heavy spot, how a rotor behaves below, at and above its critical speed (rigid rotor, resonance, flexible rotor), how to find the heavy spot from a phase reading and where the trial mass goes, and how phase tells unbalance from misalignment. Press play, step through, answer the quick checks, or take over the controls and see exactly what each change does.', r => new PhaseAnim(r)],
   ['bearing', 'Bearing lab', 'Defect frequencies from geometry, the four failure stages, and why the envelope spectrum sees a defect before velocity does.', r => new BearingLab(r)],
   ['gear', 'Gear lab', 'Gear mesh, sidebands and impacts: which shaft a fault belongs to, read from the sideband spacing and the waveform.', r => new GearLab(r)],
