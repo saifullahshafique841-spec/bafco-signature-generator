@@ -1,5 +1,5 @@
 /* Offline support: the page comes from the network when there is one (so updates show at once) and from the cache when not. */
-const CACHE = 'vlab-3cc78b29eb';
+const CACHE = 'vlab-8386d17341';
 const SHELL = ['./', './index.html', './manifest.webmanifest', './apple-touch-icon.png', './favicon.png', './icon-192.png', './icon-512.png', './icon-maskable-512.png'];
 self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting())); });
 self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k.startsWith('vlab-') && k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim())); });   // only this app's old caches: other apps share the github.io origin

@@ -1,6 +1,6 @@
 # Vibration Analyst Lab
 
-An interactive study lab for vibration analysis (ISO CAT III level). Learn to collect data you can trust with a step-by-step guide and a VA5 Pro or VA3 Pro style instrument to practise on, analyse a year of route data in a DDS-style window, follow a guide for each kind of machine, simulate faults and diagnose them, plan instrument settings, work through Chapters 3 to 5 and Chapter 12 (journal bearings) section by section, see Chapter 11 (rolling bearings) in eight simulators, and learn phase with animated lessons and a free-play phase simulator.
+An interactive study lab for vibration analysis (ISO CAT III level). Learn to collect data you can trust with a step-by-step guide and a VA5 Pro or VA3 Pro style instrument to practise on, analyse a year of route data in a DDS-style window, follow a guide for each kind of machine, simulate faults and diagnose them, plan instrument settings, work through Chapters 3 to 5 and Chapter 12 (journal bearings) section by section, see Chapter 11 (rolling bearings) in eight simulators and Chapter 15 (gearboxes) in eleven, and learn phase with animated lessons and a free-play phase simulator.
 
 **Open the lab:** https://saifullahshafique841-spec.github.io/bafco-signature-generator/vibration-lab/
 
@@ -24,7 +24,7 @@ The iPhone shows the file as "Not Verified" because it is not signed with a paid
 
 Download **[VibrationAnalystLab.apk](VibrationAnalystLab.apk)** on your Android phone and tap it to install (allow installs from your browser if asked; Play Protect may warn because it is not from the Play Store: choose **Install anyway**). Or open the link in Chrome and choose **Install app** from the menu.
 
-Version 2.5 installs over the earlier app and keeps your settings.
+Version 2.6 installs over the earlier app and keeps your settings.
 
 ## On a phone
 
@@ -37,6 +37,13 @@ Every section uses the same colour code:
 - **Settings** (yellow edge, sliders badge and an *Adjust* tag): the parameters you can change. Sliders have yellow knobs, dropdowns have an arrow, and the current value sits in a pill.
 - **Results** (screen badge): charts, readouts and tables that update as soon as you change a setting.
 - **Notes and checks** (book or question badge): key points, rule cards and quick questions.
+
+## New in 2.6
+
+- **Ch 15 · Gearbox simulators**, a new section under Learn: Chapter 15 of the CAT III manual as eleven simulators. Each one starts with the simple idea in everyday words and pictures (two circles of dancers, a bell that rings when knocked, a wheel with a bump, stacking photos, a merry-go-round of gears), with predictions to make, then moves to the analyst's view with the formulas and the manual's pages. Each has "Words to know", a one-line "Remember it", a free explore mode and a challenge. Inside a gear mesh; the gear types and their forces; speeds and gear mesh frequencies, worm drives included; common factors, the assembly phase and hunting tooth frequencies and ghosts, with a meeting grid and a circular plot; a healthy gearbox, Fmax and lines, and time synchronous averaging; tooth wear and tooth load, with the gear's natural frequency ringing; the look-alikes (an eccentric gear, backlash with a load test, misaligned gears, spokes); cracked, broken and spalled teeth, why the waveform matters, and wear particle analysis; planetary gearboxes (configurations, the fit rule, every speed from one equation, where to look); measuring a gearbox (location, direction, mounting, resolution); and a whole-chapter diagnosis with fifteen cases to solve using zoom, the low end, the circular plot, the load test and the waveform.
+- One gear model drives all eleven simulators and is checked by 98 tests against the chapter's worked examples. Where the manual prints something wrong (a worm with 7.5 flights, the planetary sign errors, a worked example whose teeth cannot fit), the simulators follow the correct version and say so.
+- The Gear lab, the gearbox machine guide and the Chapter 4 gearbox section link to the new simulators.
+- Faster drawing of dense waveforms and spectra on phones.
 
 ## New in 2.5
 
@@ -91,6 +98,7 @@ Every section uses the same colour code:
 | Ch 4 · Time waveform | Setting up, reading and recognising time waveforms |
 | Ch 5 · Phase | How phase separates unbalance, misalignment, bent shaft, looseness and more |
 | Ch 11 · Rolling bearing simulators | Eight simulators with a guided story, explore mode and challenge each: why bearings fail, defect frequencies, what routine spectra miss, the four stages, enveloping, Shock Pulse, PeakVue and Spike Energy, defect patterns, and case studies |
+| Ch 15 · Gearbox simulators | Eleven simulators, simple idea first: gear mesh, gear types, speeds, common factors and hunting tooth, a healthy gearbox and TSA, wear and load, look-alike faults, broken and spalled teeth, planetary sets, measuring, and a diagnosis case book |
 | Ch 12 · Journal bearings | Proximity probes, the Keyphasor, orbits and the shaft centerline; unbalance, preload, oil whirl and whip, and rubs, section by section |
 | Phase animations | Thirteen animated phase lessons in plain words, including the three speed zones (rigid rotor, critical speed, flexible rotor) and finding the heavy spot from a phase reading, plus a free-play phase simulator with missions |
 | Bearing, Gear, Balancing, Resonance labs | Defect frequencies, sidebands, single-plane balancing, Bode and bump tests |
