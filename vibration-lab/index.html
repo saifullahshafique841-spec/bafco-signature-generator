@@ -18461,7 +18461,7 @@ const GX = { inA: '#39e27c', inB: '#3fd6e0', mid: '#b991ff', gmf: '#ffb020', gnf
   trace: '#cfe3f2', m1: '#c9d1d7', m2: '#8b959d', m3: '#4b545b', hub: '#2c3338', flash: '#fffbe6' };
 const GX_MIN = 10;                                                        // no text on the stage is smaller than this
 const gxTxt = (c, t, x, y, o = {}) => rbTxt(c, t, x, y, Object.assign({}, o, { size: Math.max(GX_MIN, o.size || 11) }));
-const gxFmt = (v, d) => rbFmt(v, d);
+const gxFmt = (v, d) => { const t = rbFmt(v, d); return /^-0(\.0+)?$/.test(t) ? t.slice(1) : t; };   // a tiny negative that rounds to zero shows as 0, not −0
 const gxHz = v => (v >= 1000 ? (v / 1000).toFixed(v >= 10000 ? 1 : 2) + ' kHz' : v >= 100 ? v.toFixed(0) + ' Hz' : v >= 10 ? v.toFixed(1) + ' Hz' : v.toFixed(2) + ' Hz');
 
 /* ---------- one gear ----------
