@@ -1,6 +1,6 @@
 # Vibration Analyst Lab
 
-An interactive study lab for vibration analysis (ISO CAT III level). Simulate faults and diagnose them, plan instrument settings, work through Chapters 3 to 5 and Chapter 12 (journal bearings) section by section, see Chapter 11 (rolling bearings) in eight simulators, and learn phase with animated lessons and a free-play phase simulator.
+An interactive study lab for vibration analysis (ISO CAT III level). Learn to collect data you can trust with a step-by-step guide and a VA5 Pro or VA3 Pro style instrument to practise on, analyse a year of route data in a DDS-style window, follow a guide for each kind of machine, simulate faults and diagnose them, plan instrument settings, work through Chapters 3 to 5 and Chapter 12 (journal bearings) section by section, see Chapter 11 (rolling bearings) in eight simulators, and learn phase with animated lessons and a free-play phase simulator.
 
 **Open the lab:** https://saifullahshafique841-spec.github.io/bafco-signature-generator/vibration-lab/
 
@@ -24,11 +24,11 @@ The iPhone shows the file as "Not Verified" because it is not signed with a paid
 
 Download **[VibrationAnalystLab.apk](VibrationAnalystLab.apk)** on your Android phone and tap it to install (allow installs from your browser if asked; Play Protect may warn because it is not from the Play Store: choose **Install anyway**). Or open the link in Chrome and choose **Install app** from the menu.
 
-Version 2.4 installs over the earlier app and keeps your settings.
+Version 2.5 installs over the earlier app and keeps your settings.
 
 ## On a phone
 
-The lab opens as an app: a Home screen with every section, a bottom bar (Home, Diagnose, Setup, Learn, Labs) with a switcher for the sections in each group, and the bars slide away while you read. The back button returns to Home. Choose a Light, Dark or Auto theme in Settings (the gear on Home).
+The lab opens as an app: a Home screen with every section, a bottom bar (Home, Collect, Analyze, Learn, Labs) with a switcher for the sections in each group, and the bars slide away while you read. The back button returns to Home. Choose a Light, Dark or Auto theme in Settings (the gear on Home).
 
 ## Reading each screen
 
@@ -37,6 +37,16 @@ Every section uses the same colour code:
 - **Settings** (yellow edge, sliders badge and an *Adjust* tag): the parameters you can change. Sliders have yellow knobs, dropdowns have an arrow, and the current value sits in a pill.
 - **Results** (screen badge): charts, readouts and tables that update as soon as you change a setting.
 - **Notes and checks** (book or question badge): key points, rule cards and quick questions.
+
+## New in 2.5
+
+- **Two new groups.** The bottom bar is now Home · Collect · Analyze · Learn · Labs: Collect holds the data collection guide, the practice instrument, the setup planner and the settings map; Analyze holds the DDS practice, the machine guides, the fault simulator and the diagnose challenge.
+- **Data collection guide** (Collect), 15 steps, each with a simulation and a caption that follows the controls: plan the program from the P-F interval; VA3 Pro or VA5 Pro for each job; the sensor, ICP and sensitivity; mounting and its frequency response; points, axes and the load zone; speed from a tacho, detection or entry; lines, averages and the route clock; the same conditions every time; the demodulation band; ACMT for slow machines; the route between DDS and the instrument; ISO, Adash and statistical limits; run-up and bump tests; greasing with Lubri and ultrasound; and how to spot bad data. The key points cite the CAT III (C), VA5 Pro (VA5), VA3 Pro (VA3) and DDS (DDS) manuals by page.
+- **Practice instrument** (Collect): a VA5 Pro or VA3 Pro style analyser measuring a motor and pump on a bench. Set up sensors and the tacho, build sets and measurements, run a route, use FASIT, the Meter screens, Runup, the Bump test, Lubri, the strobe and the Balancer, with 18 drills that check each step against the manual pages.
+- **DDS practice** (Analyze): a DDS-style analysis window on a year of route data from the four machines of a pump house: the tree with its alarms, the Data List, trends against ISO 20816, Adash and user limits, spectra with harmonic and sideband cursors, Locate Peak, bearing labels, waterfalls, Set Speed, Set Limits by Statistics, Confirm, notes and reports, and the route download from the practice instrument, with 12 drills.
+- **Machine guides** (Analyze), 11 guides following the CAT III manual: the workflow from alarm to report with a confidence and status rating; look-alike faults narrowed down one question at a time; electric motors (2xLF, slip, pole pass, rotor bars and motor current); centrifugal pumps (vane pass, the pump curve, cavitation and turbulence); fans and blowers (with ISO 14694); compressors; gearboxes (gear mesh, sidebands, assembly phase, hunting tooth and the waveform); rolling-element bearings (a defect frequency calculator and the four stages); journal bearings (oil whirl and whip); belt drives; and couplings.
+- The setup planner names its Adash DDS fields as the DDS manual does (for example Demod-Spectrum and Estimated Measurement Time).
+- The practice instrument and the DDS practice imitate the screens for training only; they are not Adash products and carry no Adash branding.
 
 ## New in 2.4
 
@@ -69,10 +79,14 @@ Every section uses the same colour code:
 
 | Tab | What you can do |
 |---|---|
-| Fault simulator | Pick a fault; see the machine, spectrum, waveform, phase and orbit respond |
-| Diagnose challenge | A hidden fault to find by measuring like a route |
+| Data collection guide | 15 steps from planning the program to spotting bad data, each with a simulation, the manual pages and check questions |
+| Practice instrument | A VA5 Pro or VA3 Pro style analyser on a motor and pump bench, with 18 step-checked drills |
 | Setup planner | Best Fmax, lines, waveform and demodulation settings for a machine |
 | Settings map | Change one setting and follow its effect through all the others |
+| DDS practice | A year of route data from four machines in a DDS-style analysis window, with 12 drills |
+| Machine guides | The analysis workflow, look-alike faults, and a guide for motors, pumps, fans, compressors, gearboxes, bearings, belts and couplings |
+| Fault simulator | Pick a fault; see the machine, spectrum, waveform, phase and orbit respond |
+| Diagnose challenge | A hidden fault to find by measuring like a route |
 | Ch 3 · Signal processing | From the sensor to the spectrum, section by section |
 | Ch 4 · Time waveform | Setting up, reading and recognising time waveforms |
 | Ch 5 · Phase | How phase separates unbalance, misalignment, bent shaft, looseness and more |
@@ -87,5 +101,5 @@ Every section uses the same colour code:
 
 - Everything runs in your browser. Nothing is uploaded; your settings stay on your device.
 - Signals are idealised teaching models. Real machines add noise, speed changes and several faults at once.
-- Page references point to the CAT III manual (C:), the iVibe reference (iV) and other study material. The manuals themselves are not included.
+- Page references point to the CAT III manual (C:), the Adash VA5 Pro, VA3 Pro and DDS manuals (VA5:, VA3:, DDS:), the iVibe reference (iV) and other study material. The manuals themselves are not included.
 - Fonts: IBM Plex Sans, IBM Plex Mono and Barlow Condensed (SIL Open Font License), embedded so the app works offline.
