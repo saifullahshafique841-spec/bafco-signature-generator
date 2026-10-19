@@ -24,7 +24,7 @@ The iPhone shows the file as "Not Verified" because it is not signed with a paid
 
 Download **[VibrationAnalystLab.apk](VibrationAnalystLab.apk)** on your Android phone and tap it to install (allow installs from your browser if asked; Play Protect may warn because it is not from the Play Store: choose **Install anyway**). Or open the link in Chrome and choose **Install app** from the menu.
 
-Version 2.6 installs over the earlier app and keeps your settings.
+Version 3.0 installs over the earlier app and keeps your settings.
 
 ## On a phone
 
@@ -37,6 +37,24 @@ Every section uses the same colour code:
 - **Settings** (yellow edge, sliders badge and an *Adjust* tag): the parameters you can change. Sliders have yellow knobs, dropdowns have an arrow, and the current value sits in a pill.
 - **Results** (screen badge): charts, readouts and tables that update as soon as you change a setting.
 - **Notes and checks** (book or question badge): key points, rule cards and quick questions.
+
+## New in 3.0
+
+- **Simulators for every chapter.** Learn now has a simulator section for each of the twelve CAT III chapters that had none: 89 new simulators in all, in the manual's order. Each one works like the gearbox and bearing sets: a story that starts with the simple idea in everyday words and moves to the analyst's view with the pages cited, predictions to make, "Words to know", a one-line "Remember it", a free explore mode and a five-round challenge whose best score is kept.
+- **Ch 1 · Condition Monitoring Program** (6): the maintenance strategies and what each costs a month, the ISO 17359 audit with the decision trees of Figures 1-6 to 1-8, the P-F interval and the cheapest test interval, starting a program, alarms, recommendations and saves, and why programs grow or spiral down.
+- **Ch 2 · Condition Monitoring Technologies** (8): monitoring versus maintenance, ultrasound (heterodyning, leaks and their cost, steam traps, corona and arcing, greasing by ear), infrared (emissivity, spot size, reflection, sun and wind), motor current and circuit tests, oil and wear particle analysis, and a "which technology finds this?" challenge.
+- **Ch 6 · System Dynamics** (9): from a trolley on a spring to mass, stiffness and damping, the damping ratio, forced vibration through resonance on Bode and Nyquist plots, reading damping from a peak, heavy and high spots, and beams and chains with several modes.
+- **Ch 7 · Natural Frequencies and Resonances** (8): the signs of a resonance and the tests that find one: speed change with peak hold, the bump test, negative averaging, run-up waterfalls, Campbell diagrams and order tracking, cross-channel phase and transmissibility, coherence with impact testing and the printing-press case.
+- **Ch 8 · Operating Deflection Shapes** (6), built round an animated wire-frame machine: planning the points, phase from a tach or a reference sensor, animating the model, reading the motion, a time-based ODS, and the loose pipe hanger and wet-press cases.
+- **Ch 9 · Modal Analysis** (6): modal test or ODS, the hammer and its tip, capturing a clean FRF, roving hammer or roving sensor, reading Bode, Nyquist and co-quad plots, and mode shapes, structural changes and a model corrected by the test.
+- **Ch 10 · Dealing With Resonances** (6): move the forcing frequency, move the natural frequency (brace or mass), add damping, fit a tuned absorber, isolate, and choose the right fix for seven real places.
+- **Ch 13 · Electric Motor Analysis** (9): why every motor hums at 2xLF, poles and slip, 2xLF against 2X and 4X with resolution and the power-cut test, stator faults and soft foot, eccentric rotors, cracked bars and rotor bar pass, loose parts, current analysis with Table 13-1, and a diagnosis workshop.
+- **Ch 14 · Pumps, Fans and Compressors** (9): blade and vane pass and what raises it, a loose impeller against starvation, the pump curve and the best efficiency point, cavitation, flow turbulence, screw compressors, the chapter's vertical pump case solved step by step, and a diagnosis challenge.
+- **Ch 16 · Balancing** (11): is it unbalance, vectors on polar paper, the single-plane method, the trial weight, trim, splitting weights between blades, the four-run method without phase, two planes, overhung and flexible rotors, and the ISO 10816, 14694 and 1940 limits.
+- **Ch 17 · Shaft Alignment** (6): the tolerance that tightens with speed, soft foot and preparation, straightedge, rim and face, reverse dial and laser readings, thermal growth, shims and stuck feet, and a whole alignment job.
+- **Ch 18 · Statistical Alarm Generation** (5): why one limit fails a plant, band and mask alarms, a statistics refresher with the normal curve, and limits from a machine's own good history, with the Adash DDS recipe beside the chapter's.
+- Every number on screen comes from a tested model (about 1,700 unit tests against the chapters' worked examples), and every chapter was checked against the manual by a separate reviewer. Where the manual prints something wrong (a dB rule the wrong way round, rad/s labelled as Hz, a trim mass of 1.8 g that is 2.24 g, current sidebands at twice the right spacing), the simulator follows the correct version and says so; numbers the lab had to invent are marked "lab".
+- Your progress, scores and best scores for the new sections are included in export and import.
 
 ## New in 2.6
 
